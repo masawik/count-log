@@ -41,6 +41,8 @@ export default defineConfig([
           caughtErrorsIgnorePattern: '^_',
         },
       ],
+      'react/jsx-curly-brace-presence': [ 'error', { props: 'never', children: 'never' } ],
+      'jsx-quotes': [ 'error', 'prefer-double' ],
     },
   },
   {

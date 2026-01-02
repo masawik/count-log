@@ -5,3 +5,5 @@
 /build/
 .cursor
 .vscode
+/references
+public/assets/img/original/

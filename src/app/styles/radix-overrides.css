@@ -1,0 +1,151 @@
+:root, .light, .light-theme {
+  --blue-1: #f3f3f5;
+  --blue-2: #edeff6;
+  --blue-3: #e2e7f5;
+  --blue-4: #d5ddf9;
+  --blue-5: #c6d1fb;
+  --blue-6: #b4c2fb;
+  --blue-7: #9eaff4;
+  --blue-8: #8093ec;
+  --blue-9: #8a9ef8;
+  --blue-10: #7f93ec;
+  --blue-11: #4351a4;
+  --blue-12: #212965;
+
+  --blue-a1: #f4aa000a;
+  --blue-a2: #49300009;
+  --blue-a3: #03227212;
+  --blue-a4: #032fd020;
+  --blue-a5: #0432ea30;
+  --blue-a6: #0431f043;
+  --blue-a7: #032de05a;
+  --blue-a8: #0126d779;
+  --blue-a9: #022cef6f;
+  --blue-a10: #0128d87a;
+  --blue-a11: #001282b9;
+  --blue-a12: #01094ddd;
+
+  --blue-contrast: #fff;
+  --blue-surface: #ebeef4cc;
+  --blue-indicator: #8a9ef8;
+  --blue-track: #8a9ef8;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    :root, .light, .light-theme {
+      --blue-1: oklch(96.6% 0.0021 273.1);
+      --blue-2: oklch(95.1% 0.0097 273.1);
+      --blue-3: oklch(92.8% 0.0199 273.1);
+      --blue-4: oklch(90% 0.0396 273.1);
+      --blue-5: oklch(86.6% 0.0596 273.1);
+      --blue-6: oklch(82.4% 0.082 273.1);
+      --blue-7: oklch(76.6% 0.1012 273.1);
+      --blue-8: oklch(68.7% 0.133 273.1);
+      --blue-9: oklch(72.1% 0.133 273.1);
+      --blue-10: oklch(68.5% 0.133 273.1);
+      --blue-11: oklch(46.9% 0.133 273.1);
+      --blue-12: oklch(31.3% 0.1041 273.1);
+
+      --blue-a1: color(display-p3 0.851 0.6392 0.0196 / 0.036);
+      --blue-a2: color(display-p3 0.1961 0.2039 0.0196 / 0.036);
+      --blue-a3: color(display-p3 0.0078 0.1255 0.4392 / 0.07);
+      --blue-a4: color(display-p3 0.0039 0.1686 0.7765 / 0.123);
+      --blue-a5: color(display-p3 0.0039 0.1647 0.8471 / 0.181);
+      --blue-a6: color(display-p3 0 0.1451 0.8667 / 0.25);
+      --blue-a7: color(display-p3 0.0039 0.1373 0.8275 / 0.341);
+      --blue-a8: color(display-p3 0.0039 0.1137 0.7922 / 0.46);
+      --blue-a9: color(display-p3 0.0039 0.1333 0.8824 / 0.419);
+      --blue-a10: color(display-p3 0.0039 0.1216 0.7961 / 0.464);
+      --blue-a11: color(display-p3 0 0.0588 0.4745 / 0.714);
+      --blue-a12: color(display-p3 0 0.0275 0.2784 / 0.857);
+
+      --blue-contrast: #fff;
+      --blue-surface: color(display-p3 0.9216 0.9255 0.9529 / 0.8);
+      --blue-indicator: oklch(72.1% 0.133 273.1);
+      --blue-track: oklch(72.1% 0.133 273.1);
+    }
+  }
+}
+
+:root, .light, .light-theme {
+  --gray-1: #f2f2f3;
+  --gray-2: #eeeff1;
+  --gray-3: #e4e5e8;
+  --gray-4: #dcdce1;
+  --gray-5: #d4d5da;
+  --gray-6: #cbcdd3;
+  --gray-7: #bfc1c9;
+  --gray-8: #abaeb9;
+  --gray-9: #7e808b;
+  --gray-10: #747580;
+  --gray-11: #565860;
+  --gray-12: #1e1f24;
+
+  --gray-a1: #dea2000c;
+  --gray-a2: #9877000e;
+  --gray-a3: #4d3a0017;
+  --gray-a4: #3019001e;
+  --gray-a5: #1e130025;
+  --gray-a6: #0c08002c;
+  --gray-a7: #02010537;
+  --gray-a8: #0105154c;
+  --gray-a9: #01020f7b;
+  --gray-a10: #02000e86;
+  --gray-a11: #00020aa5;
+  --gray-a12: #000106e0;
+
+  --gray-contrast: #FFFFFF;
+  --gray-surface: #ffffffcc;
+  --gray-indicator: #7e808b;
+  --gray-track: #7e808b;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    :root, .light, .light-theme {
+      --gray-1: oklch(96.2% 0.0015 277.7);
+      --gray-2: oklch(95.1% 0.003 277.7);
+      --gray-3: oklch(92.3% 0.0045 277.7);
+      --gray-4: oklch(89.6% 0.0061 277.7);
+      --gray-5: oklch(87.3% 0.0077 277.7);
+      --gray-6: oklch(84.8% 0.0093 277.7);
+      --gray-7: oklch(81.2% 0.0117 277.7);
+      --gray-8: oklch(75.1% 0.016 277.7);
+      --gray-9: oklch(60.2% 0.0165 277.7);
+      --gray-10: oklch(56.6% 0.0161 277.7);
+      --gray-11: oklch(46.1% 0.0139 277.7);
+      --gray-12: oklch(24.1% 0.0099 277.7);
+
+      --gray-a1: color(display-p3 0.7804 0.6118 0.0196 / 0.044);
+      --gray-a2: color(display-p3 0.5059 0.4392 0.0157 / 0.052);
+      --gray-a3: color(display-p3 0.2392 0.2 0.0078 / 0.087);
+      --gray-a4: color(display-p3 0.1412 0.0784 0.0078 / 0.115);
+      --gray-a5: color(display-p3 0.0745 0.0549 0.0039 / 0.142);
+      --gray-a6: color(display-p3 0.0314 0.0431 0.0078 / 0.174);
+      --gray-a7: color(display-p3 0.0039 0.0118 0.0235 / 0.218);
+      --gray-a8: color(display-p3 0.0039 0.0118 0.0706 / 0.296);
+      --gray-a9: color(display-p3 0.0039 0.0118 0.0588 / 0.484);
+      --gray-a10: color(display-p3 0 0 0.0471 / 0.525);
+      --gray-a11: color(display-p3 0 0.0078 0.0353 / 0.648);
+      --gray-a12: color(display-p3 0 0.0039 0.0235 / 0.878);
+
+      --gray-contrast: #FFFFFF;
+      --gray-surface: color(display-p3 1 1 1 / 80%);
+      --gray-indicator: oklch(60.2% 0.0165 277.7);
+      --gray-track: oklch(60.2% 0.0165 277.7);
+    }
+  }
+}
+
+:root, .light, .light-theme, .radix-themes {
+  --color-background: #f3f6ff;
+}
+
+.radix-themes {
+	--default-font-family: "Nunito", -apple-system, BlinkMacSystemFont, 'Segoe UI (Custom)', Roboto,
+    'Helvetica Neue', 'Open Sans (Custom)', system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji';
+
+  --quote-font-family: "Nunito", sans-serif;
+}
