@@ -1,1 +1,1 @@
-export { DocumentLayout as Layout, ErrorBoundary, links, App as default } from './app'
+export { DocumentLayout as Layout, ErrorBoundary, App as default } from './app'

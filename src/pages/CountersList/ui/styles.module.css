@@ -1,0 +1,61 @@
+.AddButtonContainer {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+}
+
+.ArrowImage {
+  position: absolute;
+  top: -135px;
+  left: -119px;
+  width: 130px;
+  max-width: fit-content;
+  animation: arrowHint 3.4s ease-in-out infinite;
+  animation-delay: 2s;
+  will-change: transform;
+}
+
+@keyframes arrowHint {
+  0% {
+    transform: translateY(0) rotate(0);
+  }
+  6% {
+    transform: translateY(-5px) rotate(0);
+  }
+  12% {
+    transform: translateY(2px) rotate(0);
+  }
+  18% {
+    transform: translateY(-3px) rotate(0);
+  }
+  24% {
+    transform: translateY(0) rotate(0);
+  }
+
+  24% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(0) rotate(0);
+  }
+
+  56% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  62% {
+    transform: translateY(0) rotate(1.5deg);
+  }
+  68% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  74% {
+    transform: translateY(0) rotate(0);
+  }
+
+  74% {
+    transform: translateY(0) rotate(0);
+  }
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+}
