@@ -1,11 +1,8 @@
-import { index, layout, route, type RouteConfig } from '@react-router/dev/routes'
+import { index, route, type RouteConfig } from '@react-router/dev/routes'
 
 const routes = [
   index('./pages/CountersList/ui/CountersList.tsx'),
-
-  layout('./app/layout/AppLayout.tsx', [
-
-  ]),
+  route('edit-counter', './pages/CounterEditor/ui/CounterEditorPage.tsx'),
 
   route('*', './pages/404.tsx'),
 ] satisfies RouteConfig

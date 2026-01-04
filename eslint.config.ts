@@ -1,12 +1,13 @@
 import js from '@eslint/js'
+import stylistic from '@stylistic/eslint-plugin'
+import { defineConfig } from 'eslint/config'
+import importPlugin from 'eslint-plugin-import'
+// @ts-expect-error - no types available for this plugin
+import jsxA11y from 'eslint-plugin-jsx-a11y'
+import pluginReact from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
-import pluginReact from 'eslint-plugin-react'
-import { defineConfig } from 'eslint/config'
-import stylistic from '@stylistic/eslint-plugin'
-// @ts-expect-error - no types available for this plugin
-import jsxA11y from 'eslint-plugin-jsx-a11y'
 
 export default defineConfig([
   {
@@ -41,8 +42,14 @@ export default defineConfig([
           caughtErrorsIgnorePattern: '^_',
         },
       ],
-      'react/jsx-curly-brace-presence': [ 'error', { props: 'never', children: 'never' } ],
+      'react/jsx-curly-brace-presence': [
+        'error',
+        { props: 'never', children: 'never' },
+      ],
       'jsx-quotes': [ 'error', 'prefer-double' ],
+      'react-hooks/exhaustive-deps': [
+        'warn',
+      ],
     },
   },
   {
@@ -55,27 +62,33 @@ export default defineConfig([
       '@stylistic/brace-style': [ 'warn', '1tbs', { allowSingleLine: true } ],
       'no-empty': [ 'error' ],
       'eol-last': [ 'error', 'always' ],
-      '@stylistic/comma-dangle': [ 'error', {
-        arrays: 'always-multiline',
-        objects: 'always-multiline',
-        imports: 'always-multiline',
-         exports: 'always-multiline',
-         functions: 'always-multiline',
-         enums: 'always-multiline',
-         generics: 'ignore',
-         tuples: 'ignore',
-      } ],
-      '@stylistic/member-delimiter-style': [ 'warn', {
-        multiline: {
-          delimiter: 'comma',
-          requireLast: true,
+      '@stylistic/comma-dangle': [
+        'error',
+        {
+          arrays: 'always-multiline',
+          objects: 'always-multiline',
+          imports: 'always-multiline',
+          exports: 'always-multiline',
+          functions: 'always-multiline',
+          enums: 'always-multiline',
+          generics: 'ignore',
+          tuples: 'ignore',
         },
-        singleline: {
-          delimiter: 'comma',
-          requireLast: false,
+      ],
+      '@stylistic/member-delimiter-style': [
+        'warn',
+        {
+          multiline: {
+            delimiter: 'comma',
+            requireLast: true,
+          },
+          singleline: {
+            delimiter: 'comma',
+            requireLast: false,
+          },
+          multilineDetection: 'brackets',
         },
-        multilineDetection: 'brackets',
-      } ],
+      ],
 
       // Увеличено до двух, для коротких функций, вроде `const commitLazyValue = () => { model.value = lazyValue.value }`
       '@stylistic/max-statements-per-line': [ 'warn', { max: 2 } ],
@@ -86,7 +99,10 @@ export default defineConfig([
         'single',
         { avoidEscape: true, allowTemplateLiterals: true },
       ],
-      'space-before-function-paren': [ 'error', { anonymous: 'always', named: 'never', asyncArrow: 'always' } ],
+      'space-before-function-paren': [
+        'error',
+        { anonymous: 'always', named: 'never', asyncArrow: 'always' },
+      ],
 
       '@stylistic/max-len': [
         'warn',
@@ -125,6 +141,54 @@ export default defineConfig([
       'jsx-a11y/anchor-is-valid': 'warn',
       'jsx-a11y/click-events-have-key-events': 'warn',
       'jsx-a11y/no-static-element-interactions': 'warn',
+    },
+  },
+  {
+    files: [ '**/*.{js,cjs,mjs,ts,tsx}' ],
+
+    plugins: {
+      import: importPlugin,
+    },
+
+    settings: {
+      'import/resolver': {
+        // чтобы понимал tsconfig paths и расширения TS/TSX
+        typescript: {
+          project: './tsconfig.json',
+          alwaysTryTypes: true,
+        },
+      },
+    },
+
+    rules: {
+      'import/order': [
+        'error',
+        {
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            [ 'parent', 'sibling', 'index' ],
+            'object',
+            'type',
+          ],
+
+          // FSD слои (под алиас "@/...")
+          pathGroups: [
+            { pattern: '@/app/**', group: 'internal', position: 'before' },
+            { pattern: '@/pages/**', group: 'internal', position: 'before' },
+            { pattern: '@/widgets/**', group: 'internal', position: 'before' },
+            { pattern: '@/features/**', group: 'internal', position: 'before' },
+            { pattern: '@/entities/**', group: 'internal', position: 'before' },
+            { pattern: '@/shared/**', group: 'internal', position: 'before' },
+          ],
+
+          pathGroupsExcludedImportTypes: [ 'builtin', 'external' ],
+          'newlines-between': 'always',
+
+          alphabetize: { order: 'asc', caseInsensitive: true },
+        },
+      ],
     },
   },
 ])

@@ -1,5 +1,5 @@
-import { Outlet } from 'react-router'
 import { Theme } from '@radix-ui/themes'
+import { Outlet } from 'react-router'
 import './styles/index.css'
 
 export function App() {

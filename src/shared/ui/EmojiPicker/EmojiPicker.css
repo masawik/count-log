@@ -1,0 +1,7 @@
+.EmojiPicker {
+  em-emoji-picker {
+    --font-family: inherit;
+    --rgb-accent: 127 147 236;
+    --rgb-color: 86 88 96;
+  }
+}

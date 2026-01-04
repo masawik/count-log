@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "@radix-ui/themes/styles.css";
 @import "./fonts.css";
-@import "./radix-overrides.css";
+@import "./radix-overrides/index.css";
+@import "./custom-utilities.css";
 

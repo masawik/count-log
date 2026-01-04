@@ -1,5 +1,6 @@
 import { useEffect, useEffectEvent, useState } from 'react'
 import { isRouteErrorResponse, useNavigate, useRouteError, type ErrorResponse } from 'react-router'
+
 import { type ApiClientError, isApiClientError } from '@/shared/api'
 import { IS_DEV } from '@/shared/config'
 interface ErrorInfo {

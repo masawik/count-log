@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+.rt-BaseDialogScrollPadding:has(.EmojiIconPicker) {
+  padding-top: var(--space-2);
+  padding-bottom: var(--space-2);
+}
+
+.EmojiIconPicker {
+  em-emoji-picker {
+    margin-top: -10px;
+    --shadow: none;
+  }
+
+  .EmojiIconPicker__EmojiIcon {
+    @apply size-44;
+  }
+}
+
+@media screen and (max-height: 780px) {
+  .EmojiIconPicker {
+    .EmojiIconPicker__EmojiIcon {
+      @apply size-32;
+    }
+  }
+}
+
+
+@media screen and (max-height: 730px) {
+  .EmojiIconPicker {
+    .EmojiIconPicker__EmojiIcon {
+      @apply size-20;
+    }
+  }
+}
+
+@media screen and (max-height: 690px) {
+  .EmojiIconPicker {
+    em-emoji-picker {
+      height: 300px;
+    }
+  }
+}

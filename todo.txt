@@ -1,0 +1,2 @@
+- inputs validation
+- replace radix layout components with tailwind classes

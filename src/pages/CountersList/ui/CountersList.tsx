@@ -1,5 +1,7 @@
 import { Container, Flex, IconButton, Text } from '@radix-ui/themes'
 import { Plus } from 'lucide-react'
+import { Link } from 'react-router'
+
 import styles from './styles.module.css'
 
 export default function CountersListPage() {
@@ -26,12 +28,10 @@ export default function CountersListPage() {
               className={styles['ArrowImage']}
             />
 
-            <IconButton
-              size="4"
-              variant="solid"
-              radius="full"
-            >
-              <Plus />
+            <IconButton asChild size="4" variant="solid" radius="full">
+              <Link to="/edit-counter">
+                <Plus />
+              </Link>
             </IconButton>
           </div>
         </Flex>
