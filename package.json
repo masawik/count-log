@@ -48,6 +48,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "globals": "^16.5.0",
+    "rollup-plugin-visualizer": "^6.0.5",
     "steiger": "^0.5.11",
     "tailwindcss": "^4.1.13",
     "typescript": "^5.9.2",
