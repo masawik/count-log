@@ -1,0 +1,4 @@
+.rt-TextFieldRoot:not(:focus-within):has(input[data-invalid]) {
+  outline: 1px solid var(--red-9);
+  outline-offset: -1px;
+}

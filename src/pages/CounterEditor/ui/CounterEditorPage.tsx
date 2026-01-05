@@ -16,7 +16,7 @@ import { EmojiIconPicker } from '@/features/EmojiIconPicker'
 
 import { EmojiIcon, type EmojiIconType } from '@/entities/EmojiIcon'
 
-import { InputLabel, TextArea, TextField } from '@/shared/ui'
+import { InputWrapper, TextArea, TextField } from '@/shared/ui'
 import Sheet from '@/shared/ui/Sheet'
 
 import { useEmojiIcon } from '../lib/useEmojiIcon'
@@ -47,8 +47,12 @@ export default function CounterEditorPage() {
     handleSubmit: formHandleSumbit,
     watch,
     control,
+    formState: {
+      errors,
+    },
   } = formMethods
 
+  const isSubmitBtnDisabled = !!Object.keys(errors).length
   const handleSubmit: SubmitHandler<FormInputs> = (data) => console.log(data)
 
   const { fields, append, remove } = useFieldArray<FormInputs>({
@@ -119,7 +123,7 @@ export default function CounterEditorPage() {
               <Flex direction="column" gap="4">
                 <Sheet asChild>
                   <Flex gap="2" direction="column">
-                    <Flex gap="2">
+                    <Flex gap="2" align="start">
                       <button
                         onClick={() => setEmojiPickerVisible(true)}
                         type="button"
@@ -142,44 +146,41 @@ export default function CounterEditorPage() {
                         />
                       )}
 
-                      <InputLabel text="name" flexGrow="1">
-                        <TextField.Root
-                          placeholder="books read"
-                          {...register('name', { required: true })}
-                        />
-                      </InputLabel>
+                      <TextField.Root
+                        label="name"
+                        placeholder="books read"
+                        className="grow"
+                        {...register('name', { required: true })}
+                      />
                     </Flex>
 
-                    <InputLabel>
-                      <InputLabel.Text>
+                    <TextArea
+                      resize="none"
+                      placeholder="Books to read over the summer..."
+                      {...register('description')}
+                    >
+                      <InputWrapper.Label>
                         <Text>
                           description{' '}
                           <Text size="1" color="gray">
                             (optional)
                           </Text>
                         </Text>
-                      </InputLabel.Text>
-
-                      <TextArea
-                        resize="none"
-                        placeholder="Books to read over the summer..."
-                        {...register('description')}
-                      />
-                    </InputLabel>
+                      </InputWrapper.Label>
+                    </TextArea>
                   </Flex>
                 </Sheet>
 
                 <Sheet>
                   <Flex gap="2" direction="column">
-                    <InputLabel text="Initial value">
-                      <TextField.Root
-                        type="number"
-                        {...register('initialValue', {
-                          required: true,
-                          valueAsNumber: true,
-                        })}
-                      />
-                    </InputLabel>
+                    <TextField.Root
+                      label="Initial value"
+                      type="number"
+                      {...register('initialValue', {
+                        required: true,
+                        valueAsNumber: true,
+                      })}
+                    />
 
                     <Flex direction="column" gap="2">
                       <div>
@@ -221,7 +222,7 @@ export default function CounterEditorPage() {
                   cancel
                 </Button>
 
-                <Button size="4" variant="solid" type="submit">
+                <Button size="4" variant="solid" type="submit" disabled={isSubmitBtnDisabled}>
                   Create
                 </Button>
               </Grid>

@@ -38,7 +38,7 @@ export function EmojiIcon({
 
       {loading && (
         <div className={s.loader}>
-          <Spinner />
+          <Spinner  />
         </div>
       )}
     </Comp>

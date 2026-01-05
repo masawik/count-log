@@ -9,7 +9,6 @@ import { EmojiIcon, type EmojiIconType } from '@/entities/EmojiIcon'
 import { COLOR_PALETTE, type Color } from '@/shared/config'
 import { cn } from '@/shared/lib'
 import { EmojiPicker } from '@/shared/ui'
-import type { Emoji } from '@/shared/vendor/emojiMart'
 
 import type React from 'react'
 
@@ -79,7 +78,7 @@ export const EmojiIconPicker = function EmojiIconPicker({
   const open = props.open || internalOpen
   const handleOpenChange = props.onOpenChange || setInternalOpen
 
-  const handleEmojiSelect = (emoji: Emoji) => {
+  const handleEmojiSelect = (emoji: EmojiMart.Emoji) => {
     setEmoji(emoji.native)
   }
 

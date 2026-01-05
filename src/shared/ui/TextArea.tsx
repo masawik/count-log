@@ -3,6 +3,10 @@ import {
   type TextAreaProps,
 } from '@radix-ui/themes'
 
-export function TextArea(props: TextAreaProps) {
+import { withInputWrapper } from './InputWrapper'
+
+function TextAreaImpl(props: TextAreaProps) {
   return <RadixTextArea variant="soft" size="3" {...props} />
 }
+
+export const TextArea = withInputWrapper(TextAreaImpl)

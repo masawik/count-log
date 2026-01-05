@@ -1,2 +1,3 @@
 export { createSlots } from './createSlots'
-export { withLabel } from './withLabel'
+export { ConditionalWrapper } from './ConditionalWrapper'
+export * from './renderProps'
