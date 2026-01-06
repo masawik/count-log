@@ -9,9 +9,7 @@
 @import "radix-themes-tw/theme.css";
 @import "./font-imports.css";
 
-@theme {
-  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
 
+@import './tailwind-overrides/index.css';
 @import "./radix-overrides/index.css";
 @import './components';

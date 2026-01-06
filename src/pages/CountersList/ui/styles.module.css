@@ -1,18 +1,21 @@
 .AddButtonContainer {
   position: absolute;
-  bottom: 24px;
   right: 24px;
+  bottom: 24px;
 }
 
 .ArrowImage {
+  will-change: transform;
+
   position: absolute;
   top: -135px;
   left: -119px;
+
   width: 130px;
   max-width: fit-content;
+
   animation: arrowHint 3.4s ease-in-out infinite;
   animation-delay: 2s;
-  will-change: transform;
 }
 
 @keyframes arrowHint {
