@@ -1,5 +1,5 @@
 import emojiData from '@emoji-mart/data'
-import { Button, Dialog, Grid, IconButton, Tabs } from '@radix-ui/themes'
+import { Button, Dialog, IconButton, Tabs } from '@radix-ui/themes'
 import { pick } from 'lodash-es'
 import { X } from 'lucide-react'
 import { useMemo, useState } from 'react'
@@ -131,10 +131,10 @@ export const EmojiIconPicker = function EmojiIconPicker({
 
           <Tabs.Root defaultValue="color" className="w-full">
             <Tabs.List>
-              <Grid columns="2" width="100%">
+              <div className="grid grid-cols-2 w-full">
                 <Tabs.Trigger value="color">Select color</Tabs.Trigger>
                 <Tabs.Trigger value="emoji">Select emoji</Tabs.Trigger>
-              </Grid>
+              </div>
             </Tabs.List>
 
             <div className="pt-4">

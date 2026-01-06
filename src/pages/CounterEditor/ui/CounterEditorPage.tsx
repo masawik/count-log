@@ -1,13 +1,12 @@
 import {
   Button,
-  Grid,
   Heading,
   IconButton,
   Text,
 } from '@radix-ui/themes'
 import { Plus, Trash2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { useFieldArray, useForm } from 'react-hook-form'
+import { useFieldArray, useForm, useWatch } from 'react-hook-form'
 import { type SubmitHandler, FormProvider } from 'react-hook-form'
 
 import { EmojiIconPicker } from '@/features/EmojiIconPicker'
@@ -55,7 +54,10 @@ export default function CounterEditorPage() {
     name: 'stepButtons',
   })
 
-  const name = watch('name', '')
+  const name = useWatch({
+    control,
+    name: 'name',
+  })
 
   const {
     emojiIcon,
@@ -106,8 +108,7 @@ export default function CounterEditorPage() {
   return (
     <main>
       <FormProvider {...formMethods}>
-        <Grid asChild rows="1fr auto" height="100vh">
-          <form onSubmit={formHandleSumbit(handleSubmit)}>
+        <form onSubmit={formHandleSumbit(handleSubmit)} className="grid grid-rows-[1fr_auto] h-screen">
             <div className="container overflow-auto px-2">
               <div className="p-4 flex justify-center">
                 <Heading size="6" weight="medium">
@@ -186,14 +187,12 @@ export default function CounterEditorPage() {
                         </Text>
                       </div>
 
-                      <Grid
-                        columns="2"
-                        width="100%"
-                        gap="2"
+                      <div
+                        className="grid grid-cols-2 w-full gap-2"
                         data-test-id="step-buttons-container"
                       >
                         {stepButtonInputs}
-                      </Grid>
+                      </div>
 
                       <div className="mt-2 flex justify-center">
                         <Button
@@ -211,7 +210,7 @@ export default function CounterEditorPage() {
             </div>
 
             <div className="container border-t border-(--gray-6) p-2">
-              <Grid align="center" width="100%" columns="2" gap="1">
+              <div className="grid grid-cols-2 w-full gap-1 items-center">
                 <Button
                   size="4"
                   variant="ghost"
@@ -230,10 +229,9 @@ export default function CounterEditorPage() {
                 >
                   Create
                 </Button>
-              </Grid>
+              </div>
             </div>
-          </form>
-        </Grid>
+        </form>
       </FormProvider>
     </main>
   )
