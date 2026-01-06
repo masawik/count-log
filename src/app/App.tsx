@@ -4,7 +4,7 @@ import './styles/index.css'
 
 export function App() {
   return (
-    <Theme accentColor="blue" radius="large">
+    <Theme accentColor="blue" radius="large" id="root">
       <Outlet />
     </Theme>
   )

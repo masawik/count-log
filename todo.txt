@@ -1,3 +1,4 @@
+- stylelint
+- replace radix layout components with tailwind classes
 - step button positive values prefix "+"
 - animations: buttons, emoji replacing
-- replace radix layout components with tailwind classes

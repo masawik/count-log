@@ -191,7 +191,7 @@ export default function CounterEditorPage() {
                         </Text>
                       </div>
 
-                      <Grid columns="2" width="100%" gap="2">
+                      <Grid columns="2" width="100%" gap="2" data-test-id="step-buttons-container">
                         {stepButtonInputs}
                       </Grid>
 

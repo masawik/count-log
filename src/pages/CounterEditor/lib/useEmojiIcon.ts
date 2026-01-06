@@ -5,6 +5,7 @@ import { useImmer } from 'use-immer'
 import type { EmojiIconType } from '@/entities/EmojiIcon'
 
 import { COLOR_PALETTE } from '@/shared/config'
+import { IS_TEST } from '@/shared/config/env'
 
 import { useMatchEmoji } from './useMatchEmoji'
 
@@ -16,7 +17,7 @@ export const useEmojiIcon = (text: string) => {
 
   const [ emojiIcon, setEmojiIcon ] = useImmer<EmojiIconType>({
     emoji: INITIAL_EMOJI,
-    color: sample(COLOR_PALETTE),
+    color: IS_TEST ? COLOR_PALETTE[0] : sample(COLOR_PALETTE),
   })
 
   const handlePickEmojiIcon = useCallback(

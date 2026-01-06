@@ -8,7 +8,9 @@
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
     "lint:fix": "npx eslint --fix ./src",
-    "fsdcheck": "steiger ./src"
+    "fsdcheck": "steiger ./src",
+    "test:s": "pnpm exec playwright test",
+    "test:us": "pnpm exec playwright test --update-snapshots"
   },
   "imports": {
     "#index.css": "./src/app/styles/index.css"
@@ -37,6 +39,7 @@
   "devDependencies": {
     "@capacitor/cli": "^8.0.0",
     "@eslint/js": "^9.39.2",
+    "@playwright/test": "^1.57.0",
     "@react-router/dev": "7.10.1",
     "@stylistic/eslint-plugin": "^5.6.1",
     "@tailwindcss/vite": "latest",
