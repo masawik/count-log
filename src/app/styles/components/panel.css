@@ -1,0 +1,5 @@
+@layer components {
+  .panel {
+    @apply shadow-3 bg-panel-solid p-2 rounded-xl;
+  }
+}

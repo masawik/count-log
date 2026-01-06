@@ -1,4 +1,3 @@
-export { type SheetProps, default as Sheet } from './Sheet'
 export { default as InputWrapper, withInputWrapper } from './InputWrapper'
 export { default as TextField } from './TextField'
 export { TextArea } from './TextArea'

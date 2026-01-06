@@ -17,7 +17,6 @@ import { EmojiIconPicker } from '@/features/EmojiIconPicker'
 import { EmojiIcon, type EmojiIconType } from '@/entities/EmojiIcon'
 
 import { InputWrapper, TextArea, TextField } from '@/shared/ui'
-import Sheet from '@/shared/ui/Sheet'
 
 import { useEmojiIcon } from '../lib/useEmojiIcon'
 
@@ -121,7 +120,7 @@ export default function CounterEditorPage() {
               </Flex>
 
               <Flex direction="column" gap="4">
-                <Sheet asChild>
+                <div className="panel">
                   <Flex gap="2" direction="column">
                     <Flex gap="2" align="start">
                       <button
@@ -169,9 +168,9 @@ export default function CounterEditorPage() {
                       </InputWrapper.Label>
                     </TextArea>
                   </Flex>
-                </Sheet>
+                </div>
 
-                <Sheet>
+                <div className="panel">
                   <Flex gap="2" direction="column">
                     <TextField.Root
                       label="Initial value"
@@ -206,7 +205,7 @@ export default function CounterEditorPage() {
                       </Flex>
                     </Flex>
                   </Flex>
-                </Sheet>
+                </div>
               </Flex>
             </Container>
 
