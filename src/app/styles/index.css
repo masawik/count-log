@@ -1,6 +1,18 @@
 @import "tailwindcss";
-@import "@radix-ui/themes/styles.css";
-@import "./fonts.css";
+
+/* Remove tailwind colors. Use radix colors instead */
+@theme {
+  --color-*: initial;
+}
+
+@import "@radix-ui/themes/styles.css" layer(radix-themes);
+@import "radix-themes-tw/theme.css";
+@import "./font-imports.css";
+
+@theme {
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
 @import "./radix-overrides/index.css";
-@import "./custom-utilities.css";
+
 

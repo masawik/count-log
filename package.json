@@ -10,6 +10,9 @@
     "lint:fix": "npx eslint --fix ./src",
     "fsdcheck": "steiger ./src"
   },
+  "imports": {
+    "#index.css": "./src/app/styles/index.css"
+  },
   "dependencies": {
     "@capacitor/android": "^8.0.0",
     "@capacitor/core": "^8.0.0",
@@ -48,6 +51,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "globals": "^16.5.0",
+    "radix-themes-tw": "^1.1.0",
     "rollup-plugin-visualizer": "^6.0.5",
     "steiger": "^0.5.11",
     "tailwindcss": "^4.1.13",
