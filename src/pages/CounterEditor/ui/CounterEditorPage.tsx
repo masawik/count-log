@@ -1,6 +1,5 @@
 import {
   Button,
-  Flex,
   Grid,
   Heading,
   IconButton,
@@ -110,16 +109,16 @@ export default function CounterEditorPage() {
         <Grid asChild rows="1fr auto" height="100vh">
           <form onSubmit={formHandleSumbit(handleSubmit)}>
             <div className="container overflow-auto px-2">
-              <Flex p="4" justify="center">
+              <div className="p-4 flex justify-center">
                 <Heading size="6" weight="medium">
                   New counter
                 </Heading>
-              </Flex>
+              </div>
 
-              <Flex direction="column" gap="4">
+              <div className="flex flex-col gap-4">
                 <div className="panel">
-                  <Flex gap="2" direction="column">
-                    <Flex gap="2" align="start">
+                  <div className="flex flex-col gap-2">
+                    <div className="flex gap-2 items-start">
                       <button
                         onClick={() => setEmojiPickerVisible(true)}
                         type="button"
@@ -148,7 +147,7 @@ export default function CounterEditorPage() {
                         className="grow"
                         {...register('name', { required: true })}
                       />
-                    </Flex>
+                    </div>
 
                     <TextArea
                       resize="none"
@@ -164,11 +163,11 @@ export default function CounterEditorPage() {
                         </Text>
                       </InputWrapper.Label>
                     </TextArea>
-                  </Flex>
+                  </div>
                 </div>
 
                 <div className="panel">
-                  <Flex gap="2" direction="column">
+                  <div className="flex flex-col gap-2">
                     <TextField.Root
                       label="Initial value"
                       type="number"
@@ -178,7 +177,7 @@ export default function CounterEditorPage() {
                       })}
                     />
 
-                    <Flex direction="column" gap="2">
+                    <div className="flex flex-col gap-2">
                       <div>
                         <Text as="div">Step buttons</Text>
                         <Text as="div" weight="regular" size="1" color="brown">
@@ -196,7 +195,7 @@ export default function CounterEditorPage() {
                         {stepButtonInputs}
                       </Grid>
 
-                      <Flex mt="2" justify="center">
+                      <div className="mt-2 flex justify-center">
                         <Button
                           type="button"
                           variant="ghost"
@@ -204,11 +203,11 @@ export default function CounterEditorPage() {
                         >
                           <Plus /> Add button
                         </Button>
-                      </Flex>
-                    </Flex>
-                  </Flex>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </Flex>
+              </div>
             </div>
 
             <div className="container border-t border-(--gray-6) p-2">

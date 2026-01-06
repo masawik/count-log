@@ -1,5 +1,5 @@
 import emojiData from '@emoji-mart/data'
-import { Button, Dialog, Flex, Grid, IconButton, Tabs } from '@radix-ui/themes'
+import { Button, Dialog, Grid, IconButton, Tabs } from '@radix-ui/themes'
 import { pick } from 'lodash-es'
 import { X } from 'lucide-react'
 import { useMemo, useState } from 'react'
@@ -107,7 +107,7 @@ export const EmojiIconPicker = function EmojiIconPicker({
           combination will be used as the visual identifier.
         </Dialog.Description>
 
-        <Flex justify="between" align="start">
+        <div className="align-start flex justify-between">
           <IconButton
             size="3"
             variant="ghost"
@@ -120,9 +120,9 @@ export const EmojiIconPicker = function EmojiIconPicker({
           <Button size="3" color="green" variant="soft" onClick={handleDone}>
             Done
           </Button>
-        </Flex>
+        </div>
 
-        <Flex direction="column" align="center" gap="4">
+        <div className="flex flex-col items-center gap-4">
           <EmojiIcon
             color={color}
             emoji={emoji}
@@ -139,13 +139,13 @@ export const EmojiIconPicker = function EmojiIconPicker({
 
             <div className="pt-4">
               <Tabs.Content value="color" asChild>
-                <Flex wrap="wrap" justify="center" gap="2">
+                <div className="flex flex-wrap justify-center gap-2">
                   {colorSquares}
-                </Flex>
+                </div>
               </Tabs.Content>
 
               <Tabs.Content value="emoji">
-                <Flex justify="center">
+                <div className="flex justify-center">
                   <EmojiPicker
                     data={emojiData}
                     maxFrequentRows="1"
@@ -156,11 +156,11 @@ export const EmojiIconPicker = function EmojiIconPicker({
                     searchPosition="static"
                     onEmojiSelect={handleEmojiSelect}
                   />
-                </Flex>
+                </div>
               </Tabs.Content>
             </div>
           </Tabs.Root>
-        </Flex>
+        </div>
       </Dialog.Content>
     </Dialog.Root>
   )

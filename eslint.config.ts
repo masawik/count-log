@@ -204,7 +204,7 @@ export default defineConfig([
             {
               name: '@radix-ui/themes',
               // 'Flex', 'Box', 'Grid', 'Section',
-              importNames: [ 'Container' ],
+              importNames: [ 'Container', 'Flex' ],
               message:
                 'Use regular html tags and tailwind classes instead of Layout components.',
             },
