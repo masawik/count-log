@@ -20,7 +20,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: 'http://localhost:5173',
+    baseURL: 'http://localhost:3333',
     trace: 'on-first-retry',
 
     viewport: { width: 390, height: 844 }, // базовый “эталонный” размер
@@ -51,11 +51,10 @@ export default defineConfig({
     },
   ],
 
-
   webServer: {
-    command: 'pnpm dev',
-    url: 'http://localhost:5173/',
-    reuseExistingServer: !process.env.CI,
+    command: 'pnpm dev --port 3333',
+    url: 'http://localhost:3333/',
+    reuseExistingServer: false,
     env: {
       VITE_E2E: '1',
     },
