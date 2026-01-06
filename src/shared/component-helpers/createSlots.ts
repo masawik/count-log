@@ -3,7 +3,7 @@ import * as React from 'react'
 type SlotProps = React.PropsWithChildren<unknown>
 type SlotComponent = React.ComponentType<SlotProps>
 
-type DefaultSlot = { DefaultSlot: React.ReactNode[] }
+type DefaultSlot = { DefaultSlot: React.ReactNode[] | undefined }
 
 type Simplify<T> = { [K in keyof T]: T[K] } & {}
 
@@ -59,7 +59,7 @@ export function createSlots<const Names extends readonly string[]>(names: Names)
      const out = {
       ...Object.fromEntries(names.map(name => [ name, null ])),
       DefaultSlot: [],
-    } as Partial<Picked> & DefaultSlot
+    } as Partial<Picked> & { DefaultSlot: React.ReactNode[] }
 
     const flat = flattenOneLevel(children)
 
@@ -81,6 +81,10 @@ export function createSlots<const Names extends readonly string[]>(names: Names)
       } else {
         out.DefaultSlot.push(child)
       }
+    }
+
+    if (!out.DefaultSlot?.length) {
+      (out.DefaultSlot as DefaultSlot['DefaultSlot']) = undefined
     }
 
     return out as Picked

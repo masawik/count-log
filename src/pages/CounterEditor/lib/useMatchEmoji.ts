@@ -1,6 +1,6 @@
 import data, { type Emoji } from '@emoji-mart/data'
 import { init, SearchIndex } from 'emoji-mart'
-import { useEffect, useRef, useState } from 'react'
+import { startTransition, useEffect, useRef, useState } from 'react'
 
 init({ data })
 
@@ -29,13 +29,15 @@ export const useMatchEmoji = (text: string, opts?: UseEmojiOpts) => {
 
   const [ matchedEmoji, setMatchedEmoji ] = useState<string | null>(null)
   const [ loading, setLoading ] = useState<boolean>(false)
+  const changeLoadingState = (value: boolean) => startTransition(() => setLoading(value))
+
   const debounceTimer = useRef<undefined | number>(undefined)
 
   useEffect(() => {
     clearTimeout(debounceTimer.current)
 
     if (disabled || !text) {
-      setLoading(false)
+      changeLoadingState(false)
       return
     }
 
@@ -48,11 +50,13 @@ export const useMatchEmoji = (text: string, opts?: UseEmojiOpts) => {
           setMatchedEmoji(emoji)
         }
       } finally {
-        setLoading(false)
+        changeLoadingState(false)
       }
     }, delay)
 
-    setLoading(true)
+    startTransition(() => {
+      changeLoadingState(true)
+    })
 
     return () => clearTimeout(debounceTimer.current)
   }, [ text, disabled, delay ])
