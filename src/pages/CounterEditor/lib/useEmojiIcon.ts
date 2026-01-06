@@ -4,8 +4,7 @@ import { useImmer } from 'use-immer'
 
 import type { EmojiIconType } from '@/entities/EmojiIcon'
 
-import { COLOR_PALETTE } from '@/shared/config'
-import { IS_TEST } from '@/shared/config/env'
+import { COLOR_PALETTE, IS_TEST } from '@/shared/config'
 
 import { useMatchEmoji } from './useMatchEmoji'
 
