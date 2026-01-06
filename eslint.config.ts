@@ -203,7 +203,8 @@ export default defineConfig([
           paths: [
             {
               name: '@radix-ui/themes',
-              importNames: [ 'Container', 'Flex', 'Box', 'Grid', 'Section' ],
+              // Text, Heading
+              importNames: [ 'Container', 'Flex', 'Box', 'Grid', 'Section', 'Text', 'Heading' ],
               message:
                 'Use regular html tags and tailwind classes instead of Layout components.',
             },

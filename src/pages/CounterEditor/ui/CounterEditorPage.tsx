@@ -1,9 +1,4 @@
-import {
-  Button,
-  Heading,
-  IconButton,
-  Text,
-} from '@radix-ui/themes'
+import { Button, IconButton } from '@radix-ui/themes'
 import { Plus, Trash2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { useFieldArray, useForm, useWatch } from 'react-hook-form'
@@ -41,7 +36,6 @@ export default function CounterEditorPage() {
   const {
     register,
     handleSubmit: formHandleSumbit,
-    watch,
     control,
     formState: { errors },
   } = formMethods
@@ -108,129 +102,130 @@ export default function CounterEditorPage() {
   return (
     <main>
       <FormProvider {...formMethods}>
-        <form onSubmit={formHandleSumbit(handleSubmit)} className="grid grid-rows-[1fr_auto] h-screen">
-            <div className="container overflow-auto px-2">
-              <div className="p-4 flex justify-center">
-                <Heading size="6" weight="medium">
-                  New counter
-                </Heading>
-              </div>
+        <form
+          onSubmit={formHandleSumbit(handleSubmit)}
+          className="grid h-screen grid-rows-[1fr_auto]"
+        >
+          <div className="container overflow-auto px-2">
+            <div className="flex justify-center p-4">
+              <h1 className="text-6 font-normal">
+                New counter
+              </h1>
+            </div>
 
-              <div className="flex flex-col gap-4">
-                <div className="panel">
-                  <div className="flex flex-col gap-2">
-                    <div className="flex gap-2 items-start">
-                      <button
-                        onClick={() => setEmojiPickerVisible(true)}
-                        type="button"
-                        aria-label="Edit icon"
-                      >
-                        <EmojiIcon
-                          emoji={emojiIcon.emoji}
-                          color={emojiIcon.color}
-                          className="size-17"
-                          loading={searchingEmoji}
-                        />
-                      </button>
-
-                      {emojiPickerVisible && (
-                        <EmojiIconPicker
-                          emojiIcon={emojiIcon}
-                          open
-                          onOpenChange={setEmojiPickerVisible}
-                          onPick={handlePickEmojiIcon}
-                        />
-                      )}
-
-                      <TextField.Root
-                        label="name"
-                        placeholder="books read"
-                        className="grow"
-                        {...register('name', { required: true })}
-                      />
-                    </div>
-
-                    <TextArea
-                      resize="none"
-                      placeholder="Books to read over the summer..."
-                      {...register('description')}
+            <div className="flex flex-col gap-4">
+              <div className="panel">
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-start gap-2">
+                    <button
+                      onClick={() => setEmojiPickerVisible(true)}
+                      type="button"
+                      aria-label="Edit icon"
                     >
-                      <InputWrapper.Label>
-                        <Text>
-                          description{' '}
-                          <Text size="1" color="gray">
-                            (optional)
-                          </Text>
-                        </Text>
-                      </InputWrapper.Label>
-                    </TextArea>
-                  </div>
-                </div>
+                      <EmojiIcon
+                        emoji={emojiIcon.emoji}
+                        color={emojiIcon.color}
+                        className="size-17"
+                        loading={searchingEmoji}
+                      />
+                    </button>
 
-                <div className="panel">
-                  <div className="flex flex-col gap-2">
+                    {emojiPickerVisible && (
+                      <EmojiIconPicker
+                        emojiIcon={emojiIcon}
+                        open
+                        onOpenChange={setEmojiPickerVisible}
+                        onPick={handlePickEmojiIcon}
+                      />
+                    )}
+
                     <TextField.Root
-                      label="Initial value"
-                      type="number"
-                      {...register('initialValue', {
-                        required: true,
-                        valueAsNumber: true,
-                      })}
+                      label="name"
+                      placeholder="books read"
+                      className="grow"
+                      {...register('name', { required: true })}
                     />
+                  </div>
 
-                    <div className="flex flex-col gap-2">
+                  <TextArea
+                    resize="none"
+                    placeholder="Books to read over the summer..."
+                    {...register('description')}
+                  >
+                    <InputWrapper.Label>
                       <div>
-                        <Text as="div">Step buttons</Text>
-                        <Text as="div" weight="regular" size="1" color="brown">
-                          The first two buttons will be displayed on the main
-                          page.
-                        </Text>
+                        description{' '}
+                        <span className="text-1 text-grayA-11">(optional)</span>
                       </div>
+                    </InputWrapper.Label>
+                  </TextArea>
+                </div>
+              </div>
 
-                      <div
-                        className="grid grid-cols-2 w-full gap-2"
-                        data-test-id="step-buttons-container"
+              <div className="panel">
+                <div className="flex flex-col gap-2">
+                  <TextField.Root
+                    label="Initial value"
+                    type="number"
+                    {...register('initialValue', {
+                      required: true,
+                      valueAsNumber: true,
+                    })}
+                  />
+
+                  <div className="flex flex-col gap-2">
+                    <div>
+                      <div>Step buttons</div>
+                      <div className="text-1 text-brownA-11">
+                        The first two buttons will be displayed on the main
+                        page.
+                      </div>
+                    </div>
+
+                    <div
+                      className="grid w-full grid-cols-2 gap-2"
+                      data-test-id="step-buttons-container"
+                    >
+                      {stepButtonInputs}
+                    </div>
+
+                    <div className="mt-2 flex justify-center">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={handleAddStepButton}
                       >
-                        {stepButtonInputs}
-                      </div>
-
-                      <div className="mt-2 flex justify-center">
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          onClick={handleAddStepButton}
-                        >
-                          <Plus /> Add button
-                        </Button>
-                      </div>
+                        <Plus /> Add button
+                      </Button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className="container border-t border-(--gray-6) p-2">
-              <div className="grid grid-cols-2 w-full gap-1 items-center">
-                <Button
-                  size="4"
-                  variant="ghost"
-                  color="gray"
-                  className="mx-0! py-3!"
-                  type="button"
-                >
-                  cancel
-                </Button>
+          <div className="container border-t border-(--gray-6) p-2">
+            <div className="grid w-full grid-cols-2 items-center gap-1">
+              <Button
+                size="4"
+                variant="ghost"
+                color="gray"
+                className="mx-0! py-3!"
+                type="button"
+              >
+                cancel
+              </Button>
 
-                <Button
-                  size="4"
-                  variant="solid"
-                  type="submit"
-                  disabled={isSubmitBtnDisabled}
-                >
-                  Create
-                </Button>
-              </div>
+              <Button
+                size="4"
+                variant="solid"
+                type="submit"
+                disabled={isSubmitBtnDisabled}
+              >
+                Create
+              </Button>
             </div>
+          </div>
         </form>
       </FormProvider>
     </main>

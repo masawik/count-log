@@ -1,4 +1,3 @@
-import { Text } from '@radix-ui/themes'
 import { get } from 'lodash-es'
 import { useId } from 'react'
 import {
@@ -78,9 +77,7 @@ function InputWrapper({
       {children}
 
       {!!errorMessage && (
-        <Text size="1" color="red">
-          {errorMessage}
-        </Text>
+        <span className="text-redA-11 text-1">{errorMessage}</span>
       )}
     </div>
   )
@@ -100,10 +97,7 @@ export const withInputWrapper = <Props extends object>(
     const { LabelSlot, DefaultSlot } = pickSlots(children)
 
     return (
-      <InputWrapper
-        {...props}
-        label={LabelSlot || props.label}
-      >
+      <InputWrapper {...props} label={LabelSlot || props.label}>
         {(props) => <Component {...(props as Props)}>{DefaultSlot}</Component>}
       </InputWrapper>
     )

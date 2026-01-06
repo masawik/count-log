@@ -1,4 +1,4 @@
-import { IconButton, Text } from '@radix-ui/themes'
+import { IconButton } from '@radix-ui/themes'
 import { Plus } from 'lucide-react'
 import { Link } from 'react-router'
 
@@ -11,13 +11,13 @@ export default function CountersListPage() {
           <div className="flex flex-col items-center gap-2 p-2">
             <img src="/assets/img/guys.webp" alt="No content placeholder" />
 
-            <Text size="7" weight="bold" highContrast>
+            <span className="text-7 font-medium text-gray-12">
               No counters yet!
-            </Text>
+            </span>
 
-            <Text size="4" weight="regular" color="gray">
+            <span className="text-4 text-grayA-11">
               Create your first one!
-            </Text>
+            </span>
           </div>
 
           <div className={styles['AddButtonContainer']}>
