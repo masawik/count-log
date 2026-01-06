@@ -47,11 +47,11 @@ export default defineConfig([
         { props: 'never', children: 'never' },
       ],
       'jsx-quotes': [ 'error', 'prefer-double' ],
-      'react-hooks/exhaustive-deps': [
-        'warn',
-      ],
+      'react-hooks/exhaustive-deps': [ 'warn' ],
     },
   },
+
+  // stylistic
   {
     plugins: {
       '@stylistic': stylistic,
@@ -143,6 +143,8 @@ export default defineConfig([
       'jsx-a11y/no-static-element-interactions': 'warn',
     },
   },
+
+  // import order
   {
     files: [ '**/*.{js,cjs,mjs,ts,tsx}' ],
 
@@ -187,6 +189,26 @@ export default defineConfig([
           'newlines-between': 'always',
 
           alphabetize: { order: 'asc', caseInsensitive: true },
+        },
+      ],
+    },
+  },
+
+  // deprecations
+  {
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: '@radix-ui/themes',
+              // 'Flex', 'Box', 'Grid', 'Section',
+              importNames: [ 'Container' ],
+              message:
+                'Use regular html tags and tailwind classes instead of Layout components.',
+            },
+          ],
         },
       ],
     },

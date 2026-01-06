@@ -1,4 +1,4 @@
-import { Container, Flex, IconButton, Text } from '@radix-ui/themes'
+import { Flex, IconButton, Text } from '@radix-ui/themes'
 import { Plus } from 'lucide-react'
 import { Link } from 'react-router'
 
@@ -6,8 +6,7 @@ import styles from './styles.module.css'
 
 export default function CountersListPage() {
   return (
-    <Container asChild>
-      <main>
+      <main className="container">
         <Flex justify="center" align="center" direction="column" height="100vh">
           <Flex direction="column" align="center" gap="2" p="2">
             <img src="/assets/img/guys.webp" alt="No content placeholder" />
@@ -36,6 +35,5 @@ export default function CountersListPage() {
           </div>
         </Flex>
       </main>
-    </Container>
   )
 }

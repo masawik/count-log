@@ -1,6 +1,5 @@
 import {
   Button,
-  Container,
   Flex,
   Grid,
   Heading,
@@ -46,9 +45,7 @@ export default function CounterEditorPage() {
     handleSubmit: formHandleSumbit,
     watch,
     control,
-    formState: {
-      errors,
-    },
+    formState: { errors },
   } = formMethods
 
   const isSubmitBtnDisabled = !!Object.keys(errors).length
@@ -112,7 +109,7 @@ export default function CounterEditorPage() {
       <FormProvider {...formMethods}>
         <Grid asChild rows="1fr auto" height="100vh">
           <form onSubmit={formHandleSumbit(handleSubmit)}>
-            <Container px="2" className="overflow-auto">
+            <div className="container overflow-auto px-2">
               <Flex p="4" justify="center">
                 <Heading size="6" weight="medium">
                   New counter
@@ -190,7 +187,12 @@ export default function CounterEditorPage() {
                         </Text>
                       </div>
 
-                      <Grid columns="2" width="100%" gap="2" data-test-id="step-buttons-container">
+                      <Grid
+                        columns="2"
+                        width="100%"
+                        gap="2"
+                        data-test-id="step-buttons-container"
+                      >
                         {stepButtonInputs}
                       </Grid>
 
@@ -207,9 +209,9 @@ export default function CounterEditorPage() {
                   </Flex>
                 </div>
               </Flex>
-            </Container>
+            </div>
 
-            <Container className="border-t border-(--gray-6)" p="2">
+            <div className="container border-t border-(--gray-6) p-2">
               <Grid align="center" width="100%" columns="2" gap="1">
                 <Button
                   size="4"
@@ -221,11 +223,16 @@ export default function CounterEditorPage() {
                   cancel
                 </Button>
 
-                <Button size="4" variant="solid" type="submit" disabled={isSubmitBtnDisabled}>
+                <Button
+                  size="4"
+                  variant="solid"
+                  type="submit"
+                  disabled={isSubmitBtnDisabled}
+                >
                   Create
                 </Button>
               </Grid>
-            </Container>
+            </div>
           </form>
         </Grid>
       </FormProvider>

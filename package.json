@@ -7,7 +7,9 @@
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
+    "lint": "npx eslint --fix ./src",
     "lint:fix": "npx eslint --fix ./src",
+    "stylelint": "npx stylelint \"./src/**/*.css\"",
     "fsdcheck": "steiger ./src",
     "test:s": "pnpm exec playwright test",
     "test:us": "pnpm exec playwright test --update-snapshots"
