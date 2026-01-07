@@ -1,4 +1,4 @@
-import { Meta, Scripts, ScrollRestoration } from 'react-router'
+import { Links, Meta, Scripts, ScrollRestoration } from 'react-router'
 
 export function DocumentLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -20,6 +20,7 @@ export function DocumentLayout({ children }: { children: React.ReactNode }) {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="mobile-web-app-capable" content="yes" />
         <Meta />
+        <Links />
       </head>
       <body>
         {children}
