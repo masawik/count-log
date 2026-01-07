@@ -104,7 +104,7 @@ export default function CounterEditorPage() {
       <FormProvider {...formMethods}>
         <form
           onSubmit={formHandleSumbit(handleSubmit)}
-          className="grid h-screen grid-rows-[1fr_auto]"
+          className="grid h-fill grid-rows-[1fr_auto]"
         >
           <div className="container overflow-auto px-2">
             <div className="flex justify-center p-4">
@@ -204,7 +204,7 @@ export default function CounterEditorPage() {
             </div>
           </div>
 
-          <div className="container border-t border-(--gray-6) p-2">
+          <div className="container border-t border-(--gray-6) px-2 pt-4 pb-8">
             <div className="grid w-full grid-cols-2 items-center gap-1">
               <Button
                 size="4"

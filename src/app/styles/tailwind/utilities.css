@@ -1,0 +1,8 @@
+@utility container {
+  margin-inline: auto;
+}
+
+@utility h-fill {
+  @apply h-screen;
+  @apply h-dvh;
+}
