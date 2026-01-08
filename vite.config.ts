@@ -17,4 +17,8 @@ export default defineConfig(({ isSsrBuild }) => ({
       brotliSize: true,
     })),
   ],
+
+  ssr: {
+    noExternal: [ 'capacitor-sqlite-kysely' ],
+  },
 }))

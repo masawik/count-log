@@ -6,14 +6,14 @@ import { type SubmitHandler, FormProvider } from 'react-hook-form'
 
 import { EmojiIconPicker } from '@/features/EmojiIconPicker'
 
-import { EmojiIcon, type EmojiIconType } from '@/entities/EmojiIcon'
+import { createCounter } from '@/entities/counter'
+import { EmojiIcon } from '@/entities/EmojiIcon'
 
 import { InputWrapper, TextArea, TextField } from '@/shared/ui'
 
 import { useEmojiIcon } from '../lib/useEmojiIcon'
 
 interface FormInputs {
-  emojiIcon: EmojiIconType,
   name: string,
   description: string,
   initialValue: number,
@@ -41,7 +41,17 @@ export default function CounterEditorPage() {
   } = formMethods
 
   const isSubmitBtnDisabled = !!Object.keys(errors).length
-  const handleSubmit: SubmitHandler<FormInputs> = (data) => console.log(data)
+  const handleSubmit: SubmitHandler<FormInputs> = async (data) => {
+    const rowId = await createCounter({
+      name: data.name,
+      initial_value: data.initialValue,
+      steps: data.stepButtons,
+      emojiIcon: emojiIcon,
+      description: data.description,
+    })
+
+    alert(`inserted, id: ${JSON.stringify(rowId)}`)
+  }
 
   const { fields, append, remove } = useFieldArray<FormInputs>({
     control,
@@ -108,9 +118,7 @@ export default function CounterEditorPage() {
         >
           <div className="container overflow-auto px-2">
             <div className="flex justify-center p-4">
-              <h1 className="text-6 font-normal">
-                New counter
-              </h1>
+              <h1 className="text-6 font-normal">New counter</h1>
             </div>
 
             <div className="flex flex-col gap-4">

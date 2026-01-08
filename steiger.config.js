@@ -16,4 +16,12 @@ export default defineConfig([
       'fsd/insignificant-slice': 'warn',
     },
   },
+  {
+    files: [
+      './src/shared/db/types.ts',
+    ],
+    rules: {
+      'fsd/forbidden-imports': 'off',
+    },
+  },
 ])

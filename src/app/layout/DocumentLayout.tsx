@@ -22,6 +22,7 @@ export function DocumentLayout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
+
       <body>
         {children}
         <ScrollRestoration />
