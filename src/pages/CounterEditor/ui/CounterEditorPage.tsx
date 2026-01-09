@@ -3,6 +3,7 @@ import { Plus, Trash2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { useFieldArray, useForm, useWatch } from 'react-hook-form'
 import { type SubmitHandler, FormProvider } from 'react-hook-form'
+import { useNavigate } from 'react-router'
 
 import { EmojiIconPicker } from '@/features/EmojiIconPicker'
 
@@ -13,6 +14,7 @@ import { InputWrapper, TextArea, TextField } from '@/shared/ui'
 
 import { useEmojiIcon } from '../lib/useEmojiIcon'
 
+
 interface FormInputs {
   name: string,
   description: string,
@@ -21,6 +23,8 @@ interface FormInputs {
 }
 
 export default function CounterEditorPage() {
+  const navigate = useNavigate()
+
   const formMethods = useForm<FormInputs>({
     defaultValues: {
       name: '',
@@ -42,7 +46,7 @@ export default function CounterEditorPage() {
 
   const isSubmitBtnDisabled = !!Object.keys(errors).length
   const handleSubmit: SubmitHandler<FormInputs> = async (data) => {
-    const rowId = await createCounter({
+    await createCounter({
       name: data.name,
       initial_value: data.initialValue,
       steps: data.stepButtons,
@@ -50,7 +54,7 @@ export default function CounterEditorPage() {
       description: data.description,
     })
 
-    alert(`inserted, id: ${JSON.stringify(rowId)}`)
+    navigate('/')
   }
 
   const { fields, append, remove } = useFieldArray<FormInputs>({

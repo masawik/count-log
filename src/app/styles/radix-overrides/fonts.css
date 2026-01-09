@@ -1,4 +1,5 @@
 .radix-themes {
 	--default-font-family: var(--font-sans);
   --quote-font-family: var(--font-sans);
+  --default-font-size: var(--font-size-4);
 }

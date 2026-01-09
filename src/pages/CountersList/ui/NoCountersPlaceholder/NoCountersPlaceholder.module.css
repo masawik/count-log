@@ -1,15 +1,9 @@
-.AddButtonContainer {
-  position: absolute;
-  right: 24px;
-  bottom: 24px;
-}
-
 .ArrowImage {
   will-change: transform;
 
   position: absolute;
-  top: -135px;
-  left: -119px;
+  bottom: 100px;
+  right: 60px;
 
   width: 130px;
   max-width: fit-content;
