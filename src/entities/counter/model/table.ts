@@ -1,6 +1,8 @@
 import type { EmojiIconType } from '@/entities/EmojiIcon'
 
-import type { ColumnType, Insertable, JSONColumnType, Selectable, Updateable } from 'kysely'
+import type { JSONColumnType } from '@/shared/db/types'
+
+import type { ColumnType, Insertable, Selectable, Updateable } from 'kysely'
 
 export interface CountersTable {
   id: ColumnType<string, string | undefined, never>,
