@@ -12,6 +12,8 @@ export interface CountersTable {
   emojiIcon: JSONColumnType<EmojiIconType>,
   steps: JSONColumnType<({ value: number })[]>,
   created_at: ColumnType<Date, string | undefined, never>,
+  current_value: number,
+  updated_at: ColumnType<Date, string | undefined, never>,
 }
 
 export type Counter = Selectable<CountersTable>

@@ -1,9 +1,11 @@
 import type { CountersTable } from '@/entities/counter'
+import type { CounterEventsTable } from '@/entities/counterEvent/model'
 
 import type { ColumnType } from 'kysely'
 
 export interface Database {
   counters: CountersTable,
+  counter_events: CounterEventsTable,
 }
 
 /**
