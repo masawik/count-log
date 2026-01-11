@@ -33,7 +33,7 @@ export function useInitDb() {
         setError(e)
       }
     })()
-  }, [ setError ])
+  }, [ setError, dbInitedEvent ])
 
   return { loading }
 }
