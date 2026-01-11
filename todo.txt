@@ -1,3 +1,0 @@
-- fix form validation
-- step button positive values prefix "+"
-- animations: buttons, emoji replacing, float label-placeholders

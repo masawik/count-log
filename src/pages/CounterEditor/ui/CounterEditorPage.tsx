@@ -13,7 +13,6 @@ import { InputWrapper, TextArea, TextField } from '@/shared/ui'
 
 import { useEmojiIcon } from '../lib/useEmojiIcon'
 
-
 interface FormInputs {
   name: string,
   description: string,
@@ -32,7 +31,6 @@ export default function CounterEditorPage() {
       stepButtons: [ { value: -1 }, { value: 1 } ],
     },
     shouldUnregister: true,
-    shouldUseNativeValidation: true,
     mode: 'onSubmit',
   })
 
