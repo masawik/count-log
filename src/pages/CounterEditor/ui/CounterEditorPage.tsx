@@ -221,6 +221,7 @@ export default function CounterEditorPage() {
                 color="gray"
                 className="mx-0! py-3!"
                 type="button"
+                onClick={() => navigate('/')}
               >
                 cancel
               </Button>
