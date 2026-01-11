@@ -1,4 +1,4 @@
-import type { Counter } from '@/entities/counter/model'
+import type { Counter } from '@/entities/counter/@x/counterEvent'
 
 import type { ColumnType, Insertable, Selectable, Updateable } from 'kysely'
 
