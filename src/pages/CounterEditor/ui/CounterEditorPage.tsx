@@ -5,9 +5,8 @@ import { useFieldArray, useForm, useWatch } from 'react-hook-form'
 import { type SubmitHandler, FormProvider } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 
+import { addCounter } from '@/features/AddCounter'
 import { EmojiIconPicker } from '@/features/EmojiIconPicker'
-
-import { createCounter } from '@/entities/counter'
 
 import { EmojiIcon } from '@/shared/ui'
 import { InputWrapper, TextArea, TextField } from '@/shared/ui'
@@ -46,7 +45,7 @@ export default function CounterEditorPage() {
 
   const isSubmitBtnDisabled = !!Object.keys(errors).length
   const handleSubmit: SubmitHandler<FormInputs> = async (data) => {
-    await createCounter({
+    await addCounter({
       name: data.name,
       initial_value: data.initialValue,
       steps: data.stepButtons,

@@ -11,7 +11,8 @@ export const createCounter = async (
       ...data,
       current_value: data.initial_value,
     })
-    .executeTakeFirst()
+    .returningAll()
+    .executeTakeFirstOrThrow()
 }
 
 export const getCounters = async () => {
