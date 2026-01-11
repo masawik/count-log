@@ -4,10 +4,10 @@ import { pick } from 'lodash-es'
 import { X } from 'lucide-react'
 import { useMemo, useState } from 'react'
 
-import { EmojiIcon, type EmojiIconType } from '@/entities/EmojiIcon'
 
 import { COLOR_PALETTE, type Color } from '@/shared/config'
 import { cn } from '@/shared/lib'
+import { EmojiIcon, type EmojiIconType } from '@/shared/ui'
 import { EmojiPicker } from '@/shared/ui'
 
 import type React from 'react'

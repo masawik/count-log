@@ -2,9 +2,9 @@ import { sample } from 'lodash-es'
 import { useCallback, useEffect, useState } from 'react'
 import { useImmer } from 'use-immer'
 
-import type { EmojiIconType } from '@/entities/EmojiIcon'
-
 import { COLOR_PALETTE, IS_TEST } from '@/shared/config'
+import type { EmojiIconType } from '@/shared/ui'
+
 
 import { useMatchEmoji } from './useMatchEmoji'
 

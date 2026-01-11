@@ -8,8 +8,8 @@ import { useNavigate } from 'react-router'
 import { EmojiIconPicker } from '@/features/EmojiIconPicker'
 
 import { createCounter } from '@/entities/counter'
-import { EmojiIcon } from '@/entities/EmojiIcon'
 
+import { EmojiIcon } from '@/shared/ui'
 import { InputWrapper, TextArea, TextField } from '@/shared/ui'
 
 import { useEmojiIcon } from '../lib/useEmojiIcon'

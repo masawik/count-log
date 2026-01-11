@@ -2,7 +2,7 @@ import { Slot, Spinner } from '@radix-ui/themes'
 
 import { cn } from '@/shared/lib'
 
-import type { EmojiIconType } from '../model'
+import type { EmojiIconType } from './types'
 
 export type EmojiIconProps = React.HTMLAttributes<HTMLElement> &
   EmojiIconType & {

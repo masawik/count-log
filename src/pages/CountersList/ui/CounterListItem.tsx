@@ -2,7 +2,8 @@ import { Button } from '@radix-ui/themes'
 import { useMemo } from 'react'
 
 import type { Counter } from '@/entities/counter'
-import { EmojiIcon } from '@/entities/EmojiIcon'
+
+import { EmojiIcon } from '@/shared/ui'
 
 export interface CounterListItemProps {
   counter: Counter,
