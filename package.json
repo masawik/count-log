@@ -29,6 +29,8 @@
     "@react-router/serve": "7.10.1",
     "capacitor-sqlite-kysely": "^1.0.2",
     "clsx": "^2.1.1",
+    "effector": "^23.4.4",
+    "effector-react": "^23.3.0",
     "emoji-mart": "^5.6.0",
     "isbot": "^5.1.31",
     "jeep-sqlite": "^2.8.0",

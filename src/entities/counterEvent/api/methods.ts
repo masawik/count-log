@@ -1,6 +1,6 @@
 import { db } from '@/shared/db'
 
-import type { NewCounterEvent } from '../model'
+import type { CounterEvent, NewCounterEvent } from '../model'
 
 export const createCounterEvent = async (event: NewCounterEvent) => {
   return await db
@@ -8,5 +8,14 @@ export const createCounterEvent = async (event: NewCounterEvent) => {
     .values({
       ...event,
     })
-    .executeTakeFirst()
+    .returningAll()
+    .executeTakeFirstOrThrow()
+}
+
+export const getCounterEvent = async (selector: Pick<CounterEvent, 'id'>) => {
+  return await db
+    .selectFrom('counter_events')
+    .selectAll()
+    .where('id', '=', selector.id)
+    .executeTakeFirstOrThrow()
 }

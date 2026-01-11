@@ -1,5 +1,3 @@
-import { useCallback, useEffect, useState } from 'react'
-
 import { db } from '@/shared/db'
 
 import type { Counter, NewCounter } from '../model'
@@ -20,14 +18,10 @@ export const getCounters = async () => {
   return db.selectFrom('counters').selectAll().execute()
 }
 
-export const useGetCounters = () => {
-  const [ counters, setCounters ] = useState<Counter[]>()
-
-  const update = useCallback(() => getCounters().then(setCounters), [])
-
-  useEffect(() => {
-    update()
-  }, [])
-
-  return { counters, update }
+export const getCounter = async (selector: Pick<Counter, 'id'>) => {
+  return await db
+    .selectFrom('counters')
+    .selectAll()
+    .where('id', '=', selector.id)
+    .executeTakeFirstOrThrow()
 }
