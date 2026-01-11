@@ -1,5 +1,5 @@
 import type { CountersTable } from '@/entities/counter'
-import type { CounterEventsTable } from '@/entities/counterEvent/model'
+import type { CounterEventsTable } from '@/entities/counterEvent'
 
 import type { ColumnType } from 'kysely'
 

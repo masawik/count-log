@@ -1,6 +1,6 @@
 
-import type { JSONColumnType } from '@/shared/db/types'
-import type { EmojiIconType } from '@/shared/ui/EmojiIcon'
+import type { JSONColumnType } from '@/shared/db'
+import type { EmojiIconType } from '@/shared/ui'
 
 import type { ColumnType, Insertable, Selectable, Updateable } from 'kysely'
 
