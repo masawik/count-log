@@ -8,7 +8,7 @@ export function App() {
   const { loading } = useInitDb()
 
   return (
-    <Theme accentColor="blue" radius="large" id="root">
+    <Theme accentColor="blue" radius="large" id="root" className="safeArea">
 
       {
         loading

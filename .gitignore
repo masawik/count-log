@@ -7,7 +7,6 @@
 .vscode
 /references
 public/assets/img/original/
-android
 secrets
 
 # Playwright
@@ -17,3 +16,17 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# Android build outputs
+android/.gradle/
+android/app/build/
+android/build/
+android/app/src/main/assets/public/
+
+# Android Studio
+android/.idea/
+android/*.iml
+
+# Local SDK / keystore
+android/local.properties
+android/key.properties

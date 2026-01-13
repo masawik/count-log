@@ -3,7 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "react-router build",
+    "build:front": "react-router build",
+    "sync:android": "npx cap sync android",
+    "build": "run-s build:front sync:android",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
@@ -18,6 +20,7 @@
     "#index.css": "./src/app/styles/index.css"
   },
   "dependencies": {
+    "@capacitor-community/safe-area": "^8.0.1",
     "@capacitor-community/sqlite": "^7.0.3",
     "@capacitor/android": "^8.0.0",
     "@capacitor/core": "^8.0.0",
@@ -71,6 +74,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-tailwindcss": "4.0.0-beta.0",
     "globals": "^16.5.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "^3.7.4",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "radix-themes-tw": "^1.1.0",

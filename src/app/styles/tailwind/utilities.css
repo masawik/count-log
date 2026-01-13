@@ -3,6 +3,6 @@
 }
 
 @utility h-fill {
-  @apply h-screen;
-  @apply h-dvh;
+  height: calc(100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
+  height: calc(100dvh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
 }

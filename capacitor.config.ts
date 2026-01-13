@@ -25,6 +25,9 @@ const config: CapacitorConfig = {
         biometricSubTitle : 'Log in using your biometric',
       },
     },
+    SystemBars: {
+      insetsHandling: 'disable',
+    },
   },
 }
 
