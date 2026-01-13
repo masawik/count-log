@@ -1,6 +1,6 @@
 import { Button, IconButton } from '@radix-ui/themes'
 import { Plus, Trash2 } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useFieldArray, useForm, useWatch } from 'react-hook-form'
 import { type SubmitHandler, FormProvider } from 'react-hook-form'
 import { useNavigate } from 'react-router'
@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router'
 import { addCounter } from '@/features/AddCounter'
 import { EmojiIconPicker } from '@/features/EmojiIconPicker'
 
+import { useRafScheduler } from '@/shared/lib'
 import { EmojiIcon } from '@/shared/ui'
 import { InputWrapper, TextArea, TextField } from '@/shared/ui'
 
@@ -71,7 +72,9 @@ export default function CounterEditorPage() {
   } = useEmojiIcon(name)
   const [ emojiPickerVisible, setEmojiPickerVisible ] = useState(false)
 
-  const handleAddStepButton = () =>
+  const { schedule } = useRafScheduler()
+  const addStepButtonRef = useRef<null | HTMLButtonElement>(null)
+  const handleAddStepButton = () => {
     append(
       { value: 1 },
       {
@@ -79,6 +82,12 @@ export default function CounterEditorPage() {
         focusName: `stepButtons.${fields.length}`,
       },
     )
+
+    schedule(() => {
+      addStepButtonRef.current?.scrollIntoView({ block: 'nearest', behavior: 'instant' })
+    })
+  }
+
 
   const stepButtonInputs = useMemo(
     () =>
@@ -203,6 +212,7 @@ export default function CounterEditorPage() {
                         type="button"
                         variant="ghost"
                         onClick={handleAddStepButton}
+                        ref={addStepButtonRef}
                       >
                         <Plus /> Add button
                       </Button>
@@ -213,7 +223,7 @@ export default function CounterEditorPage() {
             </div>
           </div>
 
-          <div className="container border-t border-(--gray-6) px-2 pt-4 pb-8">
+          <div className="container border-t border-(--gray-6) p-2">
             <div className="grid w-full grid-cols-2 items-center gap-1">
               <Button
                 size="4"
