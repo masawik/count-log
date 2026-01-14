@@ -1,4 +1,5 @@
-import { createEffect, createEvent, createStore, sample } from 'effector'
+import { combine, createEffect, createEvent, createStore, sample, type Store } from 'effector'
+import { keyBy } from 'lodash-es'
 
 import { dbInited } from '@/shared/model'
 
@@ -7,6 +8,8 @@ import { getCounter, getCounters } from '../api'
 import type { Counter } from './table'
 
 export const $counters = createStore<Counter[]>([])
+
+export const $countersById = combine($counters, (store) => keyBy(store, 'id')) as Store<Record<Counter['id'], Counter>>
 
 export const fetchCountersFx = createEffect(getCounters)
 
@@ -36,7 +39,17 @@ sample({
 
 sample({
   clock: fetchCounterFx.doneData,
-  source: $counters,
-  fn: (counters, updatedCounter) => counters.map(c => c.id === updatedCounter.id ? updatedCounter : c),
+  source: {
+    counters: $counters, countersById: $countersById,
+  },
+  fn: ({ counters, countersById }, fetchedCounter) => {
+    const id = fetchedCounter.id
+
+    if (id in countersById) {
+      return counters.map(c => c.id === fetchedCounter.id ? fetchedCounter : c)
+    } else {
+      return [ ...counters, fetchedCounter ]
+    }
+  },
   target: $counters,
 })

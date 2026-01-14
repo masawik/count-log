@@ -1,5 +1,6 @@
 import { Button } from '@radix-ui/themes'
 import { useMemo } from 'react'
+import { Link } from 'react-router'
 
 import type { Counter } from '@/entities/counter'
 
@@ -37,14 +38,14 @@ export const CounterListItem = ({
   return (
     <div className="panel flex max-w-full items-start gap-2 p-2">
       <div className="flex min-w-0 grow flex-col gap-2">
-        <div className="flex gap-2">
+        <Link to={`/counter/${counter.id}`} className="flex gap-2">
           <EmojiIcon
             className="rounded-2x size-8 shrink-0"
             {...counter.emojiIcon}
           />
 
           <span className="line-clamp-2 break-normal">{counter.name}</span>
-        </div>
+        </Link>
 
         <div
           className="truncate text-5 font-medium"

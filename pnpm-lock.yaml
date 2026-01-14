@@ -50,6 +50,9 @@ importers:
       effector:
         specifier: ^23.4.4
         version: 23.4.4
+      effector-action:
+        specifier: ^1.2.2
+        version: 1.2.2(effector@23.4.4)(patronum@2.3.0(effector@23.4.4))
       effector-react:
         specifier: ^23.3.0
         version: 23.3.0(effector@23.4.4)(react@19.2.3)
@@ -74,6 +77,9 @@ importers:
       lucide-react:
         specifier: ^0.562.0
         version: 0.562.0(react@19.2.3)
+      patronum:
+        specifier: ^2.3.0
+        version: 2.3.0(effector@23.4.4)
       react:
         specifier: ^19.2.3
         version: 19.2.3
@@ -2447,6 +2453,12 @@ packages:
 
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
+
+  effector-action@1.2.2:
+    resolution: {integrity: sha512-gX1MeRoLJawqzvQWSxHio87sEoORm23kV5+gBTzpQDLnZcgc5GUOiPNpiSpgBMFRRhSyi1d5ggh7bH+UYWlQcQ==}
+    peerDependencies:
+      effector: '>=23'
+      patronum: '>=2.1.0'
 
   effector-react@23.3.0:
     resolution: {integrity: sha512-QR0+x1EnbiWhO80Yc0GVF+I9xCYoxBm3t+QLB5Wg+1uY1Q1BrSWDmKvJaJJZ/+9BU4RAr25yS5J2EkdWnicu8g==}
@@ -6978,6 +6990,11 @@ snapshots:
       gopd: 1.2.0
 
   ee-first@1.1.1: {}
+
+  effector-action@1.2.2(effector@23.4.4)(patronum@2.3.0(effector@23.4.4)):
+    dependencies:
+      effector: 23.4.4
+      patronum: 2.3.0(effector@23.4.4)
 
   effector-react@23.3.0(effector@23.4.4)(react@19.2.3):
     dependencies:

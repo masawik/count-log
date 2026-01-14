@@ -1,0 +1,34 @@
+import { attach, createEvent, sample } from 'effector'
+import { createGate } from 'effector-react'
+
+import type { AppRouterStore, NavigateAttrs } from './types'
+
+export const appRouterGate = createGate<AppRouterStore>('AppRouterStore')
+export const $appRouter = appRouterGate.state.map((state) => state)
+
+
+const navigateFx = attach({
+  source: $appRouter,
+  effect(router, { to, options }: NavigateAttrs) {
+    if (!router.navigate) {
+      throw new Error('appRouter store isnt ready!')
+    }
+
+    router.navigate(to, options)
+  },
+})
+
+export const navigateTo = createEvent<NavigateAttrs>()
+
+sample({
+  clock: navigateTo,
+  target: navigateFx,
+})
+
+export const goTo404 = createEvent()
+
+sample({
+  clock: goTo404,
+  fn: () => ({ to: '/404', options: { replace: true } }),
+  target: navigateTo,
+})
