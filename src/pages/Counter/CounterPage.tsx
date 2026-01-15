@@ -1,4 +1,5 @@
 import { Button, DropdownMenu, IconButton } from '@radix-ui/themes'
+import { useUnit } from 'effector-react'
 import { groupBy } from 'lodash-es'
 import {
   ChevronLeft,
@@ -15,7 +16,13 @@ import type { Counter } from '@/entities/counter'
 
 import { EmojiIcon } from '@/shared/ui'
 
-import { type CounterOutletContext } from './model'
+import {
+  counterValueCorrected as counterValueCorrectedEvent,
+  deleteCounterClicked as deleteCounterClickedEvent,
+  deltaButtonClicked as deltaButtonClickedEvent,
+  resetCounterClicked as resetCounterClickedEvent,
+  type CounterOutletContext,
+} from './model'
 
 const ExtraStepsContainer = ({ children }: React.PropsWithChildren) => {
   return (
@@ -27,6 +34,18 @@ const ExtraStepsContainer = ({ children }: React.PropsWithChildren) => {
 
 const CounterPage = () => {
   const { counter } = useOutletContext<CounterOutletContext>()
+
+  const {
+    deleteCounterClicked,
+    resetCounterClicked,
+    counterValueCorrected,
+    deltaButtonClicked,
+  } = useUnit({
+    deleteCounterClicked: deleteCounterClickedEvent,
+    resetCounterClicked: resetCounterClickedEvent,
+    counterValueCorrected: counterValueCorrectedEvent,
+    deltaButtonClicked: deltaButtonClickedEvent,
+  })
 
   const navigate = useNavigate()
 
@@ -70,7 +89,11 @@ const CounterPage = () => {
               </Link>
             </DropdownMenu.Item>
 
-            <DropdownMenu.Item color="red" className="text-4!">
+            <DropdownMenu.Item
+              color="red"
+              className="text-4!"
+              onClick={deleteCounterClicked}
+            >
               <Trash2 className="size-4" />
               Delete
             </DropdownMenu.Item>
@@ -110,6 +133,7 @@ const CounterPage = () => {
               variant="soft"
               className="h-full!"
               color={isPositive ? 'grass' : 'pink'}
+              onClick={() => deltaButtonClicked(value)}
             >
               <span className="text-[32px]">
                 {isPositive ? '+' : null}
@@ -131,6 +155,7 @@ const CounterPage = () => {
                 color="pink"
                 size="2"
                 className="grow!"
+                onClick={() => deltaButtonClicked(value)}
               >
                 {value}
               </Button>
@@ -145,6 +170,7 @@ const CounterPage = () => {
                 color="grass"
                 size="2"
                 className="grow!"
+                onClick={() => deltaButtonClicked(value)}
               >
                 +{value}
               </Button>
@@ -154,7 +180,12 @@ const CounterPage = () => {
       </div>
 
       <footer className="width-full mt-auto grid grid-cols-1 grid-rows-1 gap-2 px-2 py-4">
-        <Button variant="outline" color="red" size="3">
+        <Button
+          variant="outline"
+          color="red"
+          size="3"
+          onClick={resetCounterClicked}
+        >
           <RotateCw className="size-4" />
           reset
         </Button>

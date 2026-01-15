@@ -1,15 +1,21 @@
-import { createEvent, sample } from 'effector'
+import { createEffect, createEvent, sample } from 'effector'
 
 import { counterMaybeUpdated } from '@/entities/counter'
-import type { CounterEvent } from '@/entities/counterEvent'
+import { createCounterEvent } from '@/entities/counterEvent'
 
-export const counterEventAdded = createEvent<CounterEvent>()
+import type { CounterDeltaEvent } from './types'
 
-/**
- * The counter associated with the newly created event might have been changed.
- */
+export const createCounterEventFx = createEffect(createCounterEvent)
+
+export const counterDeltaButtonClicked = createEvent<CounterDeltaEvent>()
+
 sample({
-  clock: counterEventAdded,
+  clock: counterDeltaButtonClicked,
+  target: createCounterEventFx,
+})
+
+sample({
+  clock: createCounterEventFx.doneData,
   fn: ({ counter_id }) => ({ id: counter_id }),
   target: counterMaybeUpdated,
 })
