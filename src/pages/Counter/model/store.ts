@@ -5,7 +5,6 @@ import {
 } from 'effector'
 import { createAction } from 'effector-action'
 import { createGate } from 'effector-react'
-import { debug } from 'patronum/debug'
 
 import {
   $countersById,
@@ -56,6 +55,3 @@ sample({
   clock: tryFetchCounterFx.fail,
   target: goTo404,
 })
-
-
-debug({ $counter, 'counterPageGate.state': counterPageGate.state, tryFetchCounterFx })
