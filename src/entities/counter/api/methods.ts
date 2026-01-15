@@ -44,3 +44,9 @@ export const updateCounter = async (data: CounterUpdate) => {
 
   return updated
 }
+
+export const deleteCounter = async ({ id }: Pick<Counter, 'id'>) => {
+  return db.deleteFrom('counters')
+    .where('id', '=', id)
+    .executeTakeFirstOrThrow()
+}

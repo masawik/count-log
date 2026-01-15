@@ -4,11 +4,18 @@ import { createGate } from 'effector-react'
 
 import { counterDeltaButtonClicked } from '@/features/AddCounterEvent'
 
-import { $countersById, fetchCounterFx } from '@/entities/counter'
+import {
+  $countersById,
+  counterDeleted,
+  deleteCounterFx,
+  fetchCounterFx,
+} from '@/entities/counter'
 
 import { goTo404 } from '@/shared/routing'
+import { goToHomePage } from '@/shared/routing/model'
 
 import type { CounterPageUrlParams } from './types'
+import type { NavigateOptions } from 'react-router'
 
 export const counterPageGate = createGate<CounterPageUrlParams>('CounterPage')
 
@@ -54,7 +61,7 @@ sample({
   target: goTo404,
 })
 
-export const deleteCounterClicked = createEvent()
+export const deleteCounterConfirmed = createEvent()
 export const resetCounterClicked = createEvent()
 export const counterValueCorrected = createEvent()
 export const deltaButtonClicked = createEvent<number>()
@@ -65,4 +72,20 @@ sample({
   filter: (counter) => !!counter,
   fn: (counter, delta) => ({ delta, counter_id: counter!.id }),
   target: counterDeltaButtonClicked,
+})
+
+sample({
+  clock: deleteCounterConfirmed,
+  source: $counter,
+  filter: (counter) => !!counter,
+  fn: (counter) => ({ id: counter!.id }),
+  target: counterDeleted,
+})
+
+sample({
+  clock: deleteCounterFx.done,
+  source: counterPageGate.state,
+  filter: ({ counterId }, deleted) => counterId === deleted.params.id,
+  fn: (): NavigateOptions => ({ replace: true }),
+  target: goToHomePage,
 })

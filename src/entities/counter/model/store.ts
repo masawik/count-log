@@ -3,7 +3,7 @@ import { keyBy } from 'lodash-es'
 
 import { dbInited } from '@/shared/model'
 
-import { getCounter, getCounters } from '../api'
+import { deleteCounter, getCounter, getCounters } from '../api'
 
 import type { Counter } from './table'
 
@@ -51,5 +51,21 @@ sample({
       return [ ...counters, fetchedCounter ]
     }
   },
+  target: $counters,
+})
+
+export const deleteCounterFx = createEffect(deleteCounter)
+
+export const counterDeleted = createEvent<Pick<Counter, 'id'>>()
+
+sample({
+  clock: counterDeleted,
+  target: deleteCounterFx,
+})
+
+sample({
+  clock: deleteCounterFx.done,
+  source: $counters,
+  fn: (counters, deleted) => counters.filter(c => c.id !== deleted.params.id),
   target: $counters,
 })

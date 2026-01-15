@@ -2,6 +2,7 @@ import { attach, createEvent, sample } from 'effector'
 import { createGate } from 'effector-react'
 
 import type { AppRouterStore, NavigateAttrs } from './types'
+import type { NavigateOptions } from 'react-router'
 
 export const appRouterGate = createGate<AppRouterStore>('AppRouterStore')
 export const $appRouter = appRouterGate.state.map((state) => state)
@@ -26,9 +27,15 @@ sample({
 })
 
 export const goTo404 = createEvent()
-
 sample({
   clock: goTo404,
   fn: () => ({ to: '/404', options: { replace: true } }),
+  target: navigateTo,
+})
+
+export const goToHomePage = createEvent<NavigateOptions | undefined>()
+sample({
+  clock: goToHomePage,
+  fn: (opts) => ({ to: '/', options: opts }),
   target: navigateTo,
 })

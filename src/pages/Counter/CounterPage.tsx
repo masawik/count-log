@@ -9,18 +9,19 @@ import {
   TextCursorInput,
   Trash2,
 } from 'lucide-react'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Link, useNavigate, useOutletContext } from 'react-router'
 
 import type { Counter } from '@/entities/counter'
 
 import { EmojiIcon } from '@/shared/ui'
+import { AppDialog } from '@/shared/ui/AppDialog'
 
 import {
-  counterValueCorrected as counterValueCorrectedEvent,
-  deleteCounterClicked as deleteCounterClickedEvent,
-  deltaButtonClicked as deltaButtonClickedEvent,
-  resetCounterClicked as resetCounterClickedEvent,
+  counterValueCorrected,
+  deleteCounterConfirmed,
+  deltaButtonClicked,
+  resetCounterClicked,
   type CounterOutletContext,
 } from './model'
 
@@ -36,16 +37,18 @@ const CounterPage = () => {
   const { counter } = useOutletContext<CounterOutletContext>()
 
   const {
-    deleteCounterClicked,
-    resetCounterClicked,
-    counterValueCorrected,
-    deltaButtonClicked,
+    handleDeleteCounterConfirmed,
+    handleResetCounterClicked,
+    handleCounterValueCorrected,
+    handleDeltaButtonClicked,
   } = useUnit({
-    deleteCounterClicked: deleteCounterClickedEvent,
-    resetCounterClicked: resetCounterClickedEvent,
-    counterValueCorrected: counterValueCorrectedEvent,
-    deltaButtonClicked: deltaButtonClickedEvent,
+    handleDeleteCounterConfirmed: deleteCounterConfirmed,
+    handleResetCounterClicked: resetCounterClicked,
+    handleCounterValueCorrected: counterValueCorrected,
+    handleDeltaButtonClicked: deltaButtonClicked,
   })
+
+  const [ showDeleteDialog, setShowDeleteDialog ] = useState(false)
 
   const navigate = useNavigate()
 
@@ -92,7 +95,7 @@ const CounterPage = () => {
             <DropdownMenu.Item
               color="red"
               className="text-4!"
-              onClick={deleteCounterClicked}
+              onClick={() => setShowDeleteDialog(true)}
             >
               <Trash2 className="size-4" />
               Delete
@@ -133,7 +136,7 @@ const CounterPage = () => {
               variant="soft"
               className="h-full!"
               color={isPositive ? 'grass' : 'pink'}
-              onClick={() => deltaButtonClicked(value)}
+              onClick={() => handleDeltaButtonClicked(value)}
             >
               <span className="text-[32px]">
                 {isPositive ? '+' : null}
@@ -155,7 +158,7 @@ const CounterPage = () => {
                 color="pink"
                 size="2"
                 className="grow!"
-                onClick={() => deltaButtonClicked(value)}
+                onClick={() => handleDeltaButtonClicked(value)}
               >
                 {value}
               </Button>
@@ -170,7 +173,7 @@ const CounterPage = () => {
                 color="grass"
                 size="2"
                 className="grow!"
-                onClick={() => deltaButtonClicked(value)}
+                onClick={() => handleDeltaButtonClicked(value)}
               >
                 +{value}
               </Button>
@@ -184,7 +187,7 @@ const CounterPage = () => {
           variant="outline"
           color="red"
           size="3"
-          onClick={resetCounterClicked}
+          onClick={handleResetCounterClicked}
         >
           <RotateCw className="size-4" />
           reset
@@ -205,6 +208,30 @@ const CounterPage = () => {
           analytics
         </Button> */}
       </footer>
+
+      {showDeleteDialog && (
+        <AppDialog
+          title="Are you sure?"
+          type="confirm"
+          onClickNo={() => setShowDeleteDialog(false)}
+          onClickYes={handleDeleteCounterConfirmed}
+        >
+          <AppDialog.DescriptionSlot>
+            <div className="flex flex-col items-center gap-2">
+              <div>Do you really want to delete this counter?</div>
+
+              <div
+                className="rounded-md p-1"
+                style={{
+                  backgroundColor: `var(--${counter.emojiIcon.color}-a3)`,
+                }}
+              >
+                {counter.emojiIcon.emoji} {counter.name}
+              </div>
+            </div>
+          </AppDialog.DescriptionSlot>
+        </AppDialog>
+      )}
     </main>
   )
 }

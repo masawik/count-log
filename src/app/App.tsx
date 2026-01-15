@@ -12,6 +12,7 @@ export function App() {
   const { loading: loadingDb } = useInitDb()
   useInitRoutingStore()
 
+  // TODO decompose
   const navigation = useNavigation()
   const isNavigating = Boolean(navigation.location)
 

@@ -1,0 +1,71 @@
+import { AlertDialog, Button, type ButtonProps } from '@radix-ui/themes'
+
+import { createSlots } from '../component-helpers'
+
+import type { PropsWithChildren } from 'react'
+
+export type AppDialogProps = {
+  title: React.ReactNode,
+  description?: React.ReactNode,
+} & {
+  type?: 'confirm',
+  noText?: string,
+  onClickNo?: () => void,
+  noProps?: ButtonProps,
+
+  yesText?: string,
+  onClickYes?: () => void,
+  yesProps?: ButtonProps,
+}
+
+const { DescriptionSlot, pick } = createSlots([ 'DescriptionSlot' ])
+
+const AppDialogImpl = ({
+  children,
+  ...props
+}: AppDialogProps & PropsWithChildren) => {
+  const { DescriptionSlot } = pick(children)
+
+  return (
+    <AlertDialog.Root open>
+      <AlertDialog.Content maxWidth="450px">
+        <AlertDialog.Title>{props.title}</AlertDialog.Title>
+        {DescriptionSlot ? (
+          DescriptionSlot
+        ) : props.description ? (
+          <AlertDialog.Description size="4" className="whitespace-pre-line!">
+            {props.description}
+          </AlertDialog.Description>
+        ) : null}
+
+        {props.type === 'confirm' && (
+          <div className="flex justify-end gap-3 mt-4">
+            <Button
+              variant="soft"
+              color="gray"
+              size="4"
+              onClick={props.onClickNo}
+              {...props.noProps}
+            >
+              {props.noText || 'no'}
+            </Button>
+
+            <Button
+              variant="solid"
+              color="red"
+              size="4"
+              onClick={props.onClickYes}
+              {...props.yesProps}
+            >
+              {props.yesText || 'yes'}
+            </Button>
+          </div>
+        )}
+      </AlertDialog.Content>
+    </AlertDialog.Root>
+  )
+}
+
+export const AppDialog = Object.assign(AppDialogImpl, {
+  DescriptionSlot,
+})
