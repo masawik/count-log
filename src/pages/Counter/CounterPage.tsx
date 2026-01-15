@@ -79,21 +79,23 @@ const CounterPage = () => {
       </header>
 
       {/* hero */}
-      <div className="flex h-[30%] shrink-0 items-center justify-center px-2">
-        <div
-          className="relative text-9 font-bold"
-          style={{ color: `var(--${counter.emojiIcon.color}-11)` }}
-        >
-          {counter.current_value}
-
-          <IconButton
-            variant="soft"
-            radius="full"
-            color="gray"
-            className="absolute! top-0! right-0! translate-x-full! -translate-y-[50%]!"
+      <div className="h-[30%] shrink-0 px-2 py-10">
+        <div className="panel flex h-full items-center justify-center">
+          <div
+            className="relative text-9 font-bold"
+            style={{ color: `var(--${counter.emojiIcon.color}-11)` }}
           >
-            <TextCursorInput />
-          </IconButton>
+            {counter.current_value}
+
+            <IconButton
+              variant="soft"
+              radius="full"
+              color="gray"
+              className="absolute! top-0! right-0! translate-x-full! -translate-y-[50%]!"
+            >
+              <TextCursorInput />
+            </IconButton>
+          </div>
         </div>
       </div>
 
@@ -105,7 +107,7 @@ const CounterPage = () => {
           return (
             <Button
               key={value}
-              variant="outline"
+              variant="soft"
               className="h-full!"
               color={isPositive ? 'grass' : 'pink'}
             >
@@ -151,7 +153,7 @@ const CounterPage = () => {
         </div>
       </div>
 
-      <footer className="width-full grid grid-cols-1 grid-rows-1 gap-2 px-2 py-4">
+      <footer className="width-full mt-auto grid grid-cols-1 grid-rows-1 gap-2 px-2 py-4">
         <Button variant="outline" color="red" size="3">
           <RotateCw className="size-4" />
           reset
