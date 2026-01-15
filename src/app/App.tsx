@@ -1,24 +1,37 @@
 import { Theme } from '@radix-ui/themes'
-import { Outlet } from 'react-router'
+import { Outlet, useNavigation } from 'react-router'
 
-import './styles/index.css'
 import { useInitRoutingStore } from '@/shared/routing'
 import { FullPageLoader } from '@/shared/ui'
 
 import { useInitDb } from './db/useInitDb'
 
+import './styles/index.css'
+
 export function App() {
-  const { loading } = useInitDb()
+  const { loading: loadingDb } = useInitDb()
   useInitRoutingStore()
+
+  const navigation = useNavigation()
+  const isNavigating = Boolean(navigation.location)
 
   return (
     <Theme accentColor="blue" radius="large" id="root" className="safeArea">
+      {loadingDb ? (
+        <FullPageLoader />
+      ) : (
+        <>
+          {isNavigating && (
+            <div
+              className="loader-line absolute"
+              role="progressbar"
+              aria-valuetext="Loading"
+            />
+          )}
 
-      {
-        loading
-        ? (<FullPageLoader />)
-        : (<Outlet />)
-      }
+          <Outlet />
+        </>
+      )}
     </Theme>
   )
 }

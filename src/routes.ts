@@ -4,12 +4,13 @@ import { counterRoute } from './pages/Counter'
 
 const routes = [
   index('./pages/CountersList/ui/CountersList.tsx'),
-  route('edit-counter', './pages/CounterEditor/ui/CounterEditorPage.tsx'),
+  route(
+    'edit-counter/:counterId?',
+    './pages/CounterEditor/ui/CounterEditorPage.tsx',
+  ),
   counterRoute,
 
   route('*', './pages/404.tsx'),
 ] satisfies RouteConfig
-
-console.log({ routes })
 
 export default routes

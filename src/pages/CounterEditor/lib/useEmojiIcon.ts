@@ -10,13 +10,20 @@ import { useMatchEmoji } from './useMatchEmoji'
 
 const INITIAL_EMOJI = '💖'
 
-export const useEmojiIcon = (text: string) => {
+export interface useEmojiIconOptions {
+  shouldNotSuggest?: boolean,
+  initialValue?: EmojiIconType,
+}
+
+export const useEmojiIcon = (text: string, opts?: useEmojiIconOptions) => {
   const [ isEmojiSelectedByUser, setIsEmojiSelectedByUser ] =
     useState<boolean>(false)
 
   const [ emojiIcon, setEmojiIcon ] = useImmer<EmojiIconType>({
     emoji: INITIAL_EMOJI,
     color: IS_TEST ? COLOR_PALETTE[0] : sample(COLOR_PALETTE),
+
+    ...opts?.initialValue,
   })
 
   const handlePickEmojiIcon = useCallback(
@@ -28,7 +35,7 @@ export const useEmojiIcon = (text: string) => {
   )
 
   const { emoji, loading } = useMatchEmoji(text, {
-      disabled: isEmojiSelectedByUser,
+      disabled: opts?.shouldNotSuggest || isEmojiSelectedByUser,
     })
 
     useEffect(() => {

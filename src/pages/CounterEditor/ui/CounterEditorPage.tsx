@@ -8,11 +8,16 @@ import { useNavigate } from 'react-router'
 import { addCounter } from '@/features/AddCounter'
 import { EmojiIconPicker } from '@/features/EmojiIconPicker'
 
+import { getCounter, type Counter } from '@/entities/counter'
+
 import { useRafScheduler } from '@/shared/lib'
 import { EmojiIcon } from '@/shared/ui'
 import { InputWrapper, TextArea, TextField } from '@/shared/ui'
 
+import { updateCounter } from '../api'
 import { useEmojiIcon } from '../lib/useEmojiIcon'
+
+import type { Route } from './+types/CounterEditorPage'
 
 interface FormInputs {
   name: string,
@@ -21,16 +26,39 @@ interface FormInputs {
   stepButtons: { value: number }[],
 }
 
-export default function CounterEditorPage() {
+export const clientLoader = async ({ params }: Route.ClientLoaderArgs) => {
+  if (!params.counterId) {
+    return {
+      counter: undefined,
+    }
+  }
+
+  const counter = await getCounter({ id: params.counterId })
+  return { counter }
+}
+
+const getFormDefaultValue = (counter?: Counter) => {
+  const stepButtons = counter?.steps
+    ? [ ...counter.steps ]
+    : [ { value: -1 }, { value: 1 } ]
+
+  return {
+    name: counter?.name || '',
+    description: counter?.description || '',
+    initialValue: counter?.initial_value || 0,
+    stepButtons,
+  }
+}
+
+export default function CounterEditorPage({
+  loaderData: { counter },
+}: Route.ComponentProps) {
+  const isNew = !counter
+
   const navigate = useNavigate()
 
   const formMethods = useForm<FormInputs>({
-    defaultValues: {
-      name: '',
-      description: '',
-      initialValue: 0,
-      stepButtons: [ { value: -1 }, { value: 1 } ],
-    },
+    defaultValues: getFormDefaultValue(counter),
     shouldUnregister: true,
     mode: 'onSubmit',
   })
@@ -44,15 +72,26 @@ export default function CounterEditorPage() {
 
   const isSubmitBtnDisabled = !!Object.keys(errors).length
   const handleSubmit: SubmitHandler<FormInputs> = async (data) => {
-    await addCounter({
+    const update = {
       name: data.name,
       initial_value: data.initialValue,
       steps: data.stepButtons,
       emojiIcon: emojiIcon,
       description: data.description,
-    })
+    }
 
-    navigate('/')
+    let result: Counter
+
+    if (isNew) {
+      result = await addCounter(update)
+    } else {
+      result = await updateCounter({
+        ...update,
+        id: counter.id,
+      })
+    }
+
+    navigate(`/counter/${result.id}`)
   }
 
   const { fields, append, remove } = useFieldArray<FormInputs>({
@@ -69,7 +108,10 @@ export default function CounterEditorPage() {
     emojiIcon,
     loading: searchingEmoji,
     handlePickEmojiIcon,
-  } = useEmojiIcon(name)
+  } = useEmojiIcon(name, {
+    shouldNotSuggest: !isNew,
+    initialValue: counter?.emojiIcon,
+  })
   const [ emojiPickerVisible, setEmojiPickerVisible ] = useState(false)
 
   const { schedule } = useRafScheduler()
@@ -84,10 +126,12 @@ export default function CounterEditorPage() {
     )
 
     schedule(() => {
-      addStepButtonRef.current?.scrollIntoView({ block: 'nearest', behavior: 'instant' })
+      addStepButtonRef.current?.scrollIntoView({
+        block: 'nearest',
+        behavior: 'instant',
+      })
     })
   }
-
 
   const stepButtonInputs = useMemo(
     () =>
@@ -128,7 +172,11 @@ export default function CounterEditorPage() {
         >
           <div className="container overflow-auto px-2">
             <div className="flex justify-center p-4">
-              <h1 className="text-6 font-normal">New counter</h1>
+              <h1 className="text-6 font-normal">{
+                  isNew
+                    ? 'New counter'
+                    : 'Editing'
+                }</h1>
             </div>
 
             <div className="flex flex-col gap-4">
@@ -223,7 +271,7 @@ export default function CounterEditorPage() {
             </div>
           </div>
 
-          <div className="container border-t border-(--gray-6) p-2">
+          <footer className="container border-t border-(--gray-6) p-2">
             <div className="grid w-full grid-cols-2 items-center gap-1">
               <Button
                 size="4"
@@ -242,10 +290,14 @@ export default function CounterEditorPage() {
                 type="submit"
                 disabled={isSubmitBtnDisabled}
               >
-                Create
+                {
+                  isNew
+                    ? 'create'
+                    : 'save'
+                }
               </Button>
             </div>
-          </div>
+          </footer>
         </form>
       </FormProvider>
     </main>

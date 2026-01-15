@@ -1,0 +1,19 @@
+@layer components {
+  .loader-line {
+    --c:no-repeat linear-gradient(var(--color-blue-9) 0 0);
+
+    width: 100%;
+    height: 2px;
+
+    background: var(--c),var(--c),var(--color-background);
+    background-size: 60% 100%;
+
+    animation: l16 3s infinite;
+  }
+
+  @keyframes l16 {
+    0%   {background-position:-150% 0,-150% 0}
+    66%  {background-position: 250% 0,-150% 0}
+    100% {background-position: 250% 0, 250% 0}
+  }
+}

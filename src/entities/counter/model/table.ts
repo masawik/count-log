@@ -18,4 +18,4 @@ export interface CountersTable {
 
 export type Counter = Selectable<CountersTable>
 export type NewCounter = Insertable<CountersTable>
-export type CounterUpdate = Updateable<CountersTable>
+export type CounterUpdateDTO = Updateable<CountersTable>

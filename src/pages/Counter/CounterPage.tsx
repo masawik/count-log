@@ -9,7 +9,7 @@ import {
   Trash2,
 } from 'lucide-react'
 import { useMemo } from 'react'
-import { useNavigate, useOutletContext } from 'react-router'
+import { Link, useNavigate, useOutletContext } from 'react-router'
 
 import type { Counter } from '@/entities/counter'
 
@@ -63,9 +63,11 @@ const CounterPage = () => {
           </DropdownMenu.Trigger>
 
           <DropdownMenu.Content size="2">
-            <DropdownMenu.Item className="text-4!">
-              <SquarePen className="size-4" />
-              Edit
+            <DropdownMenu.Item asChild className="text-4!">
+              <Link to={`/edit-counter/${counter.id}`}>
+                <SquarePen className="size-4" />
+                Edit
+              </Link>
             </DropdownMenu.Item>
 
             <DropdownMenu.Item color="red" className="text-4!">

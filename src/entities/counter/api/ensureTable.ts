@@ -3,7 +3,8 @@ import { sql } from 'kysely'
 import type { Kysely } from 'kysely'
 
 export const ensureCountersTable = async <Db = unknown>(db: Kysely<Db>) => {
-  await db.schema
+  await db.transaction().execute(async (trx) => {
+    await trx.schema
     .createTable('counters')
     .ifNotExists()
     .addColumn('id', 'text', (col) =>
@@ -22,4 +23,16 @@ export const ensureCountersTable = async <Db = unknown>(db: Kysely<Db>) => {
       col.defaultTo(sql`CURRENT_TIMESTAMP`),
     )
     .execute()
+
+    await sql`
+      CREATE TRIGGER  IF NOT EXISTS counters_updated_at
+      AFTER UPDATE ON counters
+      FOR EACH ROW
+      BEGIN
+        UPDATE counters
+        SET updated_at = datetime('now')
+        WHERE id = OLD.id;
+      END;
+    `.execute(trx)
+  })
 }

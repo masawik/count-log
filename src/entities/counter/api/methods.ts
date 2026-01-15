@@ -1,6 +1,10 @@
 import { db } from '@/shared/db'
 
-import type { Counter, NewCounter } from '../model'
+import type {
+  Counter,
+  NewCounter,
+  CounterUpdateDTO,
+} from '../model'
 
 export const createCounter = async (
   data: Omit<NewCounter, 'current_value'>,
@@ -25,4 +29,18 @@ export const getCounter = async (selector: Pick<Counter, 'id'>) => {
     .selectAll()
     .where('id', '=', selector.id)
     .executeTakeFirstOrThrow()
+}
+
+export type CounterUpdate = CounterUpdateDTO & Pick<Counter, 'id'>
+export const updateCounter = async (data: CounterUpdate) => {
+  const { id, ...patch } = data
+
+  const updated = await db
+    .updateTable('counters')
+    .set(patch)
+    .where('id', '=', id)
+    .returningAll()
+    .executeTakeFirstOrThrow()
+
+  return updated
 }
