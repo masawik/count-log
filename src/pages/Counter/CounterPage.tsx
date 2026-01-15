@@ -1,19 +1,21 @@
 import { Button, DropdownMenu, IconButton } from '@radix-ui/themes'
-import { useGate, useUnit } from 'effector-react'
 import { groupBy } from 'lodash-es'
-import { ChevronLeft, Menu, RotateCw, SquarePen, TextCursorInput, Trash2 } from 'lucide-react'
+import {
+  ChevronLeft,
+  Menu,
+  RotateCw,
+  SquarePen,
+  TextCursorInput,
+  Trash2,
+} from 'lucide-react'
 import { useMemo } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate, useOutletContext } from 'react-router'
 
 import type { Counter } from '@/entities/counter'
 
-import { EmojiIcon, FullPageLoader } from '@/shared/ui'
+import { EmojiIcon } from '@/shared/ui'
 
-import { $counter, counterPageGate, type CounterPageUrlParams } from './model'
-
-interface InjectedCounterProps {
-  counter: Counter,
-}
+import { type CounterOutletContext } from './model'
 
 const ExtraStepsContainer = ({ children }: React.PropsWithChildren) => {
   return (
@@ -23,7 +25,9 @@ const ExtraStepsContainer = ({ children }: React.PropsWithChildren) => {
   )
 }
 
-const CounterPage = ({ counter }: InjectedCounterProps) => {
+const CounterPage = () => {
+  const { counter } = useOutletContext<CounterOutletContext>()
+
   const navigate = useNavigate()
 
   const sortedSteps = useMemo(() => {
@@ -59,15 +63,13 @@ const CounterPage = ({ counter }: InjectedCounterProps) => {
           </DropdownMenu.Trigger>
 
           <DropdownMenu.Content size="2">
-          <DropdownMenu.Item className="text-4!">
+            <DropdownMenu.Item className="text-4!">
               <SquarePen className="size-4" />
-
               Edit
             </DropdownMenu.Item>
 
             <DropdownMenu.Item color="red" className="text-4!">
               <Trash2 className="size-4" />
-
               Delete
             </DropdownMenu.Item>
           </DropdownMenu.Content>
@@ -172,20 +174,4 @@ const CounterPage = ({ counter }: InjectedCounterProps) => {
   )
 }
 
-function withCounter<P extends InjectedCounterProps>(
-  Component: React.ComponentType<P>,
-) {
-  return function WithCounterWrapper(
-    props: Omit<P, keyof InjectedCounterProps>,
-  ) {
-    const params = useParams<CounterPageUrlParams>()
-    useGate(counterPageGate, params)
-    const counter = useUnit($counter)
-
-    if (!counter) return <FullPageLoader />
-
-    return <Component {...(props as P)} counter={counter} />
-  }
-}
-
-export default withCounter(CounterPage)
+export default CounterPage
