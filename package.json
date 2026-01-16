@@ -13,7 +13,8 @@
     "lint:fix": "npx eslint --fix ./src",
     "stylelint": "npx stylelint \"./src/**/*.css\"",
     "fsdcheck": "steiger ./src",
-    "test:s": "pnpm exec playwright test",
+    "test:e2e": "pnpm exec playwright test tests/e2e",
+    "test:s": "pnpm exec playwright test tests/screenshot.spec.ts",
     "test:us": "pnpm exec playwright test --update-snapshots"
   },
   "imports": {

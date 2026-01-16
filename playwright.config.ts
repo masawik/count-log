@@ -54,7 +54,7 @@ export default defineConfig({
   webServer: {
     command: 'pnpm dev --port 3333',
     url: 'http://localhost:3333/',
-    reuseExistingServer: false,
+    reuseExistingServer: !process.env.CI,
     env: {
       VITE_E2E: '1',
     },
