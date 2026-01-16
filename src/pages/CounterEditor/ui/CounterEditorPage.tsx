@@ -6,12 +6,10 @@ import { useFieldArray, useForm, useWatch } from 'react-hook-form'
 import { type SubmitHandler, FormProvider } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 
-import { EmojiIconPicker } from '@/features/EmojiIconPicker'
-
 import { getCounterFx, type Counter } from '@/entities/counter'
 
 import { useRafScheduler } from '@/shared/lib'
-import { EmojiIcon } from '@/shared/ui'
+import { EmojiIcon, EmojiIconPicker } from '@/shared/ui'
 import { InputWrapper, TextArea, TextField } from '@/shared/ui'
 
 import { useEmojiIcon } from '../lib/useEmojiIcon'
