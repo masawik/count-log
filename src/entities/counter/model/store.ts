@@ -1,32 +1,29 @@
-import { combine, createEffect, createEvent, createStore, sample, type Store } from 'effector'
+import { combine, createEvent, createStore, sample, type Store } from 'effector'
 import { keyBy } from 'lodash-es'
 
 import { dbInited } from '@/shared/model'
 
-import { deleteCounter, getCounter, getCounters } from '../api'
+import { deleteCounterFx, getCounterFx, getCountersFx } from './crudEffects'
 
-import type { Counter } from './table'
+import type { CounterDto } from './tableTypes'
+import type { Counter } from './types'
 
 export const $counters = createStore<Counter[]>([])
 
-export const $countersById = combine($counters, (store) => keyBy(store, 'id')) as Store<Record<Counter['id'], Counter>>
-
-export const fetchCountersFx = createEffect(getCounters)
+export const $countersById = combine($counters, (store) => keyBy(store, 'id')) as Store<Record<CounterDto['id'], CounterDto>>
 
 sample({
   clock: dbInited,
-  target: fetchCountersFx,
+  target: getCountersFx,
 })
 
 sample({
-  clock: fetchCountersFx.doneData,
+  clock: getCountersFx.doneData,
   target: $counters,
 })
 
-export const fetchCounterFx = createEffect(getCounter)
-
-export const counterUpdated = createEvent<{ id: Counter['id'] }>()
-export const counterMaybeUpdated = createEvent<{ id: Counter['id'] }>()
+export const counterUpdated = createEvent<{ id: CounterDto['id'] }>()
+export const counterMaybeUpdated = createEvent<{ id: CounterDto['id'] }>()
 sample({
   clock: counterMaybeUpdated,
   target: counterUpdated,
@@ -34,11 +31,11 @@ sample({
 
 sample({
   clock: counterUpdated,
-  target: fetchCounterFx,
+  target: getCounterFx,
 })
 
 sample({
-  clock: fetchCounterFx.doneData,
+  clock: getCounterFx.doneData,
   source: {
     counters: $counters, countersById: $countersById,
   },
@@ -54,9 +51,7 @@ sample({
   target: $counters,
 })
 
-export const deleteCounterFx = createEffect(deleteCounter)
-
-export const counterDeleted = createEvent<Pick<Counter, 'id'>>()
+export const counterDeleted = createEvent<Pick<CounterDto, 'id'>>()
 
 sample({
   clock: counterDeleted,

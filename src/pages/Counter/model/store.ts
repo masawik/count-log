@@ -2,18 +2,13 @@ import { attach, combine, createEvent, sample } from 'effector'
 import { createAction } from 'effector-action'
 import { createGate } from 'effector-react'
 
-import { counterDeltaButtonClicked } from '@/features/AddCounterEvent'
-import {
-  correctCounterValueFx,
-  resetCounterValueFx,
-  type CorrectionUpdate,
-} from '@/features/ResetCounterValue'
+import { correctCounterValueFx, counterValueChangedByDelta, resetCounterValueFx, type CorrectCounterValueAttrs } from '@/features/changeCounterValue'
 
 import {
   $countersById,
   counterDeleted,
   deleteCounterFx,
-  fetchCounterFx,
+  getCounterFx,
   type Counter,
 } from '@/entities/counter'
 
@@ -34,7 +29,7 @@ export const $counter = combine(
       : null,
 )
 
-const tryFetchCounterFx = attach({ effect: fetchCounterFx })
+const tryFetchCounterFx = attach({ effect: getCounterFx })
 
 createAction(counterPageGate.state, {
   source: {
@@ -74,7 +69,7 @@ sample({
   source: $counter,
   filter: (counter) => !!counter,
   fn: (counter, delta) => ({ delta, counter_id: counter!.id }),
-  target: counterDeltaButtonClicked,
+  target: counterValueChangedByDelta,
 })
 
 const passCounterIdSampleProps = {
@@ -113,7 +108,7 @@ sample({
   clock: counterValueCorrected,
   source: $counter,
   filter: (counter) => !!counter,
-  fn: (counter, targetValue): CorrectionUpdate => ({
+  fn: (counter, targetValue): CorrectCounterValueAttrs => ({
     id: counter!.id,
     targetValue,
   }),

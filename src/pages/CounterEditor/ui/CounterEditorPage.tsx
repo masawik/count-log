@@ -1,21 +1,21 @@
 import { Button, IconButton } from '@radix-ui/themes'
+import { useUnit } from 'effector-react'
 import { Plus, Trash2 } from 'lucide-react'
 import { useMemo, useRef, useState } from 'react'
 import { useFieldArray, useForm, useWatch } from 'react-hook-form'
 import { type SubmitHandler, FormProvider } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 
-import { addCounter } from '@/features/AddCounter'
 import { EmojiIconPicker } from '@/features/EmojiIconPicker'
 
-import { getCounter, type Counter } from '@/entities/counter'
+import { getCounterFx, type Counter } from '@/entities/counter'
 
 import { useRafScheduler } from '@/shared/lib'
 import { EmojiIcon } from '@/shared/ui'
 import { InputWrapper, TextArea, TextField } from '@/shared/ui'
 
-import { updateCounter } from '../api'
 import { useEmojiIcon } from '../lib/useEmojiIcon'
+import { formSubmitted } from '../model'
 
 import type { Route } from './+types/CounterEditorPage'
 
@@ -33,7 +33,8 @@ export const clientLoader = async ({ params }: Route.ClientLoaderArgs) => {
     }
   }
 
-  const counter = await getCounter({ id: params.counterId })
+  // FIX remove direct fx usage
+  const counter = await getCounterFx({ id: params.counterId })
   return { counter }
 }
 
@@ -54,6 +55,8 @@ export default function CounterEditorPage({
   loaderData: { counter },
 }: Route.ComponentProps) {
   const isNew = !counter
+
+  const handleFormSubmit = useUnit(formSubmitted)
 
   const navigate = useNavigate()
 
@@ -80,18 +83,10 @@ export default function CounterEditorPage({
       description: data.description,
     }
 
-    let result: Counter
-
-    if (isNew) {
-      result = await addCounter(update)
-    } else {
-      result = await updateCounter({
-        ...update,
-        id: counter.id,
-      })
-    }
-
-    navigate(`/counter/${result.id}`)
+    handleFormSubmit({
+      update,
+      counter,
+    })
   }
 
   const { fields, append, remove } = useFieldArray<FormInputs>({
@@ -172,11 +167,9 @@ export default function CounterEditorPage({
         >
           <div className="container overflow-auto px-2">
             <div className="flex justify-center p-4">
-              <h1 className="text-6 font-normal">{
-                  isNew
-                    ? 'New counter'
-                    : 'Editing'
-                }</h1>
+              <h1 className="text-6 font-normal">
+                {isNew ? 'New counter' : 'Editing'}
+              </h1>
             </div>
 
             <div className="flex flex-col gap-4">
@@ -290,11 +283,7 @@ export default function CounterEditorPage({
                 type="submit"
                 disabled={isSubmitBtnDisabled}
               >
-                {
-                  isNew
-                    ? 'create'
-                    : 'save'
-                }
+                {isNew ? 'create' : 'save'}
               </Button>
             </div>
           </footer>

@@ -11,6 +11,6 @@ export interface CounterEventsTable {
   delta: number,
 }
 
-export type CounterEvent = Selectable<CounterEventsTable>
-export type NewCounterEvent = Insertable<CounterEventsTable>
-export type CounterEventUpdate = Updateable<CounterEventsTable>
+export type CounterEventDto = Selectable<CounterEventsTable>
+export type NewCounterEventDto = Insertable<CounterEventsTable>
+export type CounterEventUpdateDto = Updateable<CounterEventsTable>

@@ -16,6 +16,6 @@ export interface CountersTable {
   updated_at: ColumnType<Date, string | undefined, never>,
 }
 
-export type Counter = Selectable<CountersTable>
-export type NewCounter = Insertable<CountersTable>
-export type CounterUpdateDTO = Updateable<CountersTable>
+export type CounterDto = Selectable<CountersTable>
+export type NewCounterDto = Insertable<CountersTable>
+export type CounterUpdateDto = Updateable<CountersTable>

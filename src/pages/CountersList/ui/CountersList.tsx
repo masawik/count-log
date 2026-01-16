@@ -3,7 +3,7 @@ import { useUnit } from 'effector-react'
 import { Plus } from 'lucide-react'
 import { Link } from 'react-router'
 
-import { counterDeltaButtonClicked as counterDeltaButtonClickedEvent } from '@/features/AddCounterEvent'
+import { counterValueChangedByDelta as counterDeltaButtonClickedEvent } from '@/features/changeCounterValue'
 
 import { $counters } from '@/entities/counter'
 

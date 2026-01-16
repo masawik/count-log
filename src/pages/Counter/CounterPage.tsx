@@ -10,7 +10,7 @@ import {
   Trash2,
 } from 'lucide-react'
 import { useMemo, useRef, useState } from 'react'
-import { Link, useNavigate, useOutletContext } from 'react-router'
+import { Link, useOutletContext } from 'react-router'
 
 import type { Counter } from '@/entities/counter'
 
