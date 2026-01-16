@@ -3,7 +3,7 @@ import { keyBy } from 'lodash-es'
 
 import { dbInited } from '@/shared/model'
 
-import { deleteCounterFx, getCounterFx, getCountersFx } from './crudEffects'
+import { deleteCounterFx, getCounterFx, getCountersFx, updateCounterFx } from './crudEffects'
 
 import type { CounterDto } from './tableTypes'
 import type { Counter } from './types'
@@ -63,4 +63,9 @@ sample({
   source: $counters,
   fn: (counters, deleted) => counters.filter(c => c.id !== deleted.params.id),
   target: $counters,
+})
+
+sample({
+  clock: updateCounterFx.doneData,
+  target: counterUpdated,
 })

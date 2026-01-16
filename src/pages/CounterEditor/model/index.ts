@@ -8,8 +8,8 @@ import {
 import {
   updateCounterFx,
   createCounterFx,
-} from '@/entities/counter/model/crudEffects'
-import { $counters } from '@/entities/counter/model/store'
+} from '@/entities/counter'
+import { $counters } from '@/entities/counter'
 
 import { navigateTo } from '@/shared/routing'
 

@@ -13,7 +13,7 @@ import {
 } from '@/entities/counter'
 
 import { goTo404 } from '@/shared/routing'
-import { goToHomePage } from '@/shared/routing/model'
+import { goToHomePage } from '@/shared/routing'
 
 import type { CounterPageUrlParams } from './types'
 import type { NavigateOptions } from 'react-router'

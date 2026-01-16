@@ -3,7 +3,7 @@ import { sql } from 'kysely'
 
 import type { Counter } from '@/entities/counter'
 
-import { $db } from '@/shared/db/model'
+import { $db } from '@/shared/db'
 
 import type { CorrectCounterValueAttrs } from './types'
 

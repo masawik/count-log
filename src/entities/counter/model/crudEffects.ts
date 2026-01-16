@@ -1,6 +1,6 @@
 import { attach } from 'effector'
 
-import { $db } from '@/shared/db/model'
+import { $db } from '@/shared/db'
 
 import type { Counter, CounterUpdate, NewCounter } from './types'
 
