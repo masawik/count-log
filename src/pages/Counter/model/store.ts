@@ -3,12 +3,18 @@ import { createAction } from 'effector-action'
 import { createGate } from 'effector-react'
 
 import { counterDeltaButtonClicked } from '@/features/AddCounterEvent'
+import {
+  correctCounterValueFx,
+  resetCounterValueFx,
+  type CorrectionUpdate,
+} from '@/features/ResetCounterValue'
 
 import {
   $countersById,
   counterDeleted,
   deleteCounterFx,
   fetchCounterFx,
+  type Counter,
 } from '@/entities/counter'
 
 import { goTo404 } from '@/shared/routing'
@@ -61,9 +67,6 @@ sample({
   target: goTo404,
 })
 
-export const deleteCounterConfirmed = createEvent()
-export const resetCounterClicked = createEvent()
-export const counterValueCorrected = createEvent()
 export const deltaButtonClicked = createEvent<number>()
 
 sample({
@@ -74,11 +77,17 @@ sample({
   target: counterDeltaButtonClicked,
 })
 
+const passCounterIdSampleProps = {
+  source: $counter,
+  filter: (counter: Counter | null) => !!counter,
+  fn: (counter: Counter) => ({ id: counter!.id }),
+}
+
+export const deleteCounterConfirmed = createEvent()
+
 sample({
   clock: deleteCounterConfirmed,
-  source: $counter,
-  filter: (counter) => !!counter,
-  fn: (counter) => ({ id: counter!.id }),
+  ...passCounterIdSampleProps,
   target: counterDeleted,
 })
 
@@ -88,4 +97,25 @@ sample({
   filter: ({ counterId }, deleted) => counterId === deleted.params.id,
   fn: (): NavigateOptions => ({ replace: true }),
   target: goToHomePage,
+})
+
+export const resetCounterClicked = createEvent()
+
+sample({
+  clock: resetCounterClicked,
+  ...passCounterIdSampleProps,
+  target: resetCounterValueFx,
+})
+
+export const counterValueCorrected = createEvent<number>()
+
+sample({
+  clock: counterValueCorrected,
+  source: $counter,
+  filter: (counter) => !!counter,
+  fn: (counter, targetValue): CorrectionUpdate => ({
+    id: counter!.id,
+    targetValue,
+  }),
+  target: correctCounterValueFx,
 })

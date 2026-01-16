@@ -207,17 +207,6 @@ export default defineConfig([
               message:
                 'Use regular html tags and tailwind classes instead of Layout components.',
             },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    rules: {
-      'no-restricted-imports': [
-        'warn',
-        {
-          paths: [
             {
               name: 'patronum/debug',
               importNames: [ 'debug' ],

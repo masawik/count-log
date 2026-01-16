@@ -9,11 +9,12 @@ import {
   TextCursorInput,
   Trash2,
 } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useOutletContext } from 'react-router'
 
 import type { Counter } from '@/entities/counter'
 
+import { useRafScheduler } from '@/shared/lib'
 import { EmojiIcon } from '@/shared/ui'
 import { AppDialog } from '@/shared/ui/AppDialog'
 
@@ -49,6 +50,30 @@ const CounterPage = () => {
   })
 
   const [ showDeleteDialog, setShowDeleteDialog ] = useState(false)
+  const [ isCorrectingMode, setIsCorrectingMode ] = useState(false)
+
+  const correctionInputRef = useRef<HTMLInputElement | null>(null)
+  const { schedule } = useRafScheduler()
+  const handleEnableCorrectingMode = () => {
+    // flushSync(() => {
+    setIsCorrectingMode(true)
+    // })
+
+    schedule(() => {
+      correctionInputRef.current?.focus()
+    })
+  }
+
+  const handleSubmitCorrection = () => {
+    const rawValue = correctionInputRef.current?.value
+    if (!rawValue) return
+    if (isNaN(+rawValue)) return
+
+    const value = +rawValue
+
+    handleCounterValueCorrected(value)
+    setIsCorrectingMode(false)
+  }
 
   const navigate = useNavigate()
 
@@ -61,15 +86,11 @@ const CounterPage = () => {
   return (
     <main className="container flex h-fill flex-col">
       <header className="flex items-center gap-2 p-3 px-2">
-        <IconButton
-          variant="ghost"
-          color="gray"
-          size="3"
-          className="m-0!"
-          onClick={() => navigate(-1)}
-        >
-          <ChevronLeft />
-        </IconButton>
+        <Link to="/">
+          <IconButton variant="ghost" color="gray" size="3" className="m-0!">
+            <ChevronLeft />
+          </IconButton>
+        </Link>
 
         <div className="flex grow items-center justify-center gap-2">
           <EmojiIcon {...counter.emojiIcon} className="rounded-full" />
@@ -111,16 +132,50 @@ const CounterPage = () => {
             className="relative text-9 font-bold"
             style={{ color: `var(--${counter.emojiIcon.color}-11)` }}
           >
-            {counter.current_value}
+            {isCorrectingMode ? (
+              <div className="flex flex-col gap-4">
+                <input
+                  type="number"
+                  defaultValue={counter.current_value}
+                  className="w-full text-center outline-0"
+                  ref={correctionInputRef}
+                />
 
-            <IconButton
-              variant="soft"
-              radius="full"
-              color="gray"
-              className="absolute! top-0! right-0! translate-x-full! -translate-y-[50%]!"
-            >
-              <TextCursorInput />
-            </IconButton>
+                <div className="flex justify-center gap-4">
+                  <Button
+                    variant="soft"
+                    color="red"
+                    size="4"
+                    onClick={() => setIsCorrectingMode(false)}
+                  >
+                    Cancel
+                  </Button>
+
+                  <Button
+                    variant="solid"
+                    color="green"
+                    size="4"
+                    onClick={handleSubmitCorrection}
+                  >
+                    Confirm
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <>
+                {counter.current_value}
+
+                <IconButton
+                  variant="soft"
+                  radius="full"
+                  color="gray"
+                  className="absolute! top-0! right-0! translate-x-full! -translate-y-[50%]!"
+                  onClick={handleEnableCorrectingMode}
+                >
+                  <TextCursorInput />
+                </IconButton>
+              </>
+            )}
           </div>
         </div>
       </div>

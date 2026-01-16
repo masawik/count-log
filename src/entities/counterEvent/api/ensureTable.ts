@@ -23,16 +23,38 @@ export const ensureCounterEventsTable = async <Db = unknown>(db: Kysely<Db>) => 
       col.defaultTo(sql`CURRENT_TIMESTAMP`),
     )
     .addColumn('delta', 'integer', (c) => c.notNull())
+    .addColumn('note', 'text')
+    .addColumn('current_value', 'integer')
     .execute()
 
-
     await sql`
-      CREATE TRIGGER IF NOT EXISTS trg_counter_events_ai
+      CREATE TRIGGER IF NOT EXISTS counter_events_apply_delta
       AFTER INSERT ON counter_events
       FOR EACH ROW
       BEGIN
+        UPDATE counter_events
+        SET current_value =
+          (
+            COALESCE(
+              (
+                SELECT ce.current_value
+                FROM counter_events AS ce
+                WHERE ce.counter_id = NEW.counter_id
+                  AND ce.rowid < NEW.rowid
+                ORDER BY ce.rowid DESC
+                LIMIT 1
+              ),
+              (SELECT c.initial_value  FROM counters AS c WHERE c.id = NEW.counter_id),
+              (SELECT c.current_value  FROM counters AS c WHERE c.id = NEW.counter_id),
+              0
+            )
+            + NEW.delta
+          )
+        WHERE rowid = NEW.rowid;
+
         UPDATE counters
-        SET current_value = current_value + NEW.delta,
+        SET current_value =
+          (SELECT ce.current_value FROM counter_events AS ce WHERE ce.rowid = NEW.rowid),
             updated_at = CURRENT_TIMESTAMP
         WHERE id = NEW.counter_id;
       END;

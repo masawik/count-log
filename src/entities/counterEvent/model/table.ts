@@ -6,6 +6,8 @@ export interface CounterEventsTable {
   id: ColumnType<string, string | undefined, never>,
   counter_id: Counter['id'],
   created_at: ColumnType<Date, string | undefined, never>,
+  note?: 'correction' | 'reset',
+  current_value?: number,
   delta: number,
 }
 

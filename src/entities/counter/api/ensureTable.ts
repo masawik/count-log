@@ -25,9 +25,10 @@ export const ensureCountersTable = async <Db = unknown>(db: Kysely<Db>) => {
     .execute()
 
     await sql`
-      CREATE TRIGGER  IF NOT EXISTS counters_updated_at
+      CREATE TRIGGER IF NOT EXISTS counters_updated_at
       AFTER UPDATE ON counters
       FOR EACH ROW
+      WHEN NEW.updated_at = OLD.updated_at
       BEGIN
         UPDATE counters
         SET updated_at = datetime('now')
