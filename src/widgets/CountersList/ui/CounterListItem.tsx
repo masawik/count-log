@@ -1,6 +1,9 @@
 import { Button } from '@radix-ui/themes'
+import { useUnit } from 'effector-react'
 import { useMemo } from 'react'
 import { Link } from 'react-router'
+
+import { changeCounterValueByDelta } from '@/features/changeCounterValue'
 
 import type { Counter } from '@/entities/counter'
 
@@ -8,31 +11,35 @@ import { EmojiIcon } from '@/shared/ui'
 
 export interface CounterListItemProps {
   counter: Counter,
-  onDeltaClick: (delta: number) => void,
 }
 
-export const CounterListItem = ({
-  counter,
-  onDeltaClick,
-}: CounterListItemProps) => {
+export const CounterListItem = ({ counter }: CounterListItemProps) => {
+  const handleDeltaClick = useUnit(changeCounterValueByDelta)
+
   const stepButtons = useMemo(
     () =>
       counter.steps.slice(0, 2).map((step) => {
         const isPositive = step.value > 0
+
         return (
           <Button
             key={step.value}
             variant="soft"
             color={isPositive ? 'grass' : 'pink'}
             className="rounded-xl!"
-            onClick={() => onDeltaClick(step.value)}
+            onClick={() =>
+              handleDeltaClick({
+                counter_id: counter.id,
+                delta: step.value,
+              })
+            }
           >
             {isPositive ? '+' : ''}
             {step.value}
           </Button>
         )
       }),
-    [ onDeltaClick, counter.steps ],
+    [ handleDeltaClick, counter ],
   )
 
   return (

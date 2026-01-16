@@ -3,17 +3,12 @@ import { useUnit } from 'effector-react'
 import { Plus } from 'lucide-react'
 import { Link } from 'react-router'
 
-import { counterValueChangedByDelta as counterDeltaButtonClickedEvent } from '@/features/changeCounterValue'
+import { $counters, CounterListItem } from '@/widgets/CountersList'
 
-import { $counters } from '@/entities/counter'
-
-import { CounterListItem } from './CounterListItem'
 import { NoCountersPlaceholder } from './NoCountersPlaceholder'
 
 export default function CountersListPage() {
   const counters = useUnit($counters)
-
-  const counterDeltaButtonClicked = useUnit(counterDeltaButtonClickedEvent)
 
   return (
     <main className="container grid h-fill grid-rows-[1fr_auto]">
@@ -26,9 +21,6 @@ export default function CountersListPage() {
               <CounterListItem
                 key={c.id}
                 counter={c}
-                onDeltaClick={(delta) =>
-                  counterDeltaButtonClicked({ counter_id: c.id, delta })
-                }
               />
             ))}
           </div>

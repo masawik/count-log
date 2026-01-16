@@ -2,11 +2,11 @@ import { attach, combine, createEvent, sample } from 'effector'
 import { createAction } from 'effector-action'
 import { createGate } from 'effector-react'
 
-import { correctCounterValueFx, counterValueChangedByDelta, resetCounterValueFx, type CorrectCounterValueAttrs } from '@/features/changeCounterValue'
+import { $countersById } from '@/widgets/CountersList'
+
+import { correctCounterValueFx, changeCounterValueByDelta, resetCounterValueFx, type CorrectCounterValueAttrs } from '@/features/changeCounterValue'
 
 import {
-  $countersById,
-  counterDeleted,
   deleteCounterFx,
   getCounterFx,
   type Counter,
@@ -69,7 +69,7 @@ sample({
   source: $counter,
   filter: (counter) => !!counter,
   fn: (counter, delta) => ({ delta, counter_id: counter!.id }),
-  target: counterValueChangedByDelta,
+  target: changeCounterValueByDelta,
 })
 
 const passCounterIdSampleProps = {
@@ -77,14 +77,6 @@ const passCounterIdSampleProps = {
   filter: (counter: Counter | null) => !!counter,
   fn: (counter: Counter) => ({ id: counter!.id }),
 }
-
-export const deleteCounterConfirmed = createEvent()
-
-sample({
-  clock: deleteCounterConfirmed,
-  ...passCounterIdSampleProps,
-  target: counterDeleted,
-})
 
 sample({
   clock: deleteCounterFx.done,
@@ -113,4 +105,19 @@ sample({
     targetValue,
   }),
   target: correctCounterValueFx,
+})
+
+export const deleteCounter = createEvent<Pick<Counter, 'id'>>()
+sample({
+  clock: deleteCounter,
+  target: deleteCounterFx,
+})
+
+
+export const deleteCounterConfirmed = createEvent()
+
+sample({
+  clock: deleteCounterConfirmed,
+  ...passCounterIdSampleProps,
+  target: deleteCounter,
 })

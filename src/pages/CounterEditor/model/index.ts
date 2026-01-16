@@ -5,23 +5,9 @@ import {
   type CounterUpdate,
   type NewCounter,
 } from '@/entities/counter'
-import {
-  updateCounterFx,
-  createCounterFx,
-} from '@/entities/counter'
-import { $counters } from '@/entities/counter'
+import { updateCounterFx, createCounterFx } from '@/entities/counter'
 
 import { navigateTo } from '@/shared/routing'
-
-export const counterUpdated = createEvent<Counter>()
-
-sample({
-  clock: counterUpdated,
-  source: $counters,
-  fn: (counters, updatedCounter) =>
-    counters.map((c) => (c.id === updatedCounter.id ? updatedCounter : c)),
-  target: $counters,
-})
 
 type FormSubmittedData = {
   update: NewCounter,
@@ -33,16 +19,9 @@ export const formSubmitted = createEvent<FormSubmittedData>()
 const updateCounterByEditorFx = attach({ effect: updateCounterFx })
 const createCounterByEditorFx = attach({ effect: createCounterFx })
 
-const updateCounter = createEvent<FormSubmittedData>()
-const createCounter = createEvent<FormSubmittedData>()
-
-split({
-  source: formSubmitted,
-  match: ({ counter }) => (counter ? 'update' : 'create'),
-  cases: {
-    update: updateCounter,
-    create: createCounter,
-  },
+const { updateCounter, createCounter } = split(formSubmitted, {
+  updateCounter: ({ counter }) => !!counter,
+  createCounter: ({ counter }) => !counter,
 })
 
 sample({
@@ -64,11 +43,4 @@ sample({
   clock: [ updateCounterByEditorFx.doneData, createCounterByEditorFx.doneData ],
   fn: ({ id }) => ({ to: `/counter/${id}` }),
   target: navigateTo,
-})
-
-sample({
-  clock: createCounterByEditorFx.doneData,
-  source: $counters,
-  fn: (counters, newCounter) => [ ...counters, newCounter ],
-  target: $counters,
 })
