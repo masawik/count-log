@@ -75,8 +75,6 @@ const CounterPage = () => {
     setIsCorrectingMode(false)
   }
 
-  const navigate = useNavigate()
-
   const sortedSteps = useMemo(() => {
     return groupBy(counter.steps, ({ value }) =>
       value > 0 ? 'positive' : 'negative',

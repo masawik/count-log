@@ -5,7 +5,6 @@ import { Link } from 'react-router'
 
 import { counterDeltaButtonClicked as counterDeltaButtonClickedEvent } from '@/features/AddCounterEvent'
 
-import { type Counter } from '@/entities/counter'
 import { $counters } from '@/entities/counter'
 
 import { CounterListItem } from './CounterListItem'

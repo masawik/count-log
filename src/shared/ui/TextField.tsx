@@ -1,5 +1,4 @@
 import { TextField as RadixTextField } from '@radix-ui/themes'
-import { memo } from 'react'
 
 import { withInputWrapper } from './InputWrapper'
 
