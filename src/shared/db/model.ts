@@ -11,10 +11,13 @@ import type { Database } from './types'
 
 export const $sqlite = createStore(new SQLiteConnection(CapacitorSQLite))
 
-export const $db = $sqlite.map(sqlite => new Kysely<Database>({
-  dialect: new CapacitorSQLiteKyselyDialect(sqlite, {}),
-  plugins: [
-    new SerializePlugin(),
-    ...(SHOULD_LOG_KYSELY_OPERATIONS ? [ logPlugin ] : []),
-  ],
-}))
+export const $db = $sqlite.map(
+  (sqlite) =>
+    new Kysely<Database>({
+      dialect: new CapacitorSQLiteKyselyDialect(sqlite, {}),
+      plugins: [
+        new SerializePlugin(),
+        ...(SHOULD_LOG_KYSELY_OPERATIONS ? [ logPlugin ] : []),
+      ],
+    }),
+)

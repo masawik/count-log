@@ -2,7 +2,7 @@ import { useUnit } from 'effector-react'
 import { useEffect, useState } from 'react'
 
 import { IS_WEB } from '@/shared/config'
-import { db, sqlite } from '@/shared/db'
+import { $db, $sqlite } from '@/shared/db'
 import { useAsyncErrorToBoundary } from '@/shared/lib'
 import { dbInited } from '@/shared/model'
 
@@ -23,10 +23,10 @@ export function useInitDb() {
     (async () => {
       try {
         if (IS_WEB) {
-          await initWebStore(sqlite)
+          await initWebStore($sqlite.getState())
         }
 
-        await ensureAllTables(db)
+        await ensureAllTables($db.getState())
         setLoading(false)
         dbInitedEvent()
       } catch (e) {
