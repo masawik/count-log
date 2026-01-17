@@ -1,10 +1,10 @@
 import { Button, IconButton } from '@radix-ui/themes'
 import { useUnit } from 'effector-react'
-import { ChevronLeft, RotateCw, Timer } from 'lucide-react'
+import { RotateCw, ScrollText, Timer } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { Link, useOutletContext } from 'react-router'
+import { useOutletContext } from 'react-router'
 
-import { EmojiIcon, StopWatch } from '@/shared/ui'
+import { StopWatch } from '@/shared/ui'
 
 import {
   counterValueCorrected,
@@ -14,6 +14,7 @@ import {
   type CounterOutletContext,
 } from './model'
 import CounterDeltaButtons from './ui/CounterDeltaButtons'
+import { CounterHeader } from './ui/CounterHeader'
 import CounterMenu from './ui/CounterMenu'
 import EditableCounterPreview from './ui/EditableCounterPreview'
 
@@ -38,24 +39,22 @@ const CounterPage = () => {
 
   return (
     <main className="container flex h-fill flex-col">
-      <header className="flex items-center gap-2 p-3 px-2">
-        <Link to="/">
-          <IconButton variant="ghost" color="gray" size="3" className="m-0!">
-            <ChevronLeft />
-          </IconButton>
-        </Link>
+      <CounterHeader
+        counter={counter}
+        backLink={{ to: '/' }}
+        rightSide={
+          <div className="flex items-center gap-3">
+            <IconButton size="3" variant="ghost" color="gray">
+              <ScrollText />
+            </IconButton>
 
-        <div className="flex grow items-center justify-center gap-2">
-          <EmojiIcon {...counter.emojiIcon} className="rounded-full" />
-
-          <h1>{counter.name}</h1>
-        </div>
-
-        <CounterMenu
-          counter={counter}
-          onDelete={handleDeleteCounterConfirmed}
-        />
-      </header>
+            <CounterMenu
+              counter={counter}
+              onDelete={handleDeleteCounterConfirmed}
+            />
+          </div>
+        }
+      />
 
       <div className="h-[30%] shrink-0 px-2 py-10">
         <EditableCounterPreview
@@ -99,11 +98,6 @@ const CounterPage = () => {
         </Button>
 
         {/*
-        <Button variant="outline" color="gray" size="3">
-          <ScrollText className="size-4" />
-          history
-        </Button>
-
         <Button variant="outline" color="gray" size="3">
           <ChartColumn className="size-4" />
           analytics

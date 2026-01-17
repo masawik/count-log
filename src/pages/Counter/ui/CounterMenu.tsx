@@ -7,6 +7,8 @@ import type { Counter } from '@/entities/counter'
 
 import { AppDialog } from '@/shared/ui/AppDialog'
 
+import { CounterBadge } from './CounterBadge'
+
 export interface CounterMenuProps {
   counter: Counter,
   onDelete: () => void,
@@ -54,14 +56,7 @@ const CounterMenu = ({ counter, onDelete }: CounterMenuProps) => {
             <div className="flex flex-col items-center gap-2">
               <div>Do you really want to delete this counter?</div>
 
-              <div
-                className="rounded-md p-1"
-                style={{
-                  backgroundColor: `var(--${counter.emojiIcon.color}-a3)`,
-                }}
-              >
-                {counter.emojiIcon.emoji} {counter.name}
-              </div>
+              <CounterBadge counter={counter} />
             </div>
           </AppDialog.DescriptionSlot>
         </AppDialog>
