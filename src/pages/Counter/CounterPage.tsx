@@ -1,10 +1,10 @@
 import { Button, IconButton } from '@radix-ui/themes'
 import { useUnit } from 'effector-react'
-import { ChevronLeft, RotateCw } from 'lucide-react'
-import { useMemo } from 'react'
+import { ChevronLeft, RotateCw, Timer } from 'lucide-react'
+import { useMemo, useState } from 'react'
 import { Link, useOutletContext } from 'react-router'
 
-import { EmojiIcon } from '@/shared/ui'
+import { EmojiIcon, StopWatch } from '@/shared/ui'
 
 import {
   counterValueCorrected,
@@ -19,6 +19,7 @@ import EditableCounterPreview from './ui/EditableCounterPreview'
 
 const CounterPage = () => {
   const { counter } = useOutletContext<CounterOutletContext>()
+  const [ stopWatchVisible, setStopWatchVisible ] = useState<boolean>(false)
 
   const {
     handleDeleteCounterConfirmed,
@@ -67,9 +68,16 @@ const CounterPage = () => {
       <CounterDeltaButtons
         steps={steps}
         onBtnClick={handleDeltaButtonClicked}
+        className="grow"
       />
 
-      <footer className="width-full mt-auto grid grid-cols-1 grid-rows-1 gap-2 px-2 py-4">
+      {stopWatchVisible && (
+        <div className="flex justify-center p-4">
+          <StopWatch />
+        </div>
+      )}
+
+      <footer className="width-full grid grid-cols-1 grid-rows-2 gap-2 px-2 py-4">
         <Button
           variant="outline"
           color="red"
@@ -80,11 +88,17 @@ const CounterPage = () => {
           reset
         </Button>
 
-        {/* <Button variant="outline" color="gray" size="3">
+        <Button
+          variant="outline"
+          color="gray"
+          size="3"
+          onClick={() => setStopWatchVisible((s) => !s)}
+        >
           <Timer className="size-4" />
-          show stopwatch
+          {stopWatchVisible ? 'hide' : 'show'} stopwatch
         </Button>
 
+        {/*
         <Button variant="outline" color="gray" size="3">
           <ScrollText className="size-4" />
           history
