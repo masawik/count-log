@@ -56,7 +56,8 @@
   },
   "pnpm": {
     "overrides": {
-      "sql.js": "1.11.0"
+      "sql.js": "1.11.0",
+      "sharp": "0.34.1"
     }
   },
   "devDependencies": {
