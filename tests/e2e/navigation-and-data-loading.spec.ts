@@ -1,38 +1,11 @@
 import { test, expect } from '@playwright/test'
 
+import { clearDatabase } from '../utils/clearDatabase'
 import { gotoAndStabilize } from '../utils/gotoAndStabilize'
 
 test.describe('Navigation and data loading', () => {
   test.beforeEach(async ({ page }) => {
-    // Очищаем базу данных перед каждым тестом
-    await page.goto('/', { waitUntil: 'domcontentloaded' })
-    await page.evaluate(() => {
-      // Очистка IndexedDB - удаляем все возможные базы данных, связанные с приложением
-      return new Promise<void>((resolve) => {
-        const dbNames = [ 'count-log', 'jeep-sqlite', 'sqlite' ]
-        let completed = 0
-
-        const checkComplete = () => {
-          completed++
-          if (completed === dbNames.length) {
-            resolve()
-          }
-        }
-
-        dbNames.forEach((dbName) => {
-          try {
-            const deleteRequest = indexedDB.deleteDatabase(dbName)
-            deleteRequest.onsuccess = checkComplete
-            deleteRequest.onerror = checkComplete
-            deleteRequest.onblocked = checkComplete
-          } catch {
-            checkComplete()
-          }
-        })
-      })
-    })
-    await page.reload({ waitUntil: 'domcontentloaded' })
-    await gotoAndStabilize(page, '/')
+    await clearDatabase(page)
   })
 
   test('should load and display all counters when accessing main page by direct URL', async ({

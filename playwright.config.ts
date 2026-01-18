@@ -1,6 +1,5 @@
 import { defineConfig, devices } from '@playwright/test'
 
-
 export default defineConfig({
   testDir: './tests',
   snapshotPathTemplate: '{testDir}/visual/__screenshots__/{testFileName}/{projectName}/{arg}{ext}',
@@ -13,7 +12,7 @@ export default defineConfig({
     baseURL: 'http://localhost:3333',
     trace: 'on-first-retry',
 
-    viewport: { width: 390, height: 844 }, // базовый “эталонный” размер
+    viewport: { width: 390, height: 844 },
     isMobile: true,
     hasTouch: true,
     screenshot: 'only-on-failure',
