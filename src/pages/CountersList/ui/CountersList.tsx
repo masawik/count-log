@@ -30,6 +30,7 @@ export default function CountersListPage() {
           size="4"
           variant="solid"
           radius="full"
+          asChild
           className="fixed! right-6! bottom-6!"
         >
           <Link to="/edit-counter">
