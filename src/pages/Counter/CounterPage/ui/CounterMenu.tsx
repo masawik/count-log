@@ -3,11 +3,10 @@ import { Menu, SquarePen, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router'
 
-import type { Counter } from '@/entities/counter'
+import { CounterBadge, type Counter } from '@/entities/counter'
 
 import { AppDialog } from '@/shared/ui/AppDialog'
 
-import { CounterBadge } from './CounterBadge'
 
 export interface CounterMenuProps {
   counter: Counter,

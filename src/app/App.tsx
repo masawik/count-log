@@ -18,7 +18,7 @@ export function App() {
         <FullPageLoader />
       ) : (
         <>
-          <NavigationLoader />
+          <NavigationLoader className="absolute" />
           <Outlet />
         </>
       )}

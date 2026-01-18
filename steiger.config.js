@@ -9,6 +9,7 @@ export default defineConfig([
     ],
     rules: {
       'fsd/public-api': 'off',
+      'fsd/no-segmentless-slices': 'off',
     },
   },
   {

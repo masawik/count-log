@@ -2,7 +2,9 @@ import { Button, IconButton } from '@radix-ui/themes'
 import { useUnit } from 'effector-react'
 import { RotateCw, ScrollText, Timer } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { useOutletContext } from 'react-router'
+import { Link, useOutletContext } from 'react-router'
+
+import { CounterHeader } from '@/widgets/CounterHeader'
 
 import { StopWatch } from '@/shared/ui'
 
@@ -11,12 +13,12 @@ import {
   deleteCounterConfirmed,
   deltaButtonClicked,
   resetCounterClicked,
-  type CounterOutletContext,
 } from './model'
 import CounterDeltaButtons from './ui/CounterDeltaButtons'
-import { CounterHeader } from './ui/CounterHeader'
 import CounterMenu from './ui/CounterMenu'
 import EditableCounterPreview from './ui/EditableCounterPreview'
+
+import type { CounterOutletContext } from '../CounterRouteLayout'
 
 const CounterPage = () => {
   const { counter } = useOutletContext<CounterOutletContext>()
@@ -44,9 +46,11 @@ const CounterPage = () => {
         backLink={{ to: '/' }}
         rightSide={
           <div className="flex items-center gap-3">
-            <IconButton size="3" variant="ghost" color="gray">
-              <ScrollText />
-            </IconButton>
+            <Link to="history">
+              <IconButton size="3" variant="ghost" color="gray">
+                <ScrollText />
+              </IconButton>
+            </Link>
 
             <CounterMenu
               counter={counter}

@@ -7,7 +7,6 @@ import type { ColumnType, Insertable, Selectable, Updateable } from 'kysely'
 export interface CountersTable {
   id: ColumnType<string, string | undefined, never>,
   name: string,
-  description: ColumnType<string, string | undefined, string | undefined>,
   initial_value: number,
   emojiIcon: JSONColumnType<EmojiIconType>,
   steps: JSONColumnType<({ value: number })[]>,

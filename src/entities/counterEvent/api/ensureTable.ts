@@ -19,8 +19,8 @@ export const ensureCounterEventsTable = async <Db = unknown>(db: Kysely<Db>) => 
       [ 'id' ], // колонка PK в таблице `counters`
       (fk) => fk.onDelete('cascade'), // поведение при удалении (опционально)
     )
-    .addColumn('created_at', 'timestamp', (col) =>
-      col.defaultTo(sql`CURRENT_TIMESTAMP`),
+    .addColumn('created_at', 'text', (col) =>
+      col.defaultTo(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),
     )
     .addColumn('delta', 'integer', (c) => c.notNull())
     .addColumn('note', 'text')
@@ -55,7 +55,7 @@ export const ensureCounterEventsTable = async <Db = unknown>(db: Kysely<Db>) => 
         UPDATE counters
         SET current_value =
           (SELECT ce.current_value FROM counter_events AS ce WHERE ce.rowid = NEW.rowid),
-            updated_at = CURRENT_TIMESTAMP
+            updated_at = (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
         WHERE id = NEW.counter_id;
       END;
     `.execute(trx)

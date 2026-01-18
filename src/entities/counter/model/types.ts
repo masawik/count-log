@@ -6,6 +6,5 @@ export type NewCounter = Pick<NewCounterDto,
   | 'initial_value'
   | 'emojiIcon'
   | 'steps'
-  | 'description'
 >
 export type CounterUpdate = Partial<NewCounter> & Pick<Counter, 'id'>

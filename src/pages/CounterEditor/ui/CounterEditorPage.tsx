@@ -10,7 +10,7 @@ import { getCounterFx, type Counter } from '@/entities/counter'
 
 import { useRafScheduler } from '@/shared/lib'
 import { EmojiIcon, EmojiIconPicker } from '@/shared/ui'
-import { InputWrapper, TextArea, TextField } from '@/shared/ui'
+import { TextField } from '@/shared/ui'
 
 import { useEmojiIcon } from '../lib/useEmojiIcon'
 import { formSubmitted } from '../model'
@@ -19,7 +19,6 @@ import type { Route } from './+types/CounterEditorPage'
 
 interface FormInputs {
   name: string,
-  description: string,
   initialValue: number,
   stepButtons: { value: number }[],
 }
@@ -43,7 +42,6 @@ const getFormDefaultValue = (counter?: Counter) => {
 
   return {
     name: counter?.name || '',
-    description: counter?.description || '',
     initialValue: counter?.initial_value || 0,
     stepButtons,
   }
@@ -78,7 +76,6 @@ export default function CounterEditorPage({
       initial_value: data.initialValue,
       steps: data.stepButtons,
       emojiIcon: emojiIcon,
-      description: data.description,
     }
 
     handleFormSubmit({
@@ -203,19 +200,6 @@ export default function CounterEditorPage({
                       {...register('name', { required: true })}
                     />
                   </div>
-
-                  <TextArea
-                    resize="none"
-                    placeholder="Books to read over the summer..."
-                    {...register('description')}
-                  >
-                    <InputWrapper.Label>
-                      <div>
-                        description{' '}
-                        <span className="text-1 text-grayA-11">(optional)</span>
-                      </div>
-                    </InputWrapper.Label>
-                  </TextArea>
                 </div>
               </div>
 

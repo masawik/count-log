@@ -2,9 +2,7 @@ import { IconButton } from '@radix-ui/themes'
 import { ChevronLeft } from 'lucide-react'
 import { Link, type LinkProps } from 'react-router'
 
-import type { Counter } from '@/entities/counter'
-
-import { CounterBadge } from './CounterBadge'
+import { CounterBadge, type Counter } from '@/entities/counter'
 
 import type React from 'react'
 
@@ -30,7 +28,11 @@ export const CounterHeader = ({
       )}
 
       <div className="flex grow justify-center py-1">
-        <CounterBadge counter={counter} className="line-clamp-3 break-all whitespace-pre-line" />
+        <CounterBadge
+          counter={counter}
+          className="line-clamp-3 break-all whitespace-pre-line"
+          role="heading"
+        />
       </div>
 
       <div className="justify-self-end">{rightSide}</div>

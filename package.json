@@ -16,7 +16,6 @@
     "test:e2e": "pnpm exec playwright test tests/e2e",
     "test:s": "pnpm exec playwright test tests/screenshot.spec.ts",
     "test:us": "pnpm exec playwright test --update-snapshots",
-
     "fullcheck": "run-s typecheck lint fsdcheck"
   },
   "imports": {
@@ -35,6 +34,7 @@
     "@react-router/serve": "7.10.1",
     "capacitor-sqlite-kysely": "^1.0.2",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.19",
     "effector": "^23.4.4",
     "effector-action": "^1.2.2",
     "effector-react": "^23.3.0",
