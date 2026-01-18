@@ -38,7 +38,7 @@ const CounterDeltaButtons = ({
   return (
     <div className={className}>
       {/* main steps */}
-      <div className="grid h-[20dvh] shrink-0 grid-cols-2 gap-3 px-2 py-2">
+      <div className="grid h-[20dvh] shrink-0 grid-cols-2 gap-3 px-2 py-2 min-h-fit">
         {steps.slice(0, 2).map(({ value }) => {
           const isPositive = value > 0
 

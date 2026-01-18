@@ -44,7 +44,7 @@ const EditableCounterPreview = ({
   }
 
   return (
-    <div className="panel flex h-full items-center justify-center">
+    <div className="panel py-6 flex h-full items-center justify-center">
       <div
         className="relative text-9 font-bold"
         style={{ color: `var(--${color}-11)` }}
