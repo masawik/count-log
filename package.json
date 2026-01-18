@@ -14,7 +14,7 @@
     "stylelint": "npx stylelint \"./src/**/*.css\"",
     "fsdcheck": "steiger ./src",
     "test:e2e": "pnpm exec playwright test tests/e2e",
-    "test:s": "pnpm exec playwright test tests/screenshot.spec.ts",
+    "test:s": "pnpm exec playwright test tests/visual",
     "test:us": "pnpm exec playwright test --update-snapshots",
     "fullcheck": "run-s typecheck lint fsdcheck"
   },

@@ -2,8 +2,8 @@ import { test, expect, type Page } from '@playwright/test'
 
 import routes from '@/routes'
 
-import { gotoAndStabilize } from './utils/gotoAndStabilize'
-import { resolvePathByRoute } from './utils/resolvePathByRoute'
+import { gotoAndStabilize } from '../utils/gotoAndStabilize'
+import { resolvePathByRoute } from '../utils/resolvePathByRoute'
 
 test.describe('all routes screenshots', () => {
   routes.forEach((route) => {
