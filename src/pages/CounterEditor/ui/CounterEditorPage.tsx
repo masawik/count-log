@@ -1,14 +1,14 @@
 import { Button, IconButton } from '@radix-ui/themes'
 import { useUnit } from 'effector-react'
 import { Plus, Trash2 } from 'lucide-react'
-import { useMemo, useRef, useState } from 'react'
+import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useFieldArray, useForm, useWatch } from 'react-hook-form'
 import { type SubmitHandler, FormProvider } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 
 import { getCounterFx, type Counter } from '@/entities/counter'
 
-import { useRafScheduler } from '@/shared/lib'
+import { useRafScheduler, useTrigger } from '@/shared/lib'
 import { EmojiIcon, EmojiIconPicker } from '@/shared/ui'
 import { TextField } from '@/shared/ui'
 
@@ -104,16 +104,26 @@ export default function CounterEditorPage({
   })
   const [ emojiPickerVisible, setEmojiPickerVisible ] = useState(false)
 
+  const [ lastNewStepInputName, setLastNewStepInputName ] = useState<
+    null | string
+  >(null)
+  useLayoutEffect(() => {
+    const newInputEl = document.querySelector(
+      `[name="${lastNewStepInputName}"]`,
+    ) as HTMLInputElement | undefined
+
+    if (!newInputEl) return
+
+    newInputEl.focus()
+    newInputEl.select()
+  }, [ lastNewStepInputName ])
+
   const { schedule } = useRafScheduler()
   const addStepButtonRef = useRef<null | HTMLButtonElement>(null)
   const handleAddStepButton = () => {
-    append(
-      { value: 1 },
-      {
-        shouldFocus: true,
-        focusName: `stepButtons.${fields.length}`,
-      },
-    )
+    append({ value: 1 })
+
+    setLastNewStepInputName(`stepButtons.${fields.length}.value`)
 
     schedule(() => {
       addStepButtonRef.current?.scrollIntoView({

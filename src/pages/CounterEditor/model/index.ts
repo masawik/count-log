@@ -1,4 +1,5 @@
 import { attach, createEvent, sample, split } from 'effector'
+import { uniqBy } from 'lodash-es'
 
 import {
   type Counter,
@@ -16,10 +17,21 @@ type FormSubmittedData = {
 
 export const formSubmitted = createEvent<FormSubmittedData>()
 
+const formSubmittedMapped = sample({
+  clock: formSubmitted,
+  fn: (data) => ({
+    ...data,
+    update: {
+      ...data.update,
+      steps: uniqBy(data.update.steps, (step) => step.value),
+    },
+  }),
+})
+
 const updateCounterByEditorFx = attach({ effect: updateCounterFx })
 const createCounterByEditorFx = attach({ effect: createCounterFx })
 
-const { updateCounter, createCounter } = split(formSubmitted, {
+const { updateCounter, createCounter } = split(formSubmittedMapped, {
   updateCounter: ({ counter }) => !!counter,
   createCounter: ({ counter }) => !counter,
 })
