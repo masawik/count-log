@@ -1,6 +1,7 @@
 import js from '@eslint/js'
 import stylistic from '@stylistic/eslint-plugin'
 import { defineConfig } from 'eslint/config'
+import effector from 'eslint-plugin-effector'
 import importPlugin from 'eslint-plugin-import'
 // @ts-expect-error - no types available for this plugin
 import jsxA11y from 'eslint-plugin-jsx-a11y'
@@ -18,11 +19,21 @@ export default defineConfig([
     files: [ '**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}' ],
     languageOptions: { globals: globals.browser },
   },
-  ...tseslint.configs.recommended,
+  ...tseslint.configs.recommendedTypeChecked,
+  {
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+      },
+    },
+  },
   pluginReact.configs.flat.recommended,
   pluginReact.configs.flat['jsx-runtime'],
   reactHooks.configs.flat.recommended,
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   jsxA11y.flatConfigs.recommended,
+  effector.flatConfigs.recommended,
+  effector.flatConfigs.react,
   {
     settings: {
       react: {
@@ -48,6 +59,15 @@ export default defineConfig([
       ],
       'jsx-quotes': [ 'error', 'prefer-double' ],
       'react-hooks/exhaustive-deps': [ 'warn' ],
+      '@typescript-eslint/only-throw-error': [ 'off' ],
+      '@typescript-eslint/no-misused-promises': [
+        2,
+        {
+          checksVoidReturn: {
+            attributes: false,
+          },
+        },
+      ],
     },
   },
 
@@ -203,7 +223,15 @@ export default defineConfig([
           paths: [
             {
               name: '@radix-ui/themes',
-              importNames: [ 'Container', 'Flex', 'Box', 'Grid', 'Section', 'Text', 'Heading' ],
+              importNames: [
+                'Container',
+                'Flex',
+                'Box',
+                'Grid',
+                'Section',
+                'Text',
+                'Heading',
+              ],
               message:
                 'Use regular html tags and tailwind classes instead of Layout components.',
             },
@@ -216,5 +244,4 @@ export default defineConfig([
       ],
     },
   },
-
 ])

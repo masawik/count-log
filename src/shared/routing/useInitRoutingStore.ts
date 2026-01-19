@@ -2,7 +2,7 @@ import { useGate } from 'effector-react'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router'
 
-import { appRouterGate } from './model'
+import { AppRouterGate } from './model'
 
 import type { AppRouterStore } from './types'
 
@@ -13,5 +13,5 @@ export const useInitRoutingStore = () => {
     navigate,
   }), [ navigate ])
 
-  useGate(appRouterGate, appRouter)
+  useGate(AppRouterGate, appRouter)
 }

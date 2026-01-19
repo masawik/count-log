@@ -6,12 +6,12 @@ import { type CounterEvent } from '@/entities/counterEvent'
 
 import { $db } from '@/shared/db'
 
-export const conuterHistoryPageGate = createGate<Counter>()
+export const ConuterHistoryPageGate = createGate<Counter>()
 
-const $counter = conuterHistoryPageGate.state.map((c) => c)
+const $counter = ConuterHistoryPageGate.state.map((c) => c)
 
 export const $events = createStore<CounterEvent[]>([]).reset(
-  conuterHistoryPageGate.close,
+  ConuterHistoryPageGate.close,
 )
 
 export type GetCounterEventsSelector = Pick<CounterEvent, 'counter_id'>
@@ -28,7 +28,7 @@ const getCounterEventsForHistoryPageFx = attach({
 })
 
 sample({
-  clock: conuterHistoryPageGate.open,
+  clock: ConuterHistoryPageGate.open,
   fn: ({ id }): GetCounterEventsSelector => ({ counter_id: id }),
   target: getCounterEventsForHistoryPageFx,
 })
@@ -42,7 +42,7 @@ sample({
 })
 
 export const $noContent = createStore(false).reset(
-  conuterHistoryPageGate.close,
+  ConuterHistoryPageGate.close,
 )
 sample({
   clock: getCounterEventsForHistoryPageFx.doneData,
@@ -51,7 +51,7 @@ sample({
   target: $noContent,
 })
 
-export const $loading = createStore(true).reset(conuterHistoryPageGate.close)
+export const $loading = createStore(true).reset(ConuterHistoryPageGate.close)
 sample({
   clock: getCounterEventsForHistoryPageFx.finally,
   fn: () => false,

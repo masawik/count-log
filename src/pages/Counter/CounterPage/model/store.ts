@@ -18,10 +18,10 @@ import { goToHomePage } from '@/shared/routing'
 import type { CounterPageUrlParams } from './types'
 import type { NavigateOptions } from 'react-router'
 
-export const counterPageGate = createGate<CounterPageUrlParams>('CounterPage')
+export const CounterPageGate = createGate<CounterPageUrlParams>('CounterPage')
 
 export const $counter = combine(
-  counterPageGate.state,
+  CounterPageGate.state,
   $countersById,
   (gateState, countersById) =>
     gateState.counterId && gateState.counterId in countersById
@@ -31,10 +31,10 @@ export const $counter = combine(
 
 const tryFetchCounterFx = attach({ effect: getCounterFx })
 
-createAction(counterPageGate.state, {
+createAction(CounterPageGate.state, {
   source: {
     counter: $counter,
-    gateStatus: counterPageGate.status,
+    gateStatus: CounterPageGate.status,
   },
   target: {
     tryFetchCounterFx,
@@ -75,12 +75,12 @@ sample({
 const passCounterIdSampleProps = {
   source: $counter,
   filter: (counter: Counter | null) => !!counter,
-  fn: (counter: Counter) => ({ id: counter!.id }),
+  fn: (counter: Counter) => ({ id: counter.id }),
 }
 
 sample({
   clock: deleteCounterFx.done,
-  source: counterPageGate.state,
+  source: CounterPageGate.state,
   filter: ({ counterId }, deleted) => counterId === deleted.params.id,
   fn: (): NavigateOptions => ({ replace: true }),
   target: goToHomePage,

@@ -2,15 +2,15 @@ import data, { type Emoji } from '@emoji-mart/data'
 import { init, SearchIndex } from 'emoji-mart'
 import { startTransition, useEffect, useRef, useState } from 'react'
 
-init({ data })
+void init({ data })
 
 async function matchEmoji(query: string) {
   const words = query.split(' ')
   for (const word of words) {
-    const emojis: Emoji[] = await SearchIndex.search(word, {
+    const emojis = (await SearchIndex.search(word, {
       maxResults: 1,
       caller: undefined,
-    })
+    })) as Emoji[]
     if (emojis?.length) {
       return emojis[0]
     }
@@ -29,7 +29,8 @@ export const useMatchEmoji = (text: string, opts?: UseEmojiOpts) => {
 
   const [ matchedEmoji, setMatchedEmoji ] = useState<string | null>(null)
   const [ loading, setLoading ] = useState<boolean>(false)
-  const changeLoadingState = (value: boolean) => startTransition(() => setLoading(value))
+  const changeLoadingState = (value: boolean) =>
+    startTransition(() => setLoading(value))
 
   const debounceTimer = useRef<undefined | number>(undefined)
 
@@ -41,17 +42,19 @@ export const useMatchEmoji = (text: string, opts?: UseEmojiOpts) => {
       return
     }
 
-    debounceTimer.current = window.setTimeout(async () => {
-      try {
-        const result = await matchEmoji(text)
-        const emoji = result?.skins?.[0].native
+    debounceTimer.current = window.setTimeout(() => {
+      void (async () => {
+        try {
+          const result = await matchEmoji(text)
+          const emoji = result?.skins?.[0].native
 
-        if (emoji) {
-          setMatchedEmoji(emoji)
+          if (emoji) {
+            setMatchedEmoji(emoji)
+          }
+        } finally {
+          changeLoadingState(false)
         }
-      } finally {
-        changeLoadingState(false)
-      }
+      })()
     }, delay)
 
     startTransition(() => {

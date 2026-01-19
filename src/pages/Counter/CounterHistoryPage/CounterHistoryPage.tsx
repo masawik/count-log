@@ -4,7 +4,7 @@ import { useOutletContext } from 'react-router'
 
 import { CounterHeader } from '@/widgets/CounterHeader'
 
-import { $events, $loading, $noContent, conuterHistoryPageGate } from './model'
+import { $events, $loading, $noContent, ConuterHistoryPageGate } from './model'
 import { EventListItem } from './ui/EventListItem'
 
 import type { CounterOutletContext } from '../CounterRouteLayout'
@@ -12,7 +12,7 @@ import type { CounterOutletContext } from '../CounterRouteLayout'
 
 const CounterHistoryPage = () => {
   const { counter } = useOutletContext<CounterOutletContext>()
-  useGate(conuterHistoryPageGate, counter)
+  useGate(ConuterHistoryPageGate, counter)
 
   const events = useUnit($events)
   const isLoading = useUnit($loading)

@@ -30,7 +30,7 @@ export function ErrorBoundary() {
 
   const handleApiClientError = useEffectEvent((e: ApiClientError) => {
     if (e.response.status === 404) {
-      navigate('/404', { replace: true })
+      void navigate('/404', { replace: true })
       return
     }
 

@@ -18,9 +18,9 @@ export function useInitDb() {
 
   useEffect(() => {
     if (inited) return
-    inited = true;
+    inited = true
 
-    (async () => {
+    void (async () => {
       try {
         if (IS_WEB) {
           await initWebStore($sqlite.getState())

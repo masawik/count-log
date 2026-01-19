@@ -4,8 +4,8 @@ import { createGate } from 'effector-react'
 import type { AppRouterStore, NavigateAttrs } from './types'
 import type { NavigateOptions } from 'react-router'
 
-export const appRouterGate = createGate<AppRouterStore>('AppRouterStore')
-export const $appRouter = appRouterGate.state.map((state) => state)
+export const AppRouterGate = createGate<AppRouterStore>('AppRouterStore')
+export const $appRouter = AppRouterGate.state.map((state) => state)
 
 
 const navigateFx = attach({
@@ -15,7 +15,7 @@ const navigateFx = attach({
       throw new Error('appRouter store isnt ready!')
     }
 
-    router.navigate(to, options)
+    void router.navigate(to, options)
   },
 })
 

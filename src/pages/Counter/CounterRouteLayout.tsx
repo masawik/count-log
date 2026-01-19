@@ -7,7 +7,7 @@ import { FullPageLoader } from '@/shared/ui'
 
 import {
   $counter,
-  counterPageGate,
+  CounterPageGate,
   type CounterPageUrlParams,
 } from './CounterPage/model'
 
@@ -15,7 +15,7 @@ export type CounterOutletContext = { counter: Counter }
 
 const CounterRouteLayout = () => {
   const params = useParams<CounterPageUrlParams>()
-  useGate(counterPageGate, params)
+  useGate(CounterPageGate, params)
   const counter = useUnit($counter)
 
   if (!counter) return <FullPageLoader />

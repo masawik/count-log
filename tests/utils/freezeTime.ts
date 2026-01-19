@@ -20,7 +20,6 @@ export async function freezeTime(
 
     // Переопределяем конструктор Date без аргументов
     const OriginalDateConstructor = OriginalDate
-    // @ts-expect-error - переопределяем глобальный Date
     window.Date = function (this: any, ...args: any[]) {
       if (args.length === 0) {
         // Если вызывается без аргументов, возвращаем фиксированное время
@@ -45,7 +44,7 @@ export async function freezeTime(
 
     // Мокируем performance.now() для стабильности
     const originalPerformanceNow = performance.now
-    let performanceStart = fixedTime
+    const performanceStart = fixedTime
     Object.defineProperty(performance, 'now', {
       value: () => {
         // Возвращаем фиксированное время с небольшим смещением для анимаций

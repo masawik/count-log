@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router'
 
 import { getCounterFx, type Counter } from '@/entities/counter'
 
-import { useRafScheduler, useTrigger } from '@/shared/lib'
+import { useRafScheduler } from '@/shared/lib'
 import { EmojiIcon, EmojiIconPicker } from '@/shared/ui'
 import { TextField } from '@/shared/ui'
 
@@ -70,7 +70,7 @@ export default function CounterEditorPage({
   } = formMethods
 
   const isSubmitBtnDisabled = !!Object.keys(errors).length
-  const handleSubmit: SubmitHandler<FormInputs> = async (data) => {
+  const handleSubmit: SubmitHandler<FormInputs> = (data) => {
     const update = {
       name: data.name,
       initial_value: data.initialValue,

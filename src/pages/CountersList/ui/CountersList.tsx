@@ -7,7 +7,7 @@ import {
   $counters,
   $initialLoading,
   CounterListItem,
-  countersListGate,
+  CountersListGate,
 } from '@/widgets/CountersList'
 
 import { FullPageLoader } from '@/shared/ui'
@@ -15,7 +15,7 @@ import { FullPageLoader } from '@/shared/ui'
 import { NoCountersPlaceholder } from './NoCountersPlaceholder'
 
 export default function CountersListPage() {
-  useGate(countersListGate)
+  useGate(CountersListGate)
   const counters = useUnit($counters)
   const loading = useUnit($initialLoading)
 
