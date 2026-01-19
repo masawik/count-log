@@ -4,15 +4,19 @@ import { useOutletContext } from 'react-router'
 
 import { CounterHeader } from '@/widgets/CounterHeader'
 
+import { useAndroidBackButtonNavigate } from '@/shared/nativePlatform'
+
 import { $events, $loading, $noContent, ConuterHistoryPageGate } from './model'
 import { EventListItem } from './ui/EventListItem'
 
 import type { CounterOutletContext } from '../CounterRouteLayout'
 
-
 const CounterHistoryPage = () => {
   const { counter } = useOutletContext<CounterOutletContext>()
   useGate(ConuterHistoryPageGate, counter)
+
+  const backUrl = `/counter/${counter.id}`
+  useAndroidBackButtonNavigate(backUrl)
 
   const events = useUnit($events)
   const isLoading = useUnit($loading)
@@ -20,18 +24,15 @@ const CounterHistoryPage = () => {
 
   return (
     <main className="flex h-fill flex-col">
-      <CounterHeader
-        counter={counter}
-        backLink={{ to: `/counter/${counter.id}` }}
-      />
+      <CounterHeader counter={counter} backLink={{ to: backUrl }} />
 
       {isLoading ? (
         <div className="flex justify-center py-14">
           <Spinner />
         </div>
       ) : noContent ? (
-        <div className="flex flex-col items-center gap-2 text-6 text-grayA-11 py-14">
-         there is no events yet.
+        <div className="flex flex-col items-center gap-2 py-14 text-6 text-grayA-11">
+          there is no events yet.
         </div>
       ) : (
         <div className="panel flex grow flex-col gap-1 overflow-auto rounded-b-none">

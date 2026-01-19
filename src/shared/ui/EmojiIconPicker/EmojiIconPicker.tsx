@@ -1,5 +1,5 @@
 import emojiData from '@emoji-mart/data'
-import { Button, Dialog, IconButton, Tabs } from '@radix-ui/themes'
+import { Button, IconButton, Tabs } from '@radix-ui/themes'
 import { pick } from 'lodash-es'
 import { X } from 'lucide-react'
 import { useMemo, useState } from 'react'
@@ -8,7 +8,7 @@ import { useMemo, useState } from 'react'
 import { COLOR_PALETTE, type Color } from '@/shared/config'
 import { cn } from '@/shared/lib'
 import { EmojiIcon, type EmojiIconType } from '@/shared/ui'
-import { EmojiPicker } from '@/shared/ui'
+import { EmojiPicker, Dialog } from '@/shared/ui'
 
 import type React from 'react'
 

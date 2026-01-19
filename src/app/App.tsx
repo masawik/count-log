@@ -3,6 +3,7 @@ import { useGate, useUnit } from 'effector-react'
 import { Outlet } from 'react-router'
 
 import { useInitErrorStore } from '@/shared/errors'
+import { AndroidBackButtonProvider } from '@/shared/nativePlatform'
 import { useInitRoutingStore } from '@/shared/routing'
 import { FullPageLoader } from '@/shared/ui'
 
@@ -19,15 +20,17 @@ export function App() {
   const loadingDb = useUnit($loading)
 
   return (
-    <Theme accentColor="blue" radius="large" id="root" className="safeArea">
-      {loadingDb ? (
-        <FullPageLoader />
-      ) : (
-        <>
-          <NavigationLoader className="absolute" />
-          <Outlet />
-        </>
-      )}
-    </Theme>
+    <AndroidBackButtonProvider>
+      <Theme accentColor="blue" radius="large" id="root" className="safeArea">
+        {loadingDb ? (
+          <FullPageLoader />
+        ) : (
+          <>
+            <NavigationLoader className="absolute" />
+            <Outlet />
+          </>
+        )}
+      </Theme>
+    </AndroidBackButtonProvider>
   )
 }

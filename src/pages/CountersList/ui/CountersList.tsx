@@ -7,12 +7,15 @@ import {
   CountersListGate,
 } from '@/widgets/CountersList'
 
+import { useAndroidBackButtonExitApp } from '@/shared/nativePlatform'
 import { FullPageLoader } from '@/shared/ui'
 
 import { NoCountersPlaceholder } from './NoCountersPlaceholder'
 import { PlusBtn } from './PlusBtn/PlusBtn'
 
 export default function CountersListPage() {
+  useAndroidBackButtonExitApp()
+
   useGate(CountersListGate)
   const loading = useUnit($initialLoading)
   const counters = useUnit($counters)

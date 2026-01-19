@@ -1,6 +1,7 @@
-import { AlertDialog, Button, type ButtonProps } from '@radix-ui/themes'
+import { Button, type ButtonProps } from '@radix-ui/themes'
 
 import { createSlots } from '../component-helpers'
+import { AlertDialog } from './AlertDialog'
 
 import type { PropsWithChildren } from 'react'
 
@@ -39,7 +40,7 @@ const AppDialogImpl = ({
         ) : null}
 
         {props.type === 'confirm' && (
-          <div className="flex justify-end gap-3 mt-4">
+          <div className="mt-4 flex justify-end gap-3">
             <Button
               variant="soft"
               color="gray"

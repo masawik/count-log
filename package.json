@@ -61,6 +61,7 @@
     }
   },
   "devDependencies": {
+    "@capacitor/app": "^8.0.0",
     "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "^8.0.0",
     "@eslint/js": "^9.39.2",

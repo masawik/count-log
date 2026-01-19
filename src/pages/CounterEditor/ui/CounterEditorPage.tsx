@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router'
 import { getCounterFx, type Counter } from '@/entities/counter'
 
 import { useRafScheduler } from '@/shared/lib'
+import { useAndroidBackButtonNavigate } from '@/shared/nativePlatform'
 import { EmojiIcon, EmojiIconPicker } from '@/shared/ui'
 import { TextField } from '@/shared/ui'
 
@@ -55,6 +56,8 @@ export default function CounterEditorPage({
   const handleFormSubmit = useUnit(formSubmitted)
 
   const navigate = useNavigate()
+
+  useAndroidBackButtonNavigate('/')
 
   const formMethods = useForm<FormInputs>({
     defaultValues: getFormDefaultValue(counter),

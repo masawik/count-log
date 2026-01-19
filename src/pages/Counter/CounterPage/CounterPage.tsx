@@ -6,6 +6,7 @@ import { Link, useOutletContext } from 'react-router'
 
 import { CounterHeader } from '@/widgets/CounterHeader'
 
+import { useAndroidBackButtonNavigate } from '@/shared/nativePlatform'
 import { StopWatch } from '@/shared/ui'
 
 import {
@@ -23,6 +24,7 @@ import type { CounterOutletContext } from '../CounterRouteLayout'
 const CounterPage = () => {
   const { counter } = useOutletContext<CounterOutletContext>()
   const [ stopWatchVisible, setStopWatchVisible ] = useState<boolean>(false)
+  useAndroidBackButtonNavigate('/')
 
   const {
     handleDeleteCounterConfirmed,
@@ -61,7 +63,7 @@ const CounterPage = () => {
       />
 
       <main className="flex grow flex-col overflow-auto">
-        <div className="h-[30%] min-h-fit shrink-0 px-2 py-10">
+        <div className="h-[40%] min-h-fit shrink-0 px-2 py-10">
           <EditableCounterPreview
             value={counter.current_value}
             color={counter.emojiIcon.color}
