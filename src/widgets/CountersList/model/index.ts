@@ -8,6 +8,7 @@ import {
 import { keyBy } from 'lodash-es'
 
 import {
+  changeCounterValueByDelta,
   correctCounterValueFx,
   resetCounterValueFx,
 } from '@/features/changeCounterValue'
@@ -76,6 +77,21 @@ sample({
 sample({
   clock: updateCounterFx.doneData,
   target: counterUpdated,
+})
+
+// optimistic update
+sample({
+  clock: changeCounterValueByDelta,
+  source: $counters,
+  fn: (counters, { counter_id, delta }) => counters.map(c => {
+    if (c.id !== counter_id) return c
+
+    return {
+      ...c,
+      current_value: c.current_value + delta,
+    }
+  }),
+  target: $counters,
 })
 
 sample({
