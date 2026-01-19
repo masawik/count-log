@@ -1,1 +1,0 @@
-export { ensureCountersTable } from './ensureTable'

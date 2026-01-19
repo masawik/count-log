@@ -1,4 +1,4 @@
-import type { CounterDto, NewCounterDto } from './tableTypes'
+import type { CounterDto, NewCounterDto } from './table'
 
 export type Counter = CounterDto
 export type NewCounter = Pick<NewCounterDto,

@@ -1,16 +1,22 @@
 import { Theme } from '@radix-ui/themes'
+import { useGate, useUnit } from 'effector-react'
 import { Outlet } from 'react-router'
 
+import { useInitErrorStore } from '@/shared/errors'
 import { useInitRoutingStore } from '@/shared/routing'
 import { FullPageLoader } from '@/shared/ui'
 
-import { useInitDb } from './db/useInitDb'
+import { $loading, AppGate } from './db/model'
 import { NavigationLoader } from './layout/NavigationLoader'
+
 import './styles/index.css'
 
 export function App() {
-  const { loading: loadingDb } = useInitDb()
+  useGate(AppGate)
   useInitRoutingStore()
+  useInitErrorStore()
+
+  const loadingDb = useUnit($loading)
 
   return (
     <Theme accentColor="blue" radius="large" id="root" className="safeArea">

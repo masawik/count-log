@@ -1,4 +1,4 @@
-import type { CounterEventDto, CounterEventUpdateDto, NewCounterEventDto } from './tableTypes'
+import type { CounterEventDto, CounterEventUpdateDto, NewCounterEventDto } from './table'
 
 
 export type CounterEvent = CounterEventDto

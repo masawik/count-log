@@ -1,3 +1,3 @@
 export * from './types'
-export type { CountersTable } from './tableTypes'
+export { type CountersTable, ensureCountersTableFx } from './table'
 export * from './crudEffects'

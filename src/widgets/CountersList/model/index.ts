@@ -24,8 +24,6 @@ import {
 } from '@/entities/counter'
 import { createCounterEventFx } from '@/entities/counterEvent'
 
-import { dbInited } from '@/shared/model'
-
 export const CountersListGate = createGate()
 
 export const $counters = createStore<Counter[]>([])
@@ -42,7 +40,7 @@ sample({
 
 // fetching
 sample({
-  clock: [ CountersListGate.open, dbInited, createCounterFx.done, deleteCounterFx.done ],
+  clock: [ CountersListGate.open, createCounterFx.done, deleteCounterFx.done ],
   target: getCountersFx,
 })
 
@@ -93,14 +91,15 @@ sample({
 sample({
   clock: changeCounterValueByDelta,
   source: $counters,
-  fn: (counters, { counter_id, delta }) => counters.map(c => {
-    if (c.id !== counter_id) return c
+  fn: (counters, { counter_id, delta }) =>
+    counters.map((c) => {
+      if (c.id !== counter_id) return c
 
-    return {
-      ...c,
-      current_value: c.current_value + delta,
-    }
-  }),
+      return {
+        ...c,
+        current_value: c.current_value + delta,
+      }
+    }),
   target: $counters,
 })
 
