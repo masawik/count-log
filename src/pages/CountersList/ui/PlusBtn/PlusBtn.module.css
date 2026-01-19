@@ -2,10 +2,10 @@
   will-change: transform;
 
   position: absolute;
-  bottom: 100px;
-  right: 60px;
+  right: calc(100% - 18px);
+  bottom: calc(100% + 20px);
 
-  width: 130px;
+  width: 8em;
   max-width: fit-content;
 
   animation: arrowHint 3.4s ease-in-out infinite;

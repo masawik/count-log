@@ -1,7 +1,4 @@
-import { IconButton } from '@radix-ui/themes'
-import { useGate, useUnit } from 'effector-react'
-import { Plus } from 'lucide-react'
-import { Link } from 'react-router'
+import { useGate, useList, useUnit } from 'effector-react'
 
 import {
   $counters,
@@ -13,38 +10,29 @@ import {
 import { FullPageLoader } from '@/shared/ui'
 
 import { NoCountersPlaceholder } from './NoCountersPlaceholder'
+import { PlusBtn } from './PlusBtn/PlusBtn'
 
 export default function CountersListPage() {
   useGate(CountersListGate)
-  const counters = useUnit($counters)
   const loading = useUnit($initialLoading)
+  const counters = useUnit($counters)
+
+  const counterItems = useList($counters, {
+    getKey: ({ id }) => id,
+    fn: (counter) => <CounterListItem counter={counter} />,
+    placeholder: <NoCountersPlaceholder />,
+  })
 
   if (loading) return <FullPageLoader />
 
   return (
     <main className="container grid h-fill grid-rows-[1fr_auto]">
       <div className="relative min-w-0">
-        {!counters?.length && <NoCountersPlaceholder />}
-
-        <div className="overflow-auto p-2">
-          <div className="flex flex-col gap-3">
-            {counters?.map((c) => (
-              <CounterListItem key={c.id} counter={c} />
-            ))}
-          </div>
+        <div className="h-full overflow-auto p-2">
+          <ul className="flex h-full flex-col gap-3 pb-24">{counterItems}</ul>
         </div>
 
-        <IconButton
-          size="4"
-          variant="solid"
-          radius="full"
-          asChild
-          className="fixed! right-6! bottom-6!"
-        >
-          <Link to="/edit-counter">
-            <Plus />
-          </Link>
-        </IconButton>
+        <PlusBtn showArrow={!counters.length} />
       </div>
     </main>
   )
