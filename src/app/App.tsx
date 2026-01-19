@@ -21,7 +21,13 @@ export function App() {
 
   return (
     <AndroidBackButtonProvider>
-      <Theme accentColor="blue" radius="large" id="root" className="safeArea">
+      <Theme
+        appearance="light"
+        accentColor="blue"
+        radius="large"
+        id="root"
+        className="safeArea"
+      >
         {loadingDb ? (
           <FullPageLoader />
         ) : (
