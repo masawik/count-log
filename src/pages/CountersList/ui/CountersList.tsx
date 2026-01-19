@@ -1,14 +1,25 @@
 import { IconButton } from '@radix-ui/themes'
-import { useUnit } from 'effector-react'
+import { useGate, useUnit } from 'effector-react'
 import { Plus } from 'lucide-react'
 import { Link } from 'react-router'
 
-import { $counters, CounterListItem } from '@/widgets/CountersList'
+import {
+  $counters,
+  $initialLoading,
+  CounterListItem,
+  countersListGate,
+} from '@/widgets/CountersList'
+
+import { FullPageLoader } from '@/shared/ui'
 
 import { NoCountersPlaceholder } from './NoCountersPlaceholder'
 
 export default function CountersListPage() {
+  useGate(countersListGate)
   const counters = useUnit($counters)
+  const loading = useUnit($initialLoading)
+
+  if (loading) return <FullPageLoader />
 
   return (
     <main className="container grid h-fill grid-rows-[1fr_auto]">
@@ -18,10 +29,7 @@ export default function CountersListPage() {
         <div className="overflow-auto p-2">
           <div className="flex flex-col gap-3">
             {counters?.map((c) => (
-              <CounterListItem
-                key={c.id}
-                counter={c}
-              />
+              <CounterListItem key={c.id} counter={c} />
             ))}
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { attach, combine, createStore, sample } from 'effector'
+import { attach, createStore, sample } from 'effector'
 import { createGate } from 'effector-react'
 
 import type { Counter } from '@/entities/counter'
@@ -10,14 +10,14 @@ export const conuterHistoryPageGate = createGate<Counter>()
 
 const $counter = conuterHistoryPageGate.state.map((c) => c)
 
-export const $events = createStore<CounterEvent[] | null>(null).reset(
+export const $events = createStore<CounterEvent[]>([]).reset(
   conuterHistoryPageGate.close,
 )
 
 export type GetCounterEventsSelector = Pick<CounterEvent, 'counter_id'>
 const getCounterEventsForHistoryPageFx = attach({
   source: $db,
-  effect: (db, selector: GetCounterEventsSelector) => {
+  effect: async (db, selector: GetCounterEventsSelector) => {
     return db
       .selectFrom('counter_events')
       .selectAll()
@@ -26,14 +26,6 @@ const getCounterEventsForHistoryPageFx = attach({
       .execute()
   },
 })
-
-export const $loading = combine(
-  {
-    events: $events,
-    pending: getCounterEventsForHistoryPageFx.pending,
-  },
-  ({ events, pending }) => events === null || pending,
-)
 
 sample({
   clock: conuterHistoryPageGate.open,
@@ -47,4 +39,21 @@ sample({
   filter: (counter, { params }) => params?.counter_id === counter.id,
   fn: (_, { result }) => result,
   target: $events,
+})
+
+export const $noContent = createStore(false).reset(
+  conuterHistoryPageGate.close,
+)
+sample({
+  clock: getCounterEventsForHistoryPageFx.doneData,
+  filter: (data) => data.length === 0,
+  fn: () => true,
+  target: $noContent,
+})
+
+export const $loading = createStore(true).reset(conuterHistoryPageGate.close)
+sample({
+  clock: getCounterEventsForHistoryPageFx.finally,
+  fn: () => false,
+  target: $loading,
 })

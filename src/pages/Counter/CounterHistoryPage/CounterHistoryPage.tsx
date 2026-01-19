@@ -4,7 +4,7 @@ import { useOutletContext } from 'react-router'
 
 import { CounterHeader } from '@/widgets/CounterHeader'
 
-import { $events, $loading, conuterHistoryPageGate } from './model'
+import { $events, $loading, $noContent, conuterHistoryPageGate } from './model'
 import { EventListItem } from './ui/EventListItem'
 
 import type { CounterOutletContext } from '../CounterRouteLayout'
@@ -16,6 +16,7 @@ const CounterHistoryPage = () => {
 
   const events = useUnit($events)
   const isLoading = useUnit($loading)
+  const noContent = useUnit($noContent)
 
   return (
     <main className="flex h-fill flex-col">
@@ -24,11 +25,11 @@ const CounterHistoryPage = () => {
         backLink={{ to: `/counter/${counter.id}` }}
       />
 
-      {isLoading || events === null ? (
+      {isLoading ? (
         <div className="flex justify-center py-14">
           <Spinner />
         </div>
-      ) : events.length === 0 ? (
+      ) : noContent ? (
         <div className="flex flex-col items-center gap-2 text-6 text-grayA-11 py-14">
          there is no events yet.
         </div>

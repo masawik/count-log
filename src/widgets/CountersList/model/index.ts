@@ -5,6 +5,7 @@ import {
   sample,
   type Store,
 } from 'effector'
+import { createGate } from 'effector-react'
 import { keyBy } from 'lodash-es'
 
 import {
@@ -25,14 +26,23 @@ import { createCounterEventFx } from '@/entities/counterEvent'
 
 import { dbInited } from '@/shared/model'
 
+export const countersListGate = createGate()
+
 export const $counters = createStore<Counter[]>([])
 export const $countersById = combine($counters, (store) =>
   keyBy(store, 'id'),
 ) as Store<Record<Counter['id'], Counter>>
 
+export const $initialLoading = createStore(true)
+sample({
+  clock: getCountersFx.finally,
+  fn: () => false,
+  target: $initialLoading,
+})
+
 // fetching
 sample({
-  clock: [ dbInited, createCounterFx.done, deleteCounterFx.done ],
+  clock: [ countersListGate.open, dbInited, createCounterFx.done, deleteCounterFx.done ],
   target: getCountersFx,
 })
 
