@@ -1,5 +1,6 @@
 import { attach, createEffect, createStore, sample } from 'effector'
 import { createGate } from 'effector-react'
+import { once } from 'patronum/once'
 
 import { ensureCountersTableFx } from '@/entities/counter'
 import { ensureCounterEventsTableFx } from '@/entities/counterEvent'
@@ -33,7 +34,7 @@ sample({
 })
 
 sample({
-  clock: AppGate.open,
+  clock: once(AppGate.open),
   target: initWebStoreIfNeedFx,
 })
 
