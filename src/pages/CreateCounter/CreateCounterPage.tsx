@@ -1,25 +1,22 @@
 import { Button } from '@radix-ui/themes'
 import { useUnit } from 'effector-react'
-import { useState } from 'react'
-import { useForm, useWatch } from 'react-hook-form'
-import { type SubmitHandler, FormProvider } from 'react-hook-form'
+import { Controller, useForm, useWatch } from 'react-hook-form'
+import { FormProvider } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 
 
-import { useAndroidBackButtonNavigate } from '@/shared/nativePlatform'
-import { EmojiIcon, EmojiIconPicker } from '@/shared/ui'
-import { TextField } from '@/shared/ui'
+import type { NewCounter } from '@/entities/counter'
 
-import { useEmojiIcon } from './lib/useEmojiIcon'
+import { useAndroidBackButtonNavigate } from '@/shared/nativePlatform'
+import { TextField } from '@/shared/ui'
+import { EmojiIconInput } from '@/shared/ui/EmojiIconInput'
+
 import { formSubmitted } from './model'
 
-interface FormInputs {
-  name: string,
-  initialValue: number,
-}
+type FormInputs = NewCounter
 
 export default function CounterEditorPage() {
-  const handleFormSubmit = useUnit(formSubmitted)
+  const handleSubmit = useUnit(formSubmitted)
 
   const navigate = useNavigate()
 
@@ -28,7 +25,11 @@ export default function CounterEditorPage() {
   const formMethods = useForm<FormInputs>({
     defaultValues: {
       name: '',
-      initialValue: 0,
+      initial_value: 0,
+      emojiIcon: {
+        color: 'brown',
+        emoji: '😒',
+      },
     },
     shouldUnregister: true,
     mode: 'onSubmit',
@@ -42,26 +43,11 @@ export default function CounterEditorPage() {
   } = formMethods
 
   const isSubmitBtnDisabled = !!Object.keys(errors).length
-  const handleSubmit: SubmitHandler<FormInputs> = (data) => {
-    handleFormSubmit({
-      name: data.name,
-      initial_value: data.initialValue,
-      emojiIcon: emojiIcon,
-    })
-  }
 
   const name = useWatch({
     control,
     name: 'name',
   })
-
-  const {
-    emojiIcon,
-    loading: searchingEmoji,
-    handlePickEmojiIcon,
-  } = useEmojiIcon(name)
-  const [ emojiPickerVisible, setEmojiPickerVisible ] = useState(false)
-
 
   return (
     <main>
@@ -79,27 +65,12 @@ export default function CounterEditorPage() {
               <div className="panel">
                 <div className="flex flex-col gap-2">
                   <div className="flex items-start gap-2">
-                    <button
-                      onClick={() => setEmojiPickerVisible(true)}
-                      type="button"
-                      aria-label="Edit icon"
-                    >
-                      <EmojiIcon
-                        emoji={emojiIcon.emoji}
-                        color={emojiIcon.color}
-                        className="size-17"
-                        loading={searchingEmoji}
-                      />
-                    </button>
-
-                    {emojiPickerVisible && (
-                      <EmojiIconPicker
-                        emojiIcon={emojiIcon}
-                        open
-                        onOpenChange={setEmojiPickerVisible}
-                        onPick={handlePickEmojiIcon}
-                      />
-                    )}
+                    <Controller
+                      name="emojiIcon"
+                      render={({ field }) => (
+                        <EmojiIconInput suggestionText={name} {...field} />
+                      )}
+                    />
 
                     <TextField.Root
                       label="name"
@@ -116,7 +87,7 @@ export default function CounterEditorPage() {
                   <TextField.Root
                     label="Initial value"
                     type="number"
-                    {...register('initialValue', {
+                    {...register('initial_value', {
                       required: true,
                       valueAsNumber: true,
                     })}

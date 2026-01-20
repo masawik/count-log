@@ -1,0 +1,1 @@
+export { EmojiIconInput } from './EmojiIconInput'
