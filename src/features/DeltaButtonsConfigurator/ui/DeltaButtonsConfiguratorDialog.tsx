@@ -135,7 +135,7 @@ export const DeltaButtonsConfiguratorDialog = ({
             onSubmit={registerSubmitHandler(handleSubmit)}
             className="flex min-h-0 flex-col"
           >
-            <div className="grid w-full grid-cols-2 gap-2 overflow-auto p-4">
+            <div className="grid w-full grid-cols-2 gap-2 overflow-auto p-4" data-test-id="step-inputs-container">
               {stepButtonInputs}
             </div>
 

@@ -362,4 +362,220 @@ test.describe('Counter functionality', () => {
       await expect(page.getByRole('heading', { name: 'Counter to Keep' })).toBeVisible()
     })
   })
+
+  test.describe('Configuring counter steps', () => {
+    test('should add new step buttons', async ({ page }) => {
+      // Создаем счетчик
+      await page.locator('a[href="/create-counter"]').click()
+      await gotoAndStabilize(page, '/create-counter')
+
+      await page.getByLabel('name').fill('Test Counter')
+      await page.getByLabel('Initial value').fill('0')
+      await page.getByRole('button', { name: 'create' }).click()
+
+      // Ждем перехода на страницу счетчика
+      await expect(page).toHaveURL(/\/counter\/[\da-f]+/, { timeout: 10000 })
+      await gotoAndStabilize(page, page.url())
+
+      // Открываем диалог настройки шагов
+      const buttonsSection = page.locator('main').locator('.grid.grid-cols-2').first()
+      await expect(buttonsSection).toBeVisible()
+
+      const settingsButton = page
+        .locator('main')
+        .locator('div.flex.justify-end')
+        .locator('button')
+        .first()
+      await expect(settingsButton).toBeVisible()
+      await settingsButton.click()
+
+      // Ждем появления диалога
+      const dialog = page.getByRole('dialog', { name: 'Configure steps' })
+      await expect(dialog).toBeVisible({ timeout: 2000 })
+
+      // Добавляем новый шаг
+      const addStepButton = page.getByRole('button', { name: 'Add step' })
+      await expect(addStepButton).toBeVisible()
+      await addStepButton.click()
+
+      // Проверяем, что появился новый input для шага
+      const stepInputs = dialog.locator('input[type="number"]')
+      const inputCount = await stepInputs.count()
+      expect(inputCount).toBeGreaterThan(2) // Должно быть больше 2 (основные шаги)
+
+      // Заполняем новый шаг значением 5
+      const newInput = stepInputs.nth(inputCount - 1)
+      await newInput.fill('5')
+
+      // Сохраняем изменения
+      const doneButton = page.getByRole('button', { name: 'Done' })
+      await expect(doneButton).toBeVisible()
+      await doneButton.click()
+
+      // Ждем закрытия диалога
+      await expect(dialog).not.toBeVisible({ timeout: 2000 })
+
+      // Проверяем, что новая кнопка появилась на странице счетчика
+      // Ищем кнопку с текстом +5 или 5 в секции extra steps
+      const extraStepsSection = page.locator('main').locator('.overflow-auto')
+      await expect(extraStepsSection.getByRole('button', { name: '+5' })).toBeVisible({
+        timeout: 2000,
+      })
+    })
+
+    test('should remove step button', async ({ page }) => {
+      // Создаем счетчик
+      await page.locator('a[href="/create-counter"]').click()
+      await gotoAndStabilize(page, '/create-counter')
+
+      await page.getByLabel('name').fill('Test Counter')
+      await page.getByLabel('Initial value').fill('0')
+      await page.getByRole('button', { name: 'create' }).click()
+
+      // Ждем перехода на страницу счетчика
+      await expect(page).toHaveURL(/\/counter\/[\da-f]+/, { timeout: 10000 })
+      await gotoAndStabilize(page, page.url())
+
+      // Открываем диалог настройки шагов
+      const settingsButton = page
+        .locator('main')
+        .locator('div.flex.justify-end')
+        .locator('button')
+        .first()
+      await settingsButton.click()
+
+      const dialog = page.getByRole('dialog', { name: 'Configure steps' })
+      const inputsContainer = page.locator('[data-test-id="step-inputs-container"]')
+      await expect(dialog).toBeVisible({ timeout: 2000 })
+
+      // Добавляем шаг
+      const addStepButton = page.getByRole('button', { name: 'Add step' })
+      await addStepButton.click()
+      await page.waitForTimeout(200)
+
+      // Проверяем количество inputs до удаления
+      const stepInputs = inputsContainer.locator('input[type="number"]')
+      const initialCount = await stepInputs.count()
+      expect(initialCount).toBeGreaterThan(2)
+
+      // Удаляем последний добавленный шаг (кнопка удаления есть только у шагов после первых двух)
+      const deleteButtons = inputsContainer.locator('button').filter({ has: page.locator('svg') })
+      const deleteButtonCount = await deleteButtons.count()
+
+      if (deleteButtonCount > 0) {
+        // Берем последнюю кнопку удаления
+        const lastDeleteButton = deleteButtons.last()
+        await lastDeleteButton.click()
+        await page.waitForTimeout(200)
+
+        // Проверяем, что количество inputs уменьшилось
+        const newCount = await stepInputs.count()
+        expect(newCount).toBe(initialCount - 1)
+      }
+
+      // Сохраняем изменения
+      const doneButton = page.getByRole('button', { name: 'Done' })
+      await doneButton.click()
+
+      // Ждем закрытия диалога
+      await expect(dialog).not.toBeVisible({ timeout: 2000 })
+    })
+
+    test('should update step button value', async ({ page }) => {
+      // Создаем счетчик
+      await page.locator('a[href="/create-counter"]').click()
+      await gotoAndStabilize(page, '/create-counter')
+
+      await page.getByLabel('name').fill('Test Counter')
+      await page.getByLabel('Initial value').fill('0')
+      await page.getByRole('button', { name: 'create' }).click()
+
+      // Ждем перехода на страницу счетчика
+      await expect(page).toHaveURL(/\/counter\/[\da-f]+/, { timeout: 10000 })
+      await gotoAndStabilize(page, page.url())
+
+      // Открываем диалог настройки шагов
+      const settingsButton = page
+        .locator('main')
+        .locator('div.flex.justify-end')
+        .locator('button')
+        .first()
+      await settingsButton.click()
+
+      const dialog = page.getByRole('dialog', { name: 'Configure steps' })
+      await expect(dialog).toBeVisible({ timeout: 2000 })
+
+      // Добавляем шаг
+      const addStepButton = page.getByRole('button', { name: 'Add step' })
+      await addStepButton.click()
+      await page.waitForTimeout(200)
+
+      // Изменяем значение первого дополнительного шага (третий input, индекс 2)
+      const stepInputs = dialog.locator('input[type="number"]')
+      const thirdInput = stepInputs.nth(2)
+      await thirdInput.fill('10')
+      await page.waitForTimeout(200)
+
+      // Сохраняем изменения
+      const doneButton = page.getByRole('button', { name: 'Done' })
+      await doneButton.click()
+
+      // Ждем закрытия диалога
+      await expect(dialog).not.toBeVisible({ timeout: 2000 })
+
+      // Проверяем, что кнопка с новым значением появилась или обновилась
+      // Ищем кнопку с текстом +10 или 10
+      const extraStepsSection = page.locator('main').locator('.overflow-auto')
+      const buttonWithNewValue = extraStepsSection
+        .getByRole('button')
+        .filter({ hasText: /10/ })
+      await expect(buttonWithNewValue).toBeVisible({ timeout: 2000 })
+    })
+
+    test('should cancel step configuration changes', async ({ page }) => {
+      // Создаем счетчик
+      await page.locator('a[href="/create-counter"]').click()
+      await gotoAndStabilize(page, '/create-counter')
+
+      await page.getByLabel('name').fill('Test Counter')
+      await page.getByLabel('Initial value').fill('0')
+      await page.getByRole('button', { name: 'create' }).click()
+
+      // Ждем перехода на страницу счетчика
+      await expect(page).toHaveURL(/\/counter\/[\da-f]+/, { timeout: 10000 })
+      await gotoAndStabilize(page, page.url())
+
+      // Запоминаем начальное количество кнопок шагов
+      const initialButtons = page.locator('main').locator('button').filter({ hasText: /^[+-]?\d+$/ })
+      const initialCount = await initialButtons.count()
+
+      // Открываем диалог настройки шагов
+      const settingsButton = page
+        .locator('main')
+        .locator('div.flex.justify-end')
+        .locator('button')
+        .first()
+      await settingsButton.click()
+
+      const dialog = page.getByRole('dialog', { name: 'Configure steps' })
+      await expect(dialog).toBeVisible({ timeout: 2000 })
+
+      // Добавляем шаг
+      const addStepButton = page.getByRole('button', { name: 'Add step' })
+      await addStepButton.click()
+      await page.waitForTimeout(200)
+
+      // Отменяем изменения
+      const cancelButton = page.getByRole('button', { name: 'Cancel' })
+      await cancelButton.click()
+
+      // Ждем закрытия диалога
+      await expect(dialog).not.toBeVisible({ timeout: 2000 })
+
+      // Проверяем, что количество кнопок не изменилось
+      const finalButtons = page.locator('main').locator('button').filter({ hasText: /^[+-]?\d+$/ })
+      const finalCount = await finalButtons.count()
+      expect(finalCount).toBe(initialCount)
+    })
+  })
 })

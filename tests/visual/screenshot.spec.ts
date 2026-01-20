@@ -81,37 +81,6 @@ test.describe('Edit page emoji picker dialog', () => {
   })
 })
 
-test('form inputs', async ({ page }) => {
-  // clearDatabase уже вызывает freezeTime
-  await clearDatabase(page)
-  await gotoAndStabilize(page, '/create-counter')
-
-  const addStepButton = page.getByRole('button', { name: 'Add button' })
-
-  await addStepButton.click()
-  await addStepButton.click()
-  await addStepButton.click()
-  await addStepButton.click()
-
-  const buttonsContainer = page.locator(
-    `[data-test-id="step-buttons-container"]`,
-  )
-  const inputs = buttonsContainer.locator('input')
-
-  const count = await inputs.count()
-  for (let i = 0; i < count; i++) {
-    const input = inputs.nth(i)
-    await input.fill('')
-  }
-
-  await page.getByRole('button', { name: 'Create' }).click()
-
-  // Проверяем, что нет error-boundary перед скриншотом
-  await assertNoErrorBoundary(page)
-
-  await expect(page).toHaveScreenshot({ fullPage: true })
-})
-
 test.describe('Counter page', () => {
   test.beforeEach(async ({ page }) => {
     await clearDatabase(page)
@@ -162,6 +131,50 @@ test.describe('Counter page', () => {
     await assertNoErrorBoundary(page)
 
     await expect(page).toHaveScreenshot({ fullPage: true })
+  })
+
+  test('steps configurator dialog with many steps', async ({ page }) => {
+    const counterId = await createCounter(page, {
+      name: 'Test Counter',
+      initialValue: '5',
+    })
+
+    await gotoAndStabilize(page, `/counter/${counterId}`)
+
+    // Открываем диалог настройки шагов (кнопка Settings)
+    // Кнопка находится в секции с кнопками шагов, это IconButton с иконкой Settings
+    // Ищем кнопку в области с кнопками шагов (в main или в секции с grid-cols-2)
+    const buttonsSection = page.locator('main').locator('.grid.grid-cols-2').first()
+    await expect(buttonsSection).toBeVisible()
+
+    // Кнопка Settings находится выше секции с кнопками, в div с justify-end
+    const settingsButton = page
+      .locator('main')
+      .locator('div.flex.justify-end')
+      .locator('button')
+      .first()
+    await expect(settingsButton).toBeVisible()
+    await settingsButton.click()
+
+    // Ждем появления диалога
+    const dialog = page.getByRole('dialog', { name: 'Configure steps' })
+    await expect(dialog).toBeVisible({ timeout: 2000 })
+
+    // Добавляем много шагов для проверки переполнения
+    const addStepButton = page.getByRole('button', { name: 'Add step' })
+
+    // Добавляем 15 шагов (всего будет 17: 2 основных + 15 дополнительных)
+    for (let i = 0; i < 15; i++) {
+      await addStepButton.click()
+      // Небольшая задержка для стабилизации UI
+      await page.waitForTimeout(100)
+    }
+
+    // Проверяем, что нет error-boundary перед скриншотом
+    await assertNoErrorBoundary(page)
+
+    // Делаем скриншот диалога
+    await expect(dialog).toHaveScreenshot()
   })
 })
 
