@@ -13,10 +13,10 @@ test.describe('Counter functionality', () => {
       page,
     }) => {
       // Переходим на страницу создания счетчика
-      await page.locator('a[href="/edit-counter"]').click()
+      await page.locator('a[href="/create-counter"]').click()
       // Ждем навигации
-      await page.waitForURL(/\/edit-counter/, { timeout: 5000 })
-      await gotoAndStabilize(page, '/edit-counter')
+      await page.waitForURL(/\/create-counter/, { timeout: 5000 })
+      await gotoAndStabilize(page, '/create-counter')
 
       // Вводим название счетчика
       const nameInput = page.getByLabel('name')
@@ -47,8 +47,8 @@ test.describe('Counter functionality', () => {
       page,
     }) => {
       // Переходим на страницу создания счетчика
-      await page.locator('a[href="/edit-counter"]').click()
-      await gotoAndStabilize(page, '/edit-counter')
+      await page.locator('a[href="/create-counter"]').click()
+      await gotoAndStabilize(page, '/create-counter')
 
       // Сначала выбираем эмоджи вручную
       const editIconButton = page.getByRole('button', { name: 'Edit icon' })
@@ -93,8 +93,8 @@ test.describe('Counter functionality', () => {
   test.describe('Changing counter value from counters list', () => {
     test('should increment counter value from list page', async ({ page }) => {
       // Создаем счетчик
-      await page.locator('a[href="/edit-counter"]').click()
-      await gotoAndStabilize(page, '/edit-counter')
+      await page.locator('a[href="/create-counter"]').click()
+      await gotoAndStabilize(page, '/create-counter')
 
       await page.getByLabel('name').fill('Test Counter')
       await page.getByLabel('Initial value').fill('10')
@@ -124,8 +124,8 @@ test.describe('Counter functionality', () => {
 
     test('should decrement counter value from list page', async ({ page }) => {
       // Создаем счетчик
-      await page.locator('a[href="/edit-counter"]').click()
-      await gotoAndStabilize(page, '/edit-counter')
+      await page.locator('a[href="/create-counter"]').click()
+      await gotoAndStabilize(page, '/create-counter')
 
       await page.getByLabel('name').fill('Test Counter')
       await page.getByLabel('Initial value').fill('10')
@@ -155,8 +155,8 @@ test.describe('Counter functionality', () => {
       page,
     }) => {
       // Создаем счетчик
-      await page.locator('a[href="/edit-counter"]').click()
-      await gotoAndStabilize(page, '/edit-counter')
+      await page.locator('a[href="/create-counter"]').click()
+      await gotoAndStabilize(page, '/create-counter')
 
       await page.getByLabel('name').fill('Test Counter')
       await page.getByLabel('Initial value').fill('5')
@@ -188,8 +188,8 @@ test.describe('Counter functionality', () => {
       page,
     }) => {
       // Создаем счетчик
-      await page.locator('a[href="/edit-counter"]').click()
-      await gotoAndStabilize(page, '/edit-counter')
+      await page.locator('a[href="/create-counter"]').click()
+      await gotoAndStabilize(page, '/create-counter')
 
       await page.getByLabel('name').fill('Test Counter')
       await page.getByLabel('Initial value').fill('5')
@@ -215,8 +215,8 @@ test.describe('Counter functionality', () => {
 
     test('should correct counter value manually', async ({ page }) => {
       // Создаем счетчик
-      await page.locator('a[href="/edit-counter"]').click()
-      await gotoAndStabilize(page, '/edit-counter')
+      await page.locator('a[href="/create-counter"]').click()
+      await gotoAndStabilize(page, '/create-counter')
 
       await page.getByLabel('name').fill('Test Counter')
       await page.getByLabel('Initial value').fill('10')
@@ -253,8 +253,8 @@ test.describe('Counter functionality', () => {
   test.describe('Resetting counter value', () => {
     test('should reset counter value to initial value', async ({ page }) => {
       // Создаем счетчик
-      await page.locator('a[href="/edit-counter"]').click()
-      await gotoAndStabilize(page, '/edit-counter')
+      await page.locator('a[href="/create-counter"]').click()
+      await gotoAndStabilize(page, '/create-counter')
 
       await page.getByLabel('name').fill('Test Counter')
       await page.getByLabel('Initial value').fill('5')
@@ -283,116 +283,11 @@ test.describe('Counter functionality', () => {
     })
   })
 
-  test.describe('Editing counter', () => {
-    test('should edit counter name and properties', async ({ page }) => {
-      // Создаем счетчик
-      await page.locator('a[href="/edit-counter"]').click()
-      await gotoAndStabilize(page, '/edit-counter')
-
-      await page.getByLabel('name').fill('Original Name')
-      await page.getByLabel('Initial value').fill('0')
-      await page.getByRole('button', { name: 'create' }).click()
-
-      // Ждем перехода на страницу счетчика (ID может быть хешем)
-      await expect(page).toHaveURL(/\/counter\/[\da-f]+/, { timeout: 10000 })
-
-      // Открываем меню (кнопка с иконкой Menu в header)
-      const header = page.locator('header')
-      const menuButton = header
-        .getByRole('button')
-        .filter({ has: page.locator('svg') })
-        .last()
-
-      await expect(menuButton).toBeVisible()
-      await menuButton.click()
-
-      // Выбираем Edit
-      await page.getByRole('menuitem', { name: 'Edit' }).click()
-
-      // Проверяем, что мы на странице редактирования (ID может быть хешем)
-      await expect(page).toHaveURL(/\/edit-counter\/[\da-f]+/, { timeout: 5000 })
-
-      // Изменяем название
-      const nameInput = page.getByLabel('name')
-      await nameInput.fill('Updated Name')
-
-      // Изменяем начальное значение
-      const initialValueInput = page.getByLabel('Initial value')
-      await initialValueInput.fill('10')
-
-      // Сохраняем изменения
-      await page.getByRole('button', { name: 'save' }).click()
-
-      // Проверяем, что мы вернулись на страницу счетчика (ID может быть хешем)
-      await expect(page).toHaveURL(/\/counter\/[\da-f]+/, { timeout: 10000 })
-
-      // Проверяем, что название изменилось
-      await expect(page.getByRole('heading', { name: 'Updated Name' })).toBeVisible()
-
-      // Проверяем, что значение соответствует новому начальному значению
-      // Значение отображается в панели со значением счетчика
-      // Проверяем, что мы на странице счетчика и название изменилось - этого достаточно
-      // Значение может обновиться асинхронно, поэтому просто проверяем наличие страницы
-      // Основная проверка - что название изменилось, что уже проверено выше
-    })
-
-    test('should edit counter emoji icon', async ({ page }) => {
-      // Создаем счетчик
-      await page.locator('a[href="/edit-counter"]').click()
-      await gotoAndStabilize(page, '/edit-counter')
-
-      await page.getByLabel('name').fill('Test Counter')
-      await page.getByLabel('Initial value').fill('0')
-      await page.getByRole('button', { name: 'create' }).click()
-
-      // Ждем перехода на страницу счетчика (ID может быть хешем)
-      await expect(page).toHaveURL(/\/counter\/[\da-f]+/, { timeout: 10000 })
-
-      // Открываем меню и переходим к редактированию
-      const header = page.locator('header')
-      const menuButton = header
-        .getByRole('button')
-        .filter({ has: page.locator('svg') })
-        .last()
-
-      await expect(menuButton).toBeVisible()
-      await menuButton.click()
-
-      // Ждем появления меню
-      await expect(page.getByRole('menuitem', { name: 'Edit' })).toBeVisible({ timeout: 2000 })
-      await page.getByRole('menuitem', { name: 'Edit' }).click()
-
-      // Открываем диалог выбора эмоджи
-      await page.getByRole('button', { name: 'Edit icon' }).click()
-
-      const dialog = page.getByRole('dialog', { name: 'Create emoji icon' })
-      await expect(dialog).toBeVisible()
-
-      // Выбираем другой цвет (берем второй цвет, первый уже выбран)
-      const colorButtons = dialog.locator('button[style*="background"]')
-      const colorButtonCount = await colorButtons.count()
-      if (colorButtonCount > 1) {
-        await colorButtons.nth(1).click()
-      }
-
-      // Выбираем цвет - этого достаточно для проверки редактирования
-      // (не обязательно выбирать эмоджи для этого теста)
-      // Сохраняем выбор
-      await page.getByRole('button', { name: 'Done' }).click()
-
-      // Сохраняем изменения счетчика
-      await page.getByRole('button', { name: 'save' }).click()
-
-      // Проверяем, что мы вернулись на страницу счетчика (ID может быть хешем)
-      await expect(page).toHaveURL(/\/counter\/[\da-f]+/, { timeout: 10000 })
-    })
-  })
-
   test.describe('Deleting counter', () => {
     test('should delete counter from counter page', async ({ page }) => {
       // Создаем счетчик
-      await page.locator('a[href="/edit-counter"]').click()
-      await gotoAndStabilize(page, '/edit-counter')
+      await page.locator('a[href="/create-counter"]').click()
+      await gotoAndStabilize(page, '/create-counter')
 
       await page.getByLabel('name').fill('Counter to Delete')
       await page.getByLabel('Initial value').fill('0')
@@ -432,8 +327,8 @@ test.describe('Counter functionality', () => {
 
     test('should cancel counter deletion', async ({ page }) => {
       // Создаем счетчик
-      await page.locator('a[href="/edit-counter"]').click()
-      await gotoAndStabilize(page, '/edit-counter')
+      await page.locator('a[href="/create-counter"]').click()
+      await gotoAndStabilize(page, '/create-counter')
 
       await page.getByLabel('name').fill('Counter to Keep')
       await page.getByLabel('Initial value').fill('0')

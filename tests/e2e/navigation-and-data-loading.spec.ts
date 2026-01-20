@@ -19,8 +19,8 @@ test.describe('Navigation and data loading', () => {
     ]
 
     for (const counter of counters) {
-      await page.locator('a[href="/edit-counter"]').click()
-      await gotoAndStabilize(page, '/edit-counter')
+      await page.locator('a[href="/create-counter"]').click()
+      await gotoAndStabilize(page, '/create-counter')
 
       await page.getByLabel('name').fill(counter.name)
       await page.getByLabel('Initial value').fill(counter.initialValue)
@@ -53,8 +53,8 @@ test.describe('Navigation and data loading', () => {
     page,
   }) => {
     // Создаем счетчик
-    await page.locator('a[href="/edit-counter"]').click()
-    await gotoAndStabilize(page, '/edit-counter')
+    await page.locator('a[href="/create-counter"]').click()
+    await gotoAndStabilize(page, '/create-counter')
 
     const counterName = 'Test Counter Direct URL'
     const initialValue = '42'
@@ -117,8 +117,8 @@ test.describe('Navigation and data loading', () => {
     const counterUrls: string[] = []
 
     for (const counter of counters) {
-      await page.locator('a[href="/edit-counter"]').click()
-      await gotoAndStabilize(page, '/edit-counter')
+      await page.locator('a[href="/create-counter"]').click()
+      await gotoAndStabilize(page, '/create-counter')
 
       await page.getByLabel('name').fill(counter.name)
       await page.getByLabel('Initial value').fill(counter.initialValue)

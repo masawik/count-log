@@ -20,7 +20,7 @@ export const PlusBtn = ({ showArrow }: PlusBtnProps) => {
       )}
 
       <IconButton size="4" variant="solid" radius="full" asChild className="">
-        <Link to="/edit-counter">
+        <Link to="/create-counter">
           <Plus />
         </Link>
       </IconButton>

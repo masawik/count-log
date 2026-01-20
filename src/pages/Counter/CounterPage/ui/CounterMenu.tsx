@@ -7,7 +7,6 @@ import { CounterBadge, type Counter } from '@/entities/counter'
 
 import { AppDialog } from '@/shared/ui/AppDialog'
 
-
 export interface CounterMenuProps {
   counter: Counter,
   onDelete: () => void,
@@ -26,13 +25,6 @@ const CounterMenu = ({ counter, onDelete }: CounterMenuProps) => {
         </DropdownMenu.Trigger>
 
         <DropdownMenu.Content size="2">
-          <DropdownMenu.Item asChild className="text-4!">
-            <Link to={`/edit-counter/${counter.id}`}>
-              <SquarePen className="size-4" />
-              Edit
-            </Link>
-          </DropdownMenu.Item>
-
           <DropdownMenu.Item
             color="red"
             className="text-4!"

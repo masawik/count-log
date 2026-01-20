@@ -47,7 +47,7 @@ test.describe('all routes screenshots', () => {
 
 test.describe('Edit page emoji picker dialog', () => {
   const openDialog = async (page: Page) => {
-    await gotoAndStabilize(page, '/edit-counter')
+    await gotoAndStabilize(page, '/create-counter')
 
     await page.getByRole('button', { name: 'Edit icon' }).click()
 
@@ -84,7 +84,7 @@ test.describe('Edit page emoji picker dialog', () => {
 test('form inputs', async ({ page }) => {
   // clearDatabase уже вызывает freezeTime
   await clearDatabase(page)
-  await gotoAndStabilize(page, '/edit-counter')
+  await gotoAndStabilize(page, '/create-counter')
 
   const addStepButton = page.getByRole('button', { name: 'Add button' })
 

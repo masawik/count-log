@@ -7,9 +7,9 @@ export async function createCounter(
   options: { name: string; initialValue: string },
 ): Promise<string> {
   // Переходим на страницу создания счетчика
-  await page.locator('a[href="/edit-counter"]').click()
-  await page.waitForURL(/\/edit-counter/, { timeout: 5000 })
-  await gotoAndStabilize(page, '/edit-counter')
+  await page.locator('a[href="/create-counter"]').click()
+  await page.waitForURL(/\/create-counter/, { timeout: 5000 })
+  await gotoAndStabilize(page, '/create-counter')
 
   // Вводим название счетчика
   const nameInput = page.getByLabel('name')

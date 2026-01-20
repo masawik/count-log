@@ -6,17 +6,15 @@ import { useFieldArray, useForm, useWatch } from 'react-hook-form'
 import { type SubmitHandler, FormProvider } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 
-import { getCounterFx, type Counter } from '@/entities/counter'
+import { type Counter } from '@/entities/counter'
 
 import { useRafScheduler } from '@/shared/lib'
 import { useAndroidBackButtonNavigate } from '@/shared/nativePlatform'
 import { EmojiIcon, EmojiIconPicker } from '@/shared/ui'
 import { TextField } from '@/shared/ui'
 
-import { useEmojiIcon } from '../lib/useEmojiIcon'
-import { formSubmitted } from '../model'
-
-import type { Route } from './+types/CounterEditorPage'
+import { useEmojiIcon } from './lib/useEmojiIcon'
+import { formSubmitted } from './model'
 
 interface FormInputs {
   name: string,
@@ -24,35 +22,7 @@ interface FormInputs {
   stepButtons: { value: number }[],
 }
 
-export const clientLoader = async ({ params }: Route.ClientLoaderArgs) => {
-  if (!params.counterId) {
-    return {
-      counter: undefined,
-    }
-  }
-
-  // FIX remove direct fx usage
-  const counter = await getCounterFx({ id: params.counterId })
-  return { counter }
-}
-
-const getFormDefaultValue = (counter?: Counter) => {
-  const stepButtons = counter?.steps
-    ? [ ...counter.steps ]
-    : [ { value: -1 }, { value: 1 } ]
-
-  return {
-    name: counter?.name || '',
-    initialValue: counter?.initial_value || 0,
-    stepButtons,
-  }
-}
-
-export default function CounterEditorPage({
-  loaderData: { counter },
-}: Route.ComponentProps) {
-  const isNew = !counter
-
+export default function CounterEditorPage() {
   const handleFormSubmit = useUnit(formSubmitted)
 
   const navigate = useNavigate()
@@ -60,7 +30,11 @@ export default function CounterEditorPage({
   useAndroidBackButtonNavigate('/')
 
   const formMethods = useForm<FormInputs>({
-    defaultValues: getFormDefaultValue(counter),
+    defaultValues: {
+      name: '',
+      initialValue: 0,
+      stepButtons: [ { value: -1 }, { value: 1 } ],
+    },
     shouldUnregister: true,
     mode: 'onSubmit',
   })
@@ -74,16 +48,11 @@ export default function CounterEditorPage({
 
   const isSubmitBtnDisabled = !!Object.keys(errors).length
   const handleSubmit: SubmitHandler<FormInputs> = (data) => {
-    const update = {
+    handleFormSubmit({
       name: data.name,
       initial_value: data.initialValue,
       steps: data.stepButtons,
       emojiIcon: emojiIcon,
-    }
-
-    handleFormSubmit({
-      update,
-      counter,
     })
   }
 
@@ -101,10 +70,7 @@ export default function CounterEditorPage({
     emojiIcon,
     loading: searchingEmoji,
     handlePickEmojiIcon,
-  } = useEmojiIcon(name, {
-    shouldNotSuggest: !isNew,
-    initialValue: counter?.emojiIcon,
-  })
+  } = useEmojiIcon(name)
   const [ emojiPickerVisible, setEmojiPickerVisible ] = useState(false)
 
   const [ lastNewStepInputName, setLastNewStepInputName ] = useState<
@@ -175,9 +141,7 @@ export default function CounterEditorPage({
         >
           <div className="container overflow-auto px-2">
             <div className="flex justify-center p-4">
-              <h1 className="text-6 font-normal">
-                {isNew ? 'New counter' : 'Editing'}
-              </h1>
+              <h1 className="text-6 font-normal">New counter</h1>
             </div>
 
             <div className="flex flex-col gap-4">
@@ -269,7 +233,7 @@ export default function CounterEditorPage({
                 type="button"
                 onClick={() => navigate('/')}
               >
-                cancel
+                Cancel
               </Button>
 
               <Button
@@ -278,7 +242,7 @@ export default function CounterEditorPage({
                 type="submit"
                 disabled={isSubmitBtnDisabled}
               >
-                {isNew ? 'create' : 'save'}
+                Create
               </Button>
             </div>
           </footer>

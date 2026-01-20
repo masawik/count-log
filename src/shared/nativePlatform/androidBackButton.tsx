@@ -1,4 +1,4 @@
-import { App, type BackButtonListener } from '@capacitor/app'
+import { App } from '@capacitor/app'
 import {
   createContext,
   useCallback,

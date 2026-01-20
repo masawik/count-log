@@ -5,8 +5,8 @@ import { counterRoute } from './pages/Counter'
 const routes = [
   index('./pages/CountersList/ui/CountersList.tsx'),
   route(
-    'edit-counter/:counterId?',
-    './pages/CounterEditor/ui/CounterEditorPage.tsx',
+    'create-counter',
+    './pages/CreateCounter/CreateCounterPage.tsx',
   ),
   counterRoute,
 
