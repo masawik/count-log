@@ -2,6 +2,7 @@ import { test, expect, type Page } from '@playwright/test'
 
 import routes from '@/routes'
 
+import { assertNoErrorBoundary } from '../utils/assertNoErrorBoundary'
 import { clearDatabase } from '../utils/clearDatabase'
 import { createCounter } from '../utils/createCounter'
 import { gotoAndStabilize } from '../utils/gotoAndStabilize'
@@ -36,6 +37,9 @@ test.describe('all routes screenshots', () => {
         await gotoAndStabilize(page, path)
       }
 
+      // Проверяем, что нет error-boundary перед скриншотом
+      await assertNoErrorBoundary(page)
+
       await expect(page).toHaveScreenshot({ fullPage: true })
     })
   })
@@ -53,6 +57,9 @@ test.describe('Edit page emoji picker dialog', () => {
   test('Colors tab', async ({ page }) => {
     const dialog = await openDialog(page)
 
+    // Проверяем, что нет error-boundary перед скриншотом
+    await assertNoErrorBoundary(page)
+
     await expect(dialog).toHaveScreenshot()
   })
 
@@ -60,10 +67,15 @@ test.describe('Edit page emoji picker dialog', () => {
     const dialog = await openDialog(page)
     await page.getByRole('tab', { name: 'Select emoji' }).click()
 
+    // Проверяем, что нет error-boundary перед скриншотом
+    await assertNoErrorBoundary(page)
+
     await expect(dialog).toHaveScreenshot('whole-dialog.png')
 
     const searchInput = page.getByRole('searchbox', { name: 'Search' })
     searchInput.focus()
+
+    await assertNoErrorBoundary(page)
 
     await expect(searchInput).toHaveScreenshot('focused-search-input.png')
   })
@@ -94,6 +106,9 @@ test('form inputs', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Create' }).click()
 
+  // Проверяем, что нет error-boundary перед скриншотом
+  await assertNoErrorBoundary(page)
+
   await expect(page).toHaveScreenshot({ fullPage: true })
 })
 
@@ -118,6 +133,9 @@ test.describe('Counter page', () => {
       // Если элемент не найден, это тоже нормально (таймер скрыт)
     })
 
+    // Проверяем, что нет error-boundary перед скриншотом
+    await assertNoErrorBoundary(page)
+
     await expect(page).toHaveScreenshot({ fullPage: true })
   })
 
@@ -140,6 +158,9 @@ test.describe('Counter page', () => {
     const stopwatchContainer = page.locator('text=/\\d{2}:\\d{2}\\.\\d{2}/')
     await expect(stopwatchContainer).toBeVisible({ timeout: 2000 })
 
+    // Проверяем, что нет error-boundary перед скриншотом
+    await assertNoErrorBoundary(page)
+
     await expect(page).toHaveScreenshot({ fullPage: true })
   })
 })
@@ -161,6 +182,9 @@ test.describe('Counter history page', () => {
     await expect(
       page.getByText('there is no events yet.'),
     ).toBeVisible({ timeout: 5000 })
+
+    // Проверяем, что нет error-boundary перед скриншотом
+    await assertNoErrorBoundary(page)
 
     await expect(page).toHaveScreenshot({ fullPage: true })
   })
@@ -208,6 +232,9 @@ test.describe('Counter history page', () => {
     await expect(spinner).not.toBeVisible({ timeout: 2000 }).catch(() => {
       // Если спиннер не найден, это нормально
     })
+
+    // Проверяем, что нет error-boundary перед скриншотом
+    await assertNoErrorBoundary(page)
 
     await expect(page).toHaveScreenshot({ fullPage: true })
   })

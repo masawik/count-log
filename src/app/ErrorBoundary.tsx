@@ -66,7 +66,7 @@ export function ErrorBoundary() {
 
 
   return (
-    <main className="pt-16 p-4 container mx-auto">
+    <main className="pt-16 p-4 container mx-auto" data-test-id="error-boundary">
       <h1>{errorInfo.message}</h1>
       <p>{errorInfo.details}</p>
       {errorInfo.stack && (
