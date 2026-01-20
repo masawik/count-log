@@ -1,9 +1,10 @@
 import { Button, IconButton } from '@radix-ui/themes'
 import { useUnit } from 'effector-react'
 import { RotateCw, ScrollText, Timer } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { Link, useOutletContext } from 'react-router'
 
+import { CounterDeltaButtons } from '@/widgets/CounterDeltaButtons'
 import { CounterHeader } from '@/widgets/CounterHeader'
 
 import { useAndroidBackButtonNavigate } from '@/shared/nativePlatform'
@@ -15,7 +16,6 @@ import {
   deltaButtonClicked,
   resetCounterClicked,
 } from './model'
-import CounterDeltaButtons from './ui/CounterDeltaButtons'
 import CounterMenu from './ui/CounterMenu'
 import EditableCounterPreview from './ui/EditableCounterPreview'
 
@@ -37,9 +37,6 @@ const CounterPage = () => {
     handleCounterValueCorrected: counterValueCorrected,
     handleDeltaButtonClicked: deltaButtonClicked,
   })
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const steps = useMemo(() => counter.steps, [ counter.id ])
 
   return (
     <div className="container flex h-fill flex-col">
@@ -72,7 +69,7 @@ const CounterPage = () => {
         </div>
 
         <CounterDeltaButtons
-          steps={steps}
+          counter={counter}
           onBtnClick={handleDeltaButtonClicked}
           className="grow"
         />

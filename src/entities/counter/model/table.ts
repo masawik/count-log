@@ -10,14 +10,16 @@ import {
 import { $db, type JSONColumnType } from '@/shared/db'
 import type { EmojiIconType } from '@/shared/ui'
 
+type CounterValue = number
+type Step = { value: CounterValue }
 export interface CountersTable {
   id: ColumnType<string, string | undefined, never>,
   name: string,
-  initial_value: number,
+  initial_value: CounterValue,
   emojiIcon: JSONColumnType<EmojiIconType>,
-  steps: JSONColumnType<{ value: number }[]>,
+  steps: JSONColumnType<Step[], Step[] | undefined>,
   created_at: ColumnType<Date, string | undefined, never>,
-  current_value: number,
+  current_value: CounterValue,
   updated_at: ColumnType<Date, string | undefined, never>,
 }
 
@@ -38,7 +40,9 @@ export const ensureCountersTableFx = attach({
         .addColumn('name', 'text')
         .addColumn('initial_value', 'integer')
         .addColumn('emojiIcon', 'text')
-        .addColumn('steps', 'text')
+        .addColumn('steps', 'text', (col) =>
+          col.defaultTo(sql`'[{"value":-1},{"value":1}]'`),
+        )
         .addColumn('current_value', 'integer')
         .addColumn('created_at', 'text', (col) =>
           col.defaultTo(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),

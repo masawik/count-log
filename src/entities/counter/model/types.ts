@@ -5,6 +5,9 @@ export type NewCounter = Pick<NewCounterDto,
   | 'name'
   | 'initial_value'
   | 'emojiIcon'
-  | 'steps'
 >
-export type CounterUpdate = Partial<NewCounter> & Pick<Counter, 'id'>
+export type CounterUpdate = Pick<Counter, 'id'> & Partial<Pick<Counter,
+  | 'emojiIcon'
+  | 'name'
+  | 'steps'
+>>

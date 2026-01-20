@@ -1,5 +1,4 @@
 import { attach, createEvent, sample } from 'effector'
-import { uniqBy } from 'lodash-es'
 
 import {
   type NewCounter,
@@ -10,18 +9,10 @@ import { navigateTo } from '@/shared/routing'
 
 export const formSubmitted = createEvent<NewCounter>()
 
-const formSubmittedMapped = sample({
-  clock: formSubmitted,
-  fn: (data) => ({
-    ...data,
-    steps: uniqBy(data.steps, (step) => step.value),
-  }),
-})
-
 const createCounterByEditorFx = attach({ effect: createCounterFx })
 
 sample({
-  clock: formSubmittedMapped,
+  clock: formSubmitted,
   target: createCounterByEditorFx,
 })
 

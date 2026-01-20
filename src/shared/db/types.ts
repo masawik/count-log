@@ -12,4 +12,4 @@ export interface Database {
  * Since the SerializePlugin plugin is used (see `./instance.ts`),
  * JSON data can be transmitted "as is"
  */
-export type JSONColumnType<T> = ColumnType<T, T, T>
+export type JSONColumnType<S, I = S, U = S> = ColumnType<S, I, U>

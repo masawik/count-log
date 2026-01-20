@@ -1,7 +1,6 @@
 import { DropdownMenu, IconButton } from '@radix-ui/themes'
-import { Menu, SquarePen, Trash2 } from 'lucide-react'
+import { Menu, Trash2 } from 'lucide-react'
 import { useState } from 'react'
-import { Link } from 'react-router'
 
 import { CounterBadge, type Counter } from '@/entities/counter'
 

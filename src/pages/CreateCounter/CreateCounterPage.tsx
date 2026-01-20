@@ -1,14 +1,11 @@
-import { Button, IconButton } from '@radix-ui/themes'
+import { Button } from '@radix-ui/themes'
 import { useUnit } from 'effector-react'
-import { Plus, Trash2 } from 'lucide-react'
-import { useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { useFieldArray, useForm, useWatch } from 'react-hook-form'
+import { useState } from 'react'
+import { useForm, useWatch } from 'react-hook-form'
 import { type SubmitHandler, FormProvider } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 
-import { type Counter } from '@/entities/counter'
 
-import { useRafScheduler } from '@/shared/lib'
 import { useAndroidBackButtonNavigate } from '@/shared/nativePlatform'
 import { EmojiIcon, EmojiIconPicker } from '@/shared/ui'
 import { TextField } from '@/shared/ui'
@@ -19,7 +16,6 @@ import { formSubmitted } from './model'
 interface FormInputs {
   name: string,
   initialValue: number,
-  stepButtons: { value: number }[],
 }
 
 export default function CounterEditorPage() {
@@ -33,7 +29,6 @@ export default function CounterEditorPage() {
     defaultValues: {
       name: '',
       initialValue: 0,
-      stepButtons: [ { value: -1 }, { value: 1 } ],
     },
     shouldUnregister: true,
     mode: 'onSubmit',
@@ -51,15 +46,9 @@ export default function CounterEditorPage() {
     handleFormSubmit({
       name: data.name,
       initial_value: data.initialValue,
-      steps: data.stepButtons,
       emojiIcon: emojiIcon,
     })
   }
-
-  const { fields, append, remove } = useFieldArray<FormInputs>({
-    control,
-    name: 'stepButtons',
-  })
 
   const name = useWatch({
     control,
@@ -73,64 +62,6 @@ export default function CounterEditorPage() {
   } = useEmojiIcon(name)
   const [ emojiPickerVisible, setEmojiPickerVisible ] = useState(false)
 
-  const [ lastNewStepInputName, setLastNewStepInputName ] = useState<
-    null | string
-  >(null)
-  useLayoutEffect(() => {
-    const newInputEl = document.querySelector(
-      `[name="${lastNewStepInputName}"]`,
-    ) as HTMLInputElement | undefined
-
-    if (!newInputEl) return
-
-    newInputEl.focus()
-    newInputEl.select()
-  }, [ lastNewStepInputName ])
-
-  const { schedule } = useRafScheduler()
-  const addStepButtonRef = useRef<null | HTMLButtonElement>(null)
-  const handleAddStepButton = () => {
-    append({ value: 1 })
-
-    setLastNewStepInputName(`stepButtons.${fields.length}.value`)
-
-    schedule(() => {
-      addStepButtonRef.current?.scrollIntoView({
-        block: 'nearest',
-        behavior: 'instant',
-      })
-    })
-  }
-
-  const stepButtonInputs = useMemo(
-    () =>
-      fields.map((field, index) => {
-        return (
-          <TextField.Root
-            key={field.id}
-            type="number"
-            {...register(`stepButtons.${index}.value`, {
-              required: true,
-              valueAsNumber: true,
-            })}
-          >
-            {index > 1 && (
-              <TextField.Slot side="right">
-                <IconButton
-                  variant="ghost"
-                  color="gray"
-                  type="button"
-                  onClick={() => remove(index)}
-                >
-                  <Trash2 color="gray" />
-                </IconButton>
-              </TextField.Slot>
-            )}
-          </TextField.Root>
-        )
-      }),
-    [ fields, register, remove ],
-  )
 
   return (
     <main>
@@ -190,34 +121,6 @@ export default function CounterEditorPage() {
                       valueAsNumber: true,
                     })}
                   />
-
-                  <div className="flex flex-col gap-2">
-                    <div>
-                      <div>Step buttons</div>
-                      <div className="text-1 text-brownA-11">
-                        The first two buttons will be displayed on the main
-                        page.
-                      </div>
-                    </div>
-
-                    <div
-                      className="grid w-full grid-cols-2 gap-2"
-                      data-test-id="step-buttons-container"
-                    >
-                      {stepButtonInputs}
-                    </div>
-
-                    <div className="mt-2 flex justify-center">
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        onClick={handleAddStepButton}
-                        ref={addStepButtonRef}
-                      >
-                        <Plus /> Add button
-                      </Button>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
