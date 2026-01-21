@@ -1,4 +1,5 @@
 import { Button, type ButtonProps } from '@radix-ui/themes'
+import { useTranslation } from 'react-i18next'
 
 import { createSlots } from '../component-helpers'
 import { AlertDialog } from './AlertDialog'
@@ -26,6 +27,7 @@ const AppAlertDialogImpl = ({
   children,
   ...props
 }: AppDialogProps & PropsWithChildren) => {
+  const { t } = useTranslation()
   const { DescriptionSlot } = pick(children)
 
   return (
@@ -49,7 +51,7 @@ const AppAlertDialogImpl = ({
               onClick={props.onClickNo}
               {...props.noProps}
             >
-              {props.noText || 'no'}
+              {props.noText || t('no')}
             </Button>
 
             <Button
@@ -59,7 +61,7 @@ const AppAlertDialogImpl = ({
               onClick={props.onClickYes}
               {...props.yesProps}
             >
-              {props.yesText || 'yes'}
+              {props.yesText || t('yes')}
             </Button>
           </div>
         )}

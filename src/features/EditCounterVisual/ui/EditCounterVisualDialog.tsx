@@ -1,5 +1,6 @@
 import { useUnit } from 'effector-react'
 import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
 import type { Counter } from '@/entities/counter'
 
@@ -15,6 +16,7 @@ import {
 } from '../model'
 
 const EditCounterVisualDialogImpl = ({ counter }: { counter: Counter }) => {
+  const { t } = useTranslation()
   const handleClose = useUnit(editCounterVisualDialogClosed)
   const isSubmitting = useUnit($isSubmitting)
   const handleSubmit = useUnit(formSubmitted)
@@ -32,7 +34,7 @@ const EditCounterVisualDialogImpl = ({ counter }: { counter: Counter }) => {
     <Dialog.Root open onOpenChange={(isOpen) => !isOpen && handleClose()}>
       <Dialog.FormContent
         formData={formData}
-        title="edit visual"
+        title={t('editing')}
         align="start"
         onSubmit={registerSubmitHandler(handleSubmit)}
         isSubmitting={isSubmitting}
@@ -44,8 +46,8 @@ const EditCounterVisualDialogImpl = ({ counter }: { counter: Counter }) => {
           />
 
           <TextField.Root
-            label="name"
-            placeholder="books read"
+            label={t('counterName')}
+            placeholder={t('counterNamePlaceholder')}
             className="grow"
             {...register('name', { required: true })}
           />

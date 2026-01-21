@@ -3,6 +3,7 @@ import { useGate, useUnit } from 'effector-react'
 import { Plus, Trash2 } from 'lucide-react'
 import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
 import type { Counter } from '@/entities/counter'
 
@@ -28,6 +29,7 @@ export const DeltaButtonsConfiguratorDialog = ({
   counter,
   ...props
 }: DeltaButtonsConfiguratorDialogProps) => {
+  const { t } = useTranslation()
   useGate(DeltaButtonsConfiguratorGate, counter)
   const handleSubmit = useUnit(formSubmitted)
   const isSubmitting = useUnit($submitting)
@@ -112,9 +114,10 @@ export const DeltaButtonsConfiguratorDialog = ({
     <Dialog.Root {...props}>
       <Dialog.FormContent
         align="start"
-        title="Configure steps"
+        title={t('configureSteps')}
         className="grid max-h-[70dvh] grid-rows-[auto_1fr_auto]"
         formData={formMethods}
+        isSubmitting={isSubmitting}
         onSubmit={registerSubmitHandler(handleSubmit)}
       >
         <div className="flex min-h-0 flex-col">
@@ -133,7 +136,7 @@ export const DeltaButtonsConfiguratorDialog = ({
               onClick={handleAddStepButton}
               ref={addStepButtonRef}
             >
-              <Plus /> Add step
+              <Plus /> {t('addStep')}
             </Button>
           </div>
         </div>

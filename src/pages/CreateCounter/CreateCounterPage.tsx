@@ -3,6 +3,7 @@ import { useUnit } from 'effector-react'
 import sample from 'lodash-es/sample'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import { FormProvider } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
 
@@ -25,6 +26,7 @@ const getDefaultEmojiIcon = () => ({
 })
 
 export default function CounterEditorPage() {
+  const { t } = useTranslation()
   const handleSubmit = useUnit(formSubmitted)
 
   const navigate = useNavigate()
@@ -64,7 +66,7 @@ export default function CounterEditorPage() {
         >
           <div className="container overflow-auto px-2">
             <div className="flex justify-center p-4">
-              <h1 className="text-6 font-normal">New counter</h1>
+              <h1 className="text-6 font-normal">{t('newCounter')}</h1>
             </div>
 
             <div className="flex flex-col gap-4">
@@ -79,8 +81,8 @@ export default function CounterEditorPage() {
                     />
 
                     <TextField.Root
-                      label="name"
-                      placeholder="books read"
+                      label={t('counterName')}
+                      placeholder={t('counterNamePlaceholder')}
                       className="grow"
                       {...register('name', { required: true })}
                     />
@@ -91,7 +93,7 @@ export default function CounterEditorPage() {
               <div className="panel">
                 <div className="flex flex-col gap-2">
                   <TextField.Root
-                    label="Initial value"
+                    label={t('initialValue')}
                     type="number"
                     {...register('initial_value', {
                       required: true,
@@ -113,7 +115,7 @@ export default function CounterEditorPage() {
                 type="button"
                 onClick={() => navigate('/')}
               >
-                Cancel
+                {t('cancel')}
               </Button>
 
               <Button
@@ -122,7 +124,7 @@ export default function CounterEditorPage() {
                 type="submit"
                 disabled={isSubmitBtnDisabled}
               >
-                Create
+                {t('create')}
               </Button>
             </div>
           </footer>

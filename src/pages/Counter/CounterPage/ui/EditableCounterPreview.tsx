@@ -1,6 +1,7 @@
 import { Button, IconButton } from '@radix-ui/themes'
 import { TextCursorInput } from 'lucide-react'
 import { useState, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import type { Counter } from '@/entities/counter'
 
@@ -17,6 +18,7 @@ const EditableCounterPreview = ({
   color,
   onChange,
 }: EditableCounterPreviewProps) => {
+  const { t } = useTranslation()
   const [ isCorrectingMode, setIsCorrectingMode ] = useState(false)
 
   const correctionInputRef = useRef<HTMLInputElement | null>(null)
@@ -65,7 +67,7 @@ const EditableCounterPreview = ({
                 size="4"
                 onClick={() => setIsCorrectingMode(false)}
               >
-                Cancel
+                {t('cancel')}
               </Button>
 
               <Button
@@ -74,7 +76,7 @@ const EditableCounterPreview = ({
                 size="4"
                 onClick={handleSubmitCorrection}
               >
-                Confirm
+                {t('save')}
               </Button>
             </div>
           </div>

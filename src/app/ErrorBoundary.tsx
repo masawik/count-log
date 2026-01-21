@@ -1,4 +1,5 @@
 import { useEffect, useEffectEvent, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { isRouteErrorResponse, useNavigate, useRouteError, type ErrorResponse } from 'react-router'
 
 import { type ApiClientError, isApiClientError } from '@/shared/api'
@@ -10,20 +11,21 @@ interface ErrorInfo {
 }
 
 export function ErrorBoundary() {
+  const { t } = useTranslation()
   const error = useRouteError()
   const navigate = useNavigate()
   const [ errorInfo, setErrorInfo ] = useState<ErrorInfo>({
-    message: 'Ooops!',
-    details: 'An unexpected error occurred.',
+    message: t('oops'),
+    details: t('unexpectedError'),
   })
 
-  useEffect(() => { document.title = 'Error' }, [])
+  useEffect(() => { document.title = t('error') }, [ t ])
 
   const handleRouteErrorResponse = useEffectEvent((e: ErrorResponse) => {
     setErrorInfo(i => ({
-      message: e.status === 404 ? '404' : 'Error',
+      message: e.status === 404 ? '404' : t('error'),
       details: e.status === 404
-        ? 'The requested page could not be found.'
+        ? t('pageNotFound')
         : e.statusText || i.details,
     }))
   })

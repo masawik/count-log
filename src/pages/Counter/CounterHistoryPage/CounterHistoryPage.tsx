@@ -1,5 +1,6 @@
 import { Spinner } from '@radix-ui/themes'
 import { useGate, useUnit } from 'effector-react'
+import { useTranslation } from 'react-i18next'
 import { useOutletContext } from 'react-router'
 
 import { CounterHeader } from '@/widgets/CounterHeader'
@@ -12,6 +13,7 @@ import { EventListItem } from './ui/EventListItem'
 import type { CounterOutletContext } from '../CounterRouteLayout'
 
 const CounterHistoryPage = () => {
+  const { t } = useTranslation()
   const { counter } = useOutletContext<CounterOutletContext>()
   useGate(ConuterHistoryPageGate, counter)
 
@@ -32,7 +34,7 @@ const CounterHistoryPage = () => {
         </div>
       ) : noContent ? (
         <div className="flex flex-col items-center gap-2 py-14 text-6 text-grayA-11">
-          there is no events yet.
+          {t('noEventsYet')}
         </div>
       ) : (
         <div className="panel flex grow flex-col gap-1 overflow-auto rounded-b-none">

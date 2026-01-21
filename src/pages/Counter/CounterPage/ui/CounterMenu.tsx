@@ -1,6 +1,7 @@
 import { DropdownMenu, IconButton } from '@radix-ui/themes'
 import { Menu, SquarePen, Trash2 } from 'lucide-react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { CounterBadge, type Counter } from '@/entities/counter'
 
@@ -13,6 +14,7 @@ export interface CounterMenuProps {
 }
 
 const CounterMenu = ({ counter, onDelete, onEdit }: CounterMenuProps) => {
+  const { t } = useTranslation()
   const [ showDeleteDialog, setShowDeleteDialog ] = useState(false)
 
   return (
@@ -31,7 +33,7 @@ const CounterMenu = ({ counter, onDelete, onEdit }: CounterMenuProps) => {
             onClick={onEdit}
           >
             <SquarePen className="size-4" />
-            Edit
+            {t('edit')}
           </DropdownMenu.Item>
 
           <DropdownMenu.Item
@@ -40,21 +42,21 @@ const CounterMenu = ({ counter, onDelete, onEdit }: CounterMenuProps) => {
             onClick={() => setShowDeleteDialog(true)}
           >
             <Trash2 className="size-4" />
-            Delete
+            {t('delete')}
           </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Root>
 
       {showDeleteDialog && (
         <AppAlertDialog
-          title="Are you sure?"
+          title={t('areYouSure')}
           type="confirm"
           onClickNo={() => setShowDeleteDialog(false)}
           onClickYes={onDelete}
         >
           <AppAlertDialog.DescriptionSlot>
             <div className="flex flex-col items-center gap-2">
-              <div>Do you really want to delete this counter?</div>
+              <div>{t('deleteCounterConfirmation')}</div>
 
               <CounterBadge counter={counter} />
             </div>

@@ -1,7 +1,7 @@
-import emojiData from '@emoji-mart/data'
 import { Button, Tabs } from '@radix-ui/themes'
 import { pick } from 'lodash-es'
 import { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { COLOR_PALETTE, type Color } from '@/shared/config'
 import { cn } from '@/shared/lib'
@@ -49,6 +49,7 @@ export const EmojiIconPicker = function EmojiIconPicker({
   onPick,
   ...props
 }: EmojiIconPickerProps) {
+  const { t } = useTranslation()
   const [ internalOpen, setInternalOpen ] = useState<boolean>(
     defaultOpen || false,
   )
@@ -96,12 +97,11 @@ export const EmojiIconPicker = function EmojiIconPicker({
       <Dialog.Content
         align="start"
         className="EmojiIconPicker"
-        srTitle="Create emoji icon"
-        srDescription="Choose a color and an emoji to customize your icon. The selected
-          combination will be used as the visual identifier."
+        srTitle={t('createEmojiIcon')}
+        srDescription={t('emojiIconPickerDescription')}
         headerRightSide={
           <Button size="3" color="green" variant="soft" onClick={handleDone}>
-            Done
+            {t('done')}
           </Button>
         }
       >
@@ -115,8 +115,8 @@ export const EmojiIconPicker = function EmojiIconPicker({
           <Tabs.Root defaultValue="color" className="w-full">
             <Tabs.List>
               <div className="grid w-full grid-cols-2">
-                <Tabs.Trigger value="color">Select color</Tabs.Trigger>
-                <Tabs.Trigger value="emoji">Select emoji</Tabs.Trigger>
+                <Tabs.Trigger value="color">{t('selectColor')}</Tabs.Trigger>
+                <Tabs.Trigger value="emoji">{t('selectEmoji')}</Tabs.Trigger>
               </div>
             </Tabs.List>
 
@@ -130,7 +130,6 @@ export const EmojiIconPicker = function EmojiIconPicker({
               <Tabs.Content value="emoji">
                 <div className="flex justify-center">
                   <EmojiPicker
-                    data={emojiData}
                     maxFrequentRows="1"
                     navPosition="bottom"
                     emojiButtonSize="42"

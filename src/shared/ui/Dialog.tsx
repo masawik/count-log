@@ -7,6 +7,7 @@ import {
   type FieldValues,
   type UseFormReturn,
 } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
 import { cn } from '@/shared/lib'
 
@@ -136,6 +137,8 @@ const DialogFormContent = <
   isSubmitting,
   ...props
 }: DialogFormContentProps<TFieldValues, TContext, TTransformedValues>) => {
+  const { t } = useTranslation()
+
   return (
     <DialogContent closeBtnDisabled={isSubmitting} {...props}>
       <FormProvider {...formData}>
@@ -152,7 +155,7 @@ const DialogFormContent = <
                   className="m-0!"
                   disabled={isSubmitting}
                 >
-                  Cancel
+                  {t('cancel')}
                 </Button>
               </Dialog.Close>
 
@@ -163,7 +166,7 @@ const DialogFormContent = <
                 type="submit"
                 loading={isSubmitting}
               >
-                Done
+                {t('done')}
               </Button>
             </div>
           </div>

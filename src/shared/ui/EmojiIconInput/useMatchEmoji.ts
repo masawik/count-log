@@ -1,8 +1,10 @@
-import data, { type Emoji } from '@emoji-mart/data'
+import { type Emoji } from '@emoji-mart/data'
 import { init, SearchIndex } from 'emoji-mart'
 import { startTransition, useEffect, useRef, useState } from 'react'
 
-void init({ data })
+import EmojiData from '@/shared/config/emoji-data-en-ru.json'
+
+void init({ data: EmojiData })
 
 async function matchEmoji(query: string) {
   const words = query.split(' ')

@@ -2,12 +2,16 @@ import { Button, IconButton } from '@radix-ui/themes'
 import { useUnit } from 'effector-react'
 import { RotateCw, ScrollText, Timer } from 'lucide-react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link, useOutletContext } from 'react-router'
 
 import { CounterDeltaButtons } from '@/widgets/CounterDeltaButtons'
 import { CounterHeader } from '@/widgets/CounterHeader'
 
-import { EditCounterVisualDialog, editCounterVisualDialogOpened } from '@/features/EditCounterVisual'
+import {
+  EditCounterVisualDialog,
+  editCounterVisualDialogOpened,
+} from '@/features/EditCounterVisual'
 
 import { useAndroidBackButtonNavigate } from '@/shared/nativePlatform'
 import { StopWatch } from '@/shared/ui'
@@ -24,6 +28,7 @@ import EditableCounterPreview from './ui/EditableCounterPreview'
 import type { CounterOutletContext } from '../CounterRouteLayout'
 
 const CounterPage = () => {
+  const { t } = useTranslation()
   const { counter } = useOutletContext<CounterOutletContext>()
   const [ stopWatchVisible, setStopWatchVisible ] = useState<boolean>(false)
   useAndroidBackButtonNavigate('/')
@@ -85,7 +90,6 @@ const CounterPage = () => {
           </div>
         )}
 
-
         <EditCounterVisualDialog />
       </main>
 
@@ -97,7 +101,7 @@ const CounterPage = () => {
           onClick={handleResetCounterClicked}
         >
           <RotateCw className="size-4" />
-          reset
+          {t('reset')}
         </Button>
 
         <Button
@@ -107,7 +111,7 @@ const CounterPage = () => {
           onClick={() => setStopWatchVisible((s) => !s)}
         >
           <Timer className="size-4" />
-          {stopWatchVisible ? 'hide' : 'show'} stopwatch
+          {stopWatchVisible ? t('hideStopWatch') : t('showStopWatch')}
         </Button>
       </footer>
     </div>
