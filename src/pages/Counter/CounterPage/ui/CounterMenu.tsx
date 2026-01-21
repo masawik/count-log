@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 import { CounterBadge, type Counter } from '@/entities/counter'
 
-import { AppDialog } from '@/shared/ui/AppDialog'
+import { AppAlertDialog } from '@/shared/ui/AppAlertDialog'
 
 export interface CounterMenuProps {
   counter: Counter,
@@ -36,20 +36,20 @@ const CounterMenu = ({ counter, onDelete }: CounterMenuProps) => {
       </DropdownMenu.Root>
 
       {showDeleteDialog && (
-        <AppDialog
+        <AppAlertDialog
           title="Are you sure?"
           type="confirm"
           onClickNo={() => setShowDeleteDialog(false)}
           onClickYes={onDelete}
         >
-          <AppDialog.DescriptionSlot>
+          <AppAlertDialog.DescriptionSlot>
             <div className="flex flex-col items-center gap-2">
               <div>Do you really want to delete this counter?</div>
 
               <CounterBadge counter={counter} />
             </div>
-          </AppDialog.DescriptionSlot>
-        </AppDialog>
+          </AppAlertDialog.DescriptionSlot>
+        </AppAlertDialog>
       )}
     </>
   )

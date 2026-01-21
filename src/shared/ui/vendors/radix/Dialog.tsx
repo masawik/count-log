@@ -1,7 +1,7 @@
 import { Dialog as DialogOrig } from '@radix-ui/themes'
 import { useCallback, useRef } from 'react'
 
-import { useAndroidBackButtonCb } from '../nativePlatform'
+import { useAndroidBackButtonCb } from '../../../nativePlatform'
 
 const DialogRoot = ({ onOpenChange, ...props }: DialogOrig.RootProps) => {
   const isOpenRef = useRef<boolean>(props.open || props.defaultOpen)

@@ -1,7 +1,8 @@
 import { Button, type ButtonProps } from '@radix-ui/themes'
 
 import { createSlots } from '../component-helpers'
-import { AlertDialog } from './AlertDialog'
+import { AlertDialog } from './vendors/radix'
+
 
 import type { PropsWithChildren } from 'react'
 
@@ -21,7 +22,7 @@ export type AppDialogProps = {
 
 const { DescriptionSlot, pick } = createSlots([ 'DescriptionSlot' ])
 
-const AppDialogImpl = ({
+const AppAlertDialogImpl = ({
   children,
   ...props
 }: AppDialogProps & PropsWithChildren) => {
@@ -67,6 +68,6 @@ const AppDialogImpl = ({
   )
 }
 
-export const AppDialog = Object.assign(AppDialogImpl, {
+export const AppAlertDialog = Object.assign(AppAlertDialogImpl, {
   DescriptionSlot,
 })

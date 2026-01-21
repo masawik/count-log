@@ -1,7 +1,7 @@
 import { AlertDialog as AlertDialogOrig } from '@radix-ui/themes'
 import { useCallback, useRef } from 'react'
 
-import { useAndroidBackButtonCb } from '../nativePlatform'
+import { useAndroidBackButtonCb } from '@/shared/nativePlatform'
 
 const AlertDialogRoot = ({
   onOpenChange,
@@ -31,7 +31,7 @@ export const AlertDialog = {
   Root: AlertDialogRoot,
 }
 // eslint-disable-next-line @typescript-eslint/no-namespace
-export namespace Dialog {
+export namespace AlertDialog {
   export type AlertDialogRootProps = AlertDialogOrig.RootProps
   export type AlertDialogTriggerProps = AlertDialogOrig.TriggerProps
   export type AlertDialogContentProps = AlertDialogOrig.ContentProps
