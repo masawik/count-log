@@ -224,6 +224,14 @@ export default defineConfig([
             {
               name: '@radix-ui/themes',
               importNames: [
+                'Dialog',
+              ],
+              message:
+                'Use Dialog adapter from "@/shared/ui"',
+            },
+            {
+              name: '@radix-ui/themes',
+              importNames: [
                 'Container',
                 'Flex',
                 'Box',

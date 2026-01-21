@@ -110,63 +110,34 @@ export const DeltaButtonsConfiguratorDialog = ({
 
   return (
     <Dialog.Root {...props}>
-      <Dialog.Content
+      <Dialog.FormContent
         align="start"
         title="Configure steps"
         className="grid max-h-[70dvh] grid-rows-[auto_1fr_auto]"
+        formData={formMethods}
+        onSubmit={registerSubmitHandler(handleSubmit)}
       >
-        <FormProvider {...formMethods}>
-          <form
-            onSubmit={registerSubmitHandler(handleSubmit)}
-            className="flex min-h-0 flex-col"
+        <div className="flex min-h-0 flex-col">
+          <div
+            className="grid w-full grid-cols-2 gap-2 overflow-auto p-4"
+            data-test-id="step-inputs-container"
           >
-            <div
-              className="grid w-full grid-cols-2 gap-2 overflow-auto p-4"
-              data-test-id="step-inputs-container"
+            {stepButtonInputs}
+          </div>
+
+          <div className="pt-2 mb-4 flex justify-center">
+            <Button
+              type="button"
+              variant="ghost"
+              size="3"
+              onClick={handleAddStepButton}
+              ref={addStepButtonRef}
             >
-              {stepButtonInputs}
-            </div>
-
-            <div className="flex flex-col gap-4">
-              <div className="mt-2 flex justify-center">
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="3"
-                  onClick={handleAddStepButton}
-                  ref={addStepButtonRef}
-                >
-                  <Plus /> Add step
-                </Button>
-              </div>
-
-              <div className="grid w-full grid-cols-2 items-center gap-2 px-4">
-                <Dialog.Close>
-                  <Button
-                    size="4"
-                    variant="ghost"
-                    color="gray"
-                    className="m-0!"
-                    disabled={isSubmitting}
-                  >
-                    Cancel
-                  </Button>
-                </Dialog.Close>
-
-                <Button
-                  variant="soft"
-                  size="4"
-                  color="grass"
-                  type="submit"
-                  loading={isSubmitting}
-                >
-                  Done
-                </Button>
-              </div>
-            </div>
-          </form>
-        </FormProvider>
-      </Dialog.Content>
+              <Plus /> Add step
+            </Button>
+          </div>
+        </div>
+      </Dialog.FormContent>
     </Dialog.Root>
   )
 }

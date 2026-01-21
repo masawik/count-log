@@ -1,7 +1,7 @@
 import { Button, type ButtonProps } from '@radix-ui/themes'
 
 import { createSlots } from '../component-helpers'
-import { AlertDialog } from './vendors/radix'
+import { AlertDialog } from './AlertDialog'
 
 
 import type { PropsWithChildren } from 'react'
