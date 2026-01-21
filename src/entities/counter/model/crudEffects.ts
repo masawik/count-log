@@ -6,15 +6,19 @@ import type { Counter, CounterUpdate, NewCounter } from './types'
 
 export const createCounterFx = attach({
   source: $db,
-  effect: (db, newCounter: NewCounter) => {
-    return db
+  effect: async (db, newCounter: NewCounter) => {
+    const id = crypto.randomUUID()
+
+    await db
       .insertInto('counters')
       .values({
         ...newCounter,
+        id,
         current_value: newCounter.initial_value,
       })
-      .returningAll()
-      .executeTakeFirstOrThrow()
+      .execute()
+
+    return getCounterFx({ id })
   },
 })
 
@@ -38,15 +42,12 @@ export const getCounterFx = attach({
 
 export const updateCounterFx = attach({
   source: $db,
-  effect: (db, update: CounterUpdate) => {
+  effect: async (db, update: CounterUpdate) => {
     const { id, ...patch } = update
 
-    return db
-      .updateTable('counters')
-      .set(patch)
-      .where('id', '=', id)
-      .returningAll()
-      .executeTakeFirstOrThrow()
+    await db.updateTable('counters').set(patch).where('id', '=', id).execute()
+
+    return getCounterFx({ id })
   },
 })
 

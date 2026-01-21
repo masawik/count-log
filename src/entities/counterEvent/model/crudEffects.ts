@@ -6,14 +6,18 @@ import type { CounterEvent, NewCounterEvent } from './types'
 
 export const createCounterEventFx = attach({
   source: $db,
-  effect: (db, event: NewCounterEvent) => {
-    return db
+  effect: async (db, event: NewCounterEvent) => {
+    const id = crypto.randomUUID()
+
+    await db
       .insertInto('counter_events')
       .values({
         ...event,
+        id,
       })
-      .returningAll()
-      .executeTakeFirstOrThrow()
+      .execute()
+
+    return getCounterEventFx({ id })
   },
 })
 

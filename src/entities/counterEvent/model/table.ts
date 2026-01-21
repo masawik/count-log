@@ -13,7 +13,7 @@ import { $db } from '@/shared/db'
 
 
 export interface CounterEventsTable {
-  id: ColumnType<string, string | undefined, never>,
+  id: ColumnType<string, string, never>,
   counter_id: Counter['id'],
   created_at: ColumnType<Date, string | undefined, never>,
   note?: 'correction' | 'reset',

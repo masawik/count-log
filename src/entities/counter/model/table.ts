@@ -13,7 +13,7 @@ import type { EmojiIconType } from '@/shared/ui'
 type CounterValue = number
 type Step = { value: CounterValue }
 export interface CountersTable {
-  id: ColumnType<string, string | undefined, never>,
+  id: ColumnType<string, string, never>,
   name: string,
   initial_value: CounterValue,
   emojiIcon: JSONColumnType<EmojiIconType>,
@@ -35,7 +35,7 @@ export const ensureCountersTableFx = attach({
         .createTable('counters')
         .ifNotExists()
         .addColumn('id', 'text', (col) =>
-          col.primaryKey().defaultTo(sql`(lower(hex(randomblob(16))))`),
+          col.primaryKey().notNull(),
         )
         .addColumn('name', 'text')
         .addColumn('initial_value', 'integer')
