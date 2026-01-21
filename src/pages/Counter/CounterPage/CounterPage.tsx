@@ -7,6 +7,8 @@ import { Link, useOutletContext } from 'react-router'
 import { CounterDeltaButtons } from '@/widgets/CounterDeltaButtons'
 import { CounterHeader } from '@/widgets/CounterHeader'
 
+import { EditCounterVisualDialog, editCounterVisualDialogOpened } from '@/features/EditCounterVisual'
+
 import { useAndroidBackButtonNavigate } from '@/shared/nativePlatform'
 import { StopWatch } from '@/shared/ui'
 
@@ -37,6 +39,8 @@ const CounterPage = () => {
     handleCounterValueCorrected: counterValueCorrected,
     handleDeltaButtonClicked: deltaButtonClicked,
   })
+  const openEditDialog = useUnit(editCounterVisualDialogOpened)
+  const handleEdit = () => openEditDialog(counter)
 
   return (
     <div className="container flex h-fill flex-col">
@@ -54,6 +58,7 @@ const CounterPage = () => {
             <CounterMenu
               counter={counter}
               onDelete={handleDeleteCounterConfirmed}
+              onEdit={handleEdit}
             />
           </div>
         }
@@ -79,6 +84,9 @@ const CounterPage = () => {
             <StopWatch />
           </div>
         )}
+
+
+        <EditCounterVisualDialog />
       </main>
 
       <footer className="width-full grid grid-cols-1 grid-rows-2 gap-2 px-2 py-4">

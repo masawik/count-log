@@ -1,8 +1,8 @@
 import { Button, IconButton } from '@radix-ui/themes'
 import { useGate, useUnit } from 'effector-react'
-import { Plus, Trash2, X } from 'lucide-react'
+import { Plus, Trash2 } from 'lucide-react'
 import { useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
+import { useFieldArray, useForm } from 'react-hook-form'
 
 import type { Counter } from '@/entities/counter'
 

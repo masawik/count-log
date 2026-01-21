@@ -1,7 +1,6 @@
 import emojiData from '@emoji-mart/data'
-import { Button, IconButton, Tabs } from '@radix-ui/themes'
+import { Button, Tabs } from '@radix-ui/themes'
 import { pick } from 'lodash-es'
-import { X } from 'lucide-react'
 import { useMemo, useState } from 'react'
 
 import { COLOR_PALETTE, type Color } from '@/shared/config'

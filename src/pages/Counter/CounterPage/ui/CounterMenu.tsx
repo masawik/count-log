@@ -1,5 +1,5 @@
 import { DropdownMenu, IconButton } from '@radix-ui/themes'
-import { Menu, Trash2 } from 'lucide-react'
+import { Menu, SquarePen, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 
 import { CounterBadge, type Counter } from '@/entities/counter'
@@ -9,9 +9,10 @@ import { AppAlertDialog } from '@/shared/ui/AppAlertDialog'
 export interface CounterMenuProps {
   counter: Counter,
   onDelete: () => void,
+  onEdit: () => void,
 }
 
-const CounterMenu = ({ counter, onDelete }: CounterMenuProps) => {
+const CounterMenu = ({ counter, onDelete, onEdit }: CounterMenuProps) => {
   const [ showDeleteDialog, setShowDeleteDialog ] = useState(false)
 
   return (
@@ -24,6 +25,15 @@ const CounterMenu = ({ counter, onDelete }: CounterMenuProps) => {
         </DropdownMenu.Trigger>
 
         <DropdownMenu.Content size="2">
+          <DropdownMenu.Item
+            color="gray"
+            className="text-4!"
+            onClick={onEdit}
+          >
+            <SquarePen className="size-4" />
+            Edit
+          </DropdownMenu.Item>
+
           <DropdownMenu.Item
             color="red"
             className="text-4!"
