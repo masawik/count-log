@@ -283,6 +283,239 @@ test.describe('Counter functionality', () => {
     })
   })
 
+  test.describe('Editing counter visual', () => {
+    test('should edit counter name', async ({ page }) => {
+      // Создаем счетчик
+      await page.locator('a[href="/create-counter"]').click()
+      await gotoAndStabilize(page, '/create-counter')
+
+      await page.getByLabel('name').fill('Original Name')
+      await page.getByLabel('Initial value').fill('0')
+      await page.getByRole('button', { name: 'create' }).click()
+
+      // Ждем перехода на страницу счетчика
+      await expect(page).toHaveURL(/\/counter\/[\da-f]+/, { timeout: 10000 })
+      await gotoAndStabilize(page, page.url())
+
+      // Открываем меню счетчика
+      const header = page.locator('header')
+      const menuButton = header
+        .getByRole('button')
+        .filter({ has: page.locator('svg') })
+        .last()
+
+      await expect(menuButton).toBeVisible()
+      await menuButton.click()
+
+      // Выбираем Edit из меню
+      await page.getByRole('menuitem', { name: 'Edit' }).click()
+
+      // Ждем появления диалога редактирования визуала
+      const dialog = page.getByRole('dialog', { name: 'edit visual' })
+      await expect(dialog).toBeVisible({ timeout: 2000 })
+
+      // Изменяем название
+      const nameInput = dialog.getByLabel('name')
+      await nameInput.fill('Updated Name')
+
+      // Сохраняем изменения
+      const doneButton = page.getByRole('button', { name: 'Done' })
+      await expect(doneButton).toBeVisible()
+      await doneButton.click()
+
+      // Ждем закрытия диалога
+      await expect(dialog).not.toBeVisible({ timeout: 2000 })
+
+      // Проверяем, что название изменилось на странице счетчика
+      await expect(page.getByRole('heading', { name: 'Updated Name' })).toBeVisible({
+        timeout: 2000,
+      })
+    })
+
+    test('should edit counter emoji icon', async ({ page }) => {
+      // Создаем счетчик
+      await page.locator('a[href="/create-counter"]').click()
+      await gotoAndStabilize(page, '/create-counter')
+
+      await page.getByLabel('name').fill('Test Counter')
+      await page.getByLabel('Initial value').fill('0')
+      await page.getByRole('button', { name: 'create' }).click()
+
+      // Ждем перехода на страницу счетчика
+      await expect(page).toHaveURL(/\/counter\/[\da-f]+/, { timeout: 10000 })
+      await gotoAndStabilize(page, page.url())
+
+      // Открываем меню счетчика
+      const header = page.locator('header')
+      const menuButton = header
+        .getByRole('button')
+        .filter({ has: page.locator('svg') })
+        .last()
+
+      await expect(menuButton).toBeVisible()
+      await menuButton.click()
+
+      // Выбираем Edit из меню
+      await page.getByRole('menuitem', { name: 'Edit' }).click()
+
+      // Ждем появления диалога редактирования визуала
+      const dialog = page.getByRole('dialog', { name: 'edit visual' })
+      await expect(dialog).toBeVisible({ timeout: 2000 })
+
+      // Открываем диалог выбора эмоджи
+      const editIconButton = dialog.getByRole('button', { name: 'Edit icon' })
+      await editIconButton.click()
+
+      const emojiPickerDialog = page.getByRole('dialog', { name: 'Create emoji icon' })
+      await expect(emojiPickerDialog).toBeVisible({ timeout: 2000 })
+
+      // Выбираем другой цвет (берем второй цвет, первый уже выбран)
+      const colorButtons = emojiPickerDialog.locator('button[style*="background"]')
+      const colorButtonCount = await colorButtons.count()
+      if (colorButtonCount > 1) {
+        await colorButtons.nth(1).click()
+      }
+
+      // Сохраняем выбор эмоджи
+      await page.getByRole('button', { name: 'Done' }).click()
+
+      // Ждем закрытия диалога выбора эмоджи
+      await expect(emojiPickerDialog).not.toBeVisible({ timeout: 2000 })
+
+      // Сохраняем изменения в диалоге редактирования визуала
+      const saveButton = page.getByRole('button', { name: 'Done' })
+      await expect(saveButton).toBeVisible()
+      await saveButton.click()
+
+      // Ждем закрытия диалога редактирования визуала
+      await expect(dialog).not.toBeVisible({ timeout: 2000 })
+
+      // Проверяем, что мы все еще на странице счетчика
+      await expect(page).toHaveURL(/\/counter\/[\da-f]+/)
+      await expect(page.getByRole('heading', { name: 'Test Counter' })).toBeVisible()
+    })
+
+    test('should edit counter name and emoji icon together', async ({ page }) => {
+      // Создаем счетчик
+      await page.locator('a[href="/create-counter"]').click()
+      await gotoAndStabilize(page, '/create-counter')
+
+      await page.getByLabel('name').fill('Original Counter')
+      await page.getByLabel('Initial value').fill('0')
+      await page.getByRole('button', { name: 'create' }).click()
+
+      // Ждем перехода на страницу счетчика
+      await expect(page).toHaveURL(/\/counter\/[\da-f]+/, { timeout: 10000 })
+      await gotoAndStabilize(page, page.url())
+
+      // Открываем меню счетчика
+      const header = page.locator('header')
+      const menuButton = header
+        .getByRole('button')
+        .filter({ has: page.locator('svg') })
+        .last()
+
+      await expect(menuButton).toBeVisible()
+      await menuButton.click()
+
+      // Выбираем Edit из меню
+      await page.getByRole('menuitem', { name: 'Edit' }).click()
+
+      // Ждем появления диалога редактирования визуала
+      const dialog = page.getByRole('dialog', { name: 'edit visual' })
+      await expect(dialog).toBeVisible({ timeout: 2000 })
+
+      // Изменяем название
+      const nameInput = dialog.getByLabel('name')
+      await nameInput.fill('Updated Counter')
+
+      // Открываем диалог выбора эмоджи
+      const editIconButton = dialog.getByRole('button', { name: 'Edit icon' })
+      await editIconButton.click()
+
+      const emojiPickerDialog = page.getByRole('dialog', { name: 'Create emoji icon' })
+      await expect(emojiPickerDialog).toBeVisible({ timeout: 2000 })
+
+      // Выбираем другой цвет
+      const colorButtons = emojiPickerDialog.locator('button[style*="background"]')
+      const colorButtonCount = await colorButtons.count()
+      if (colorButtonCount > 1) {
+        await colorButtons.nth(1).click()
+      }
+
+      // Сохраняем выбор эмоджи
+      await page.getByRole('button', { name: 'Done' }).click()
+
+      // Ждем закрытия диалога выбора эмоджи
+      await expect(emojiPickerDialog).not.toBeVisible({ timeout: 2000 })
+
+      // Сохраняем изменения в диалоге редактирования визуала
+      const saveButton = page.getByRole('button', { name: 'Done' })
+      await expect(saveButton).toBeVisible()
+      await saveButton.click()
+
+      // Ждем закрытия диалога редактирования визуала
+      await expect(dialog).not.toBeVisible({ timeout: 2000 })
+
+      // Проверяем, что название изменилось
+      await expect(page.getByRole('heading', { name: 'Updated Counter' })).toBeVisible({
+        timeout: 2000,
+      })
+    })
+
+    test('should cancel visual editing', async ({ page }) => {
+      // Создаем счетчик
+      await page.locator('a[href="/create-counter"]').click()
+      await gotoAndStabilize(page, '/create-counter')
+
+      const originalName = 'Original Counter'
+      await page.getByLabel('name').fill(originalName)
+      await page.getByLabel('Initial value').fill('0')
+      await page.getByRole('button', { name: 'create' }).click()
+
+      // Ждем перехода на страницу счетчика
+      await expect(page).toHaveURL(/\/counter\/[\da-f]+/, { timeout: 10000 })
+      await gotoAndStabilize(page, page.url())
+
+      // Запоминаем оригинальное название
+      await expect(page.getByRole('heading', { name: originalName })).toBeVisible()
+
+      // Открываем меню счетчика
+      const header = page.locator('header')
+      const menuButton = header
+        .getByRole('button')
+        .filter({ has: page.locator('svg') })
+        .last()
+
+      await expect(menuButton).toBeVisible()
+      await menuButton.click()
+
+      // Выбираем Edit из меню
+      await page.getByRole('menuitem', { name: 'Edit' }).click()
+
+      // Ждем появления диалога редактирования визуала
+      const dialog = page.getByRole('dialog', { name: 'edit visual' })
+      await expect(dialog).toBeVisible({ timeout: 2000 })
+
+      // Изменяем название
+      const nameInput = dialog.getByLabel('name')
+      await nameInput.fill('Changed Name')
+
+      // Отменяем изменения
+      const cancelButton = page.getByRole('button', { name: 'Cancel' })
+      await expect(cancelButton).toBeVisible()
+      await cancelButton.click()
+
+      // Ждем закрытия диалога
+      await expect(dialog).not.toBeVisible({ timeout: 2000 })
+
+      // Проверяем, что название не изменилось
+      await expect(page.getByRole('heading', { name: originalName })).toBeVisible({
+        timeout: 2000,
+      })
+    })
+  })
+
   test.describe('Deleting counter', () => {
     test('should delete counter from counter page', async ({ page }) => {
       // Создаем счетчик

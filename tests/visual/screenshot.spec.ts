@@ -176,6 +176,37 @@ test.describe('Counter page', () => {
     // Делаем скриншот диалога
     await expect(dialog).toHaveScreenshot()
   })
+
+  test('edit visual dialog', async ({ page }) => {
+    const counterId = await createCounter(page, {
+      name: 'Test Counter',
+      initialValue: '5',
+    })
+
+    await gotoAndStabilize(page, `/counter/${counterId}`)
+
+    // Открываем меню счетчика
+    const header = page.locator('header')
+    const menuButton = header
+      .getByRole('button')
+      .filter({ has: page.locator('svg') })
+      .last()
+    await expect(menuButton).toBeVisible()
+    await menuButton.click()
+
+    // Выбираем Edit из меню
+    await page.getByRole('menuitem', { name: 'Edit' }).click()
+
+    // Ждем появления диалога редактирования визуала
+    const dialog = page.getByRole('dialog', { name: 'edit visual' })
+    await expect(dialog).toBeVisible({ timeout: 2000 })
+
+    // Проверяем, что нет error-boundary перед скриншотом
+    await assertNoErrorBoundary(page)
+
+    // Делаем скриншот диалога
+    await expect(dialog).toHaveScreenshot()
+  })
 })
 
 test.describe('Counter history page', () => {
