@@ -9,7 +9,7 @@ import { FullPageLoader } from '@/shared/ui'
 
 import { $loading, AppGate } from './db/model'
 import { NavigationLoader } from './layout/NavigationLoader'
-
+import {useInitI18n} from '@/shared/i18n'
 import './styles/index.css'
 
 export function App() {
@@ -18,6 +18,9 @@ export function App() {
   useInitErrorStore()
 
   const loadingDb = useUnit($loading)
+  const loadingI18n = useInitI18n()
+
+  const appNotReady = loadingDb || loadingI18n
 
   return (
     <AndroidBackButtonProvider>
@@ -28,7 +31,7 @@ export function App() {
         id="root"
         className="safeArea"
       >
-        {loadingDb ? (
+        {appNotReady ? (
           <FullPageLoader />
         ) : (
           <>
