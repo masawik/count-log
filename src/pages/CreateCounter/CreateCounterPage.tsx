@@ -1,5 +1,6 @@
 import { Button } from '@radix-ui/themes'
 import { useUnit } from 'effector-react'
+import sample from 'lodash-es/sample'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import { FormProvider } from 'react-hook-form'
 import { useNavigate } from 'react-router'
@@ -7,6 +8,7 @@ import { useNavigate } from 'react-router'
 
 import type { NewCounter } from '@/entities/counter'
 
+import { COLOR_PALETTE, IS_TEST } from '@/shared/config'
 import { useAndroidBackButtonNavigate } from '@/shared/nativePlatform'
 import { TextField } from '@/shared/ui'
 import { EmojiIconInput } from '@/shared/ui/EmojiIconInput'
@@ -14,6 +16,13 @@ import { EmojiIconInput } from '@/shared/ui/EmojiIconInput'
 import { formSubmitted } from './model'
 
 type FormInputs = NewCounter
+
+const INITIAL_EMOJI = '💖'
+
+const getDefaultEmojiIcon = () => ({
+  emoji: INITIAL_EMOJI,
+  color: IS_TEST ? COLOR_PALETTE[0] : sample(COLOR_PALETTE),
+})
 
 export default function CounterEditorPage() {
   const handleSubmit = useUnit(formSubmitted)
@@ -26,7 +35,7 @@ export default function CounterEditorPage() {
     defaultValues: {
       name: '',
       initial_value: 0,
-      emojiIcon: undefined,
+      emojiIcon: getDefaultEmojiIcon(),
     },
     shouldUnregister: true,
     mode: 'onSubmit',

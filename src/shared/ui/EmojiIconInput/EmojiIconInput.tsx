@@ -1,24 +1,14 @@
-import { sample } from 'lodash-es'
 import { useCallback, useEffect, useEffectEvent, useState } from 'react'
 
-
-import { COLOR_PALETTE, IS_TEST } from '@/shared/config'
 import { EmojiIcon, EmojiIconPicker, type EmojiIconType } from '@/shared/ui'
 
 import { useMatchEmoji } from './useMatchEmoji'
 
 export type EmojiIconInputProps = {
-  value?: EmojiIconType,
+  value: EmojiIconType,
   onChange?: (value: EmojiIconType) => void,
   suggestionText?: string,
 }
-
-const INITIAL_EMOJI = '💖'
-
-const getDefaultValue = () => ({
-  emoji: INITIAL_EMOJI,
-  color: IS_TEST ? COLOR_PALETTE[0] : sample(COLOR_PALETTE),
-})
 
 export const EmojiIconInput = ({
   value,
@@ -26,7 +16,7 @@ export const EmojiIconInput = ({
   suggestionText,
 }: EmojiIconInputProps) => {
   const [ isPickerVisible, setIsPickerVisible ] = useState(false)
-  const [ innerValue, setInnerValue ] = useState(value || getDefaultValue())
+  const [ innerValue, setInnerValue ] = useState(value)
   const [ isEmojiSelectedByUser, setIsEmojiSelectedByUser ] =
     useState<boolean>(false)
 
