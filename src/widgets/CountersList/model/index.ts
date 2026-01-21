@@ -11,6 +11,7 @@ import { keyBy } from 'lodash-es'
 import {
   changeCounterValueByDelta,
   correctCounterValueFx,
+  counterValueCorrected,
   resetCounterValueFx,
 } from '@/features/changeCounterValue'
 
@@ -103,6 +104,23 @@ sample({
   target: $counters,
 })
 
+sample({
+  clock: counterValueCorrected,
+  source: $counters,
+  fn: (counters, { id, targetValue }) =>
+    counters.map((c) => {
+      if (c.id !== id) return c
+
+      return {
+        ...c,
+        current_value: targetValue,
+      }
+    }),
+  target: $counters,
+})
+
+
+// sync
 sample({
   clock: createCounterEventFx.doneData,
   fn: ({ counter_id }) => ({ id: counter_id }),

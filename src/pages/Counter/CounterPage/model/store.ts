@@ -4,7 +4,10 @@ import { createGate } from 'effector-react'
 
 import { $countersById } from '@/widgets/CountersList'
 
-import { correctCounterValueFx, changeCounterValueByDelta, resetCounterValueFx, type CorrectCounterValueAttrs } from '@/features/changeCounterValue'
+import {
+  changeCounterValueByDelta,
+  resetCounterValueFx,
+} from '@/features/changeCounterValue'
 
 import {
   deleteCounterFx,
@@ -94,25 +97,11 @@ sample({
   target: resetCounterValueFx,
 })
 
-export const counterValueCorrected = createEvent<number>()
-
-sample({
-  clock: counterValueCorrected,
-  source: $counter,
-  filter: (counter) => !!counter,
-  fn: (counter, targetValue): CorrectCounterValueAttrs => ({
-    id: counter!.id,
-    targetValue,
-  }),
-  target: correctCounterValueFx,
-})
-
 export const deleteCounter = createEvent<Pick<Counter, 'id'>>()
 sample({
   clock: deleteCounter,
   target: deleteCounterFx,
 })
-
 
 export const deleteCounterConfirmed = createEvent()
 
