@@ -4,7 +4,6 @@ import { pick } from 'lodash-es'
 import { X } from 'lucide-react'
 import { useMemo, useState } from 'react'
 
-
 import { COLOR_PALETTE, type Color } from '@/shared/config'
 import { cn } from '@/shared/lib'
 import { EmojiIcon, type EmojiIconType } from '@/shared/ui'
@@ -98,31 +97,16 @@ export const EmojiIconPicker = function EmojiIconPicker({
       <Dialog.Content
         align="start"
         className="EmojiIconPicker"
-        onOpenAutoFocus={(e) => e.preventDefault()}
-        aria-describedby="EmojiIconPickerDescription"
-      >
-        <Dialog.Title className="sr-only">Create emoji icon</Dialog.Title>
-        <Dialog.Description className="sr-only">
-          Choose a color and an emoji to customize your icon. The selected
-          combination will be used as the visual identifier.
-        </Dialog.Description>
-
-        <div className="align-start flex justify-between">
-          <IconButton
-            size="3"
-            variant="ghost"
-            color="gray"
-            onClick={() => handleOpenChange(false)}
-          >
-            <X />
-          </IconButton>
-
+        srTitle="Create emoji icon"
+        srDescription="Choose a color and an emoji to customize your icon. The selected
+          combination will be used as the visual identifier."
+        headerRightSide={
           <Button size="3" color="green" variant="soft" onClick={handleDone}>
             Done
           </Button>
-        </div>
-
-        <div className="flex flex-col items-center gap-4">
+        }
+      >
+        <div className="flex flex-col items-center gap-4 px-4">
           <EmojiIcon
             color={color}
             emoji={emoji}
@@ -131,7 +115,7 @@ export const EmojiIconPicker = function EmojiIconPicker({
 
           <Tabs.Root defaultValue="color" className="w-full">
             <Tabs.List>
-              <div className="grid grid-cols-2 w-full">
+              <div className="grid w-full grid-cols-2">
                 <Tabs.Trigger value="color">Select color</Tabs.Trigger>
                 <Tabs.Trigger value="emoji">Select emoji</Tabs.Trigger>
               </div>

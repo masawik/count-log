@@ -112,30 +112,18 @@ export const DeltaButtonsConfiguratorDialog = ({
     <Dialog.Root {...props}>
       <Dialog.Content
         align="start"
-        className="grid max-h-[70dvh] grid-rows-[auto_1fr_auto] px-0!"
-        onOpenAutoFocus={(e) => e.preventDefault()}
+        title="Configure steps"
+        className="grid max-h-[70dvh] grid-rows-[auto_1fr_auto]"
       >
-        <div className="grid grid-cols-[1fr_3fr_1fr] items-center justify-items-center px-4 pb-4">
-          <Dialog.Close className="w-fit justify-self-start!">
-            <IconButton
-              size="3"
-              variant="ghost"
-              color="gray"
-              disabled={isSubmitting}
-            >
-              <X />
-            </IconButton>
-          </Dialog.Close>
-
-          <Dialog.Title className="m-0!">Configure steps</Dialog.Title>
-        </div>
-
         <FormProvider {...formMethods}>
           <form
             onSubmit={registerSubmitHandler(handleSubmit)}
             className="flex min-h-0 flex-col"
           >
-            <div className="grid w-full grid-cols-2 gap-2 overflow-auto p-4" data-test-id="step-inputs-container">
+            <div
+              className="grid w-full grid-cols-2 gap-2 overflow-auto p-4"
+              data-test-id="step-inputs-container"
+            >
               {stepButtonInputs}
             </div>
 

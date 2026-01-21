@@ -26,10 +26,7 @@ export default function CounterEditorPage() {
     defaultValues: {
       name: '',
       initial_value: 0,
-      emojiIcon: {
-        color: 'brown',
-        emoji: '😒',
-      },
+      emojiIcon: undefined,
     },
     shouldUnregister: true,
     mode: 'onSubmit',
