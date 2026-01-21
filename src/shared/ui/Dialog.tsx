@@ -78,11 +78,13 @@ const DialogContent = ({
       {!noHeader && (
         <div className="mb-4 grid grid-cols-[1fr_3fr_1fr] items-center justify-items-center px-4">
           {!noCloseBtn && (
-            <DialogOrig.Close
-              className="w-fit justify-self-start!"
-              disabled={closeBtnDisabled}
-            >
-              <IconButton size="3" variant="ghost" color="gray">
+            <DialogOrig.Close disabled={closeBtnDisabled}>
+              <IconButton
+                className="w-fit self-start! justify-self-start!"
+                size="3"
+                variant="ghost"
+                color="gray"
+              >
                 <X />
               </IconButton>
             </DialogOrig.Close>
