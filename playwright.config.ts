@@ -27,28 +27,17 @@ export default defineConfig({
 
   projects: [
     {
-      name: 'e2e-desktop',
+      name: 'e2e',
       testMatch: /.*e2e.*.spec.ts/,
       use: {
-        ...devices['Desktop Chrome'],
         viewport: { width: 390, height: 844 },
       },
     },
 
     {
       testMatch: /.*visual.*.spec.ts/,
-      name: 'mobile-small',
-      use: { viewport: { width: 375, height: 812 } },
-    },
-    {
-      testMatch: /.*visual.*.spec.ts/,
       name: 'mobile-medium',
       use: { viewport: { width: 390, height: 844 } },
-    },
-    {
-      testMatch: /.*visual.*.spec.ts/,
-      name: 'mobile-large',
-      use: { viewport: { width: 430, height: 932 } },
     },
   ],
 

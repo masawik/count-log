@@ -15,7 +15,7 @@
     "fsdcheck": "steiger ./src",
     "test:e2e": "pnpm exec playwright test tests/e2e",
     "test:s": "pnpm exec playwright test tests/visual",
-    "test:us": "pnpm exec playwright test --update-snapshots",
+    "test:us": "pnpm exec playwright test tests/visual --update-snapshots",
     "fullcheck": "run-s typecheck lint fsdcheck"
   },
   "imports": {
