@@ -28,11 +28,11 @@ export async function createCounter(
 
   // Ждем перехода на страницу счетчика (может быть задержка из-за сохранения в БД)
   // ID может быть хешем
-  await expect(page).toHaveURL(/\/counter\/([\da-f]+)/, { timeout: 10000 })
+  await expect(page).toHaveURL(/\/counter\/([\da-f-]+)/, { timeout: 10000 })
 
   // Извлекаем counterId из URL
   const url = page.url()
-  const match = url.match(/\/counter\/([\da-f]+)/)
+  const match = url.match(/\/counter\/([\da-f-]+)/)
   if (!match || !match[1]) {
     throw new Error(`Failed to extract counter ID from URL: ${url}`)
   }

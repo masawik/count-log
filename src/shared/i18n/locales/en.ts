@@ -50,5 +50,7 @@ export const en = {
       'Choose a color and an emoji to customize your icon. The selected combination will be used as the visual identifier.',
     selectColor: 'Select color',
     selectEmoji: 'Select emoji',
+
+    'Edit an icon': 'Edit an icon',
   },
 }

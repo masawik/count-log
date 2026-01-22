@@ -46,7 +46,7 @@ const EditableCounterPreview = ({
   }
 
   return (
-    <div className="panel py-6 flex h-full items-center justify-center">
+    <div className="panel py-6 flex h-full items-center justify-center" data-test-id="EditableCounterPreview">
       <div
         className="relative text-9 font-bold max-w-[80%]"
         style={{ color: `var(--${color}-11)` }}
@@ -75,6 +75,7 @@ const EditableCounterPreview = ({
                 color="green"
                 size="4"
                 onClick={handleSubmitCorrection}
+                data-test-id="EditableCounterPreview__submit"
               >
                 {t('save')}
               </Button>

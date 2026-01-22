@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useEffectEvent, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { EmojiIcon, EmojiIconPicker, type EmojiIconType } from '@/shared/ui'
 
@@ -15,6 +16,7 @@ export const EmojiIconInput = ({
   onChange,
   suggestionText,
 }: EmojiIconInputProps) => {
+  const { t } = useTranslation()
   const [ isPickerVisible, setIsPickerVisible ] = useState(false)
   const [ innerValue, setInnerValue ] = useState(value)
   const [ isEmojiSelectedByUser, setIsEmojiSelectedByUser ] =
@@ -58,7 +60,8 @@ export const EmojiIconInput = ({
       <button
         onClick={() => setIsPickerVisible(true)}
         type="button"
-        aria-label="Edit icon"
+        aria-label={t('Edit an icon')}
+        data-test-id="EmojiIconInput"
       >
         <EmojiIcon
           emoji={innerValue?.emoji}

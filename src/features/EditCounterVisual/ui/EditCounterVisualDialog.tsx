@@ -38,6 +38,7 @@ const EditCounterVisualDialogImpl = ({ counter }: { counter: Counter }) => {
         align="start"
         onSubmit={registerSubmitHandler(handleSubmit)}
         isSubmitting={isSubmitting}
+        data-test-id="EditCounterVisualDialog"
       >
         <div className="flex items-start gap-2 p-4">
           <Controller

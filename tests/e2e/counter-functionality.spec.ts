@@ -1,4 +1,7 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, type Page } from '@playwright/test'
+import { t } from 'i18next'
+
+import { inputName, testId } from 'tests/utils/selectors'
 
 import { clearDatabase } from '../utils/clearDatabase'
 import { gotoAndStabilize } from '../utils/gotoAndStabilize'
@@ -9,68 +12,83 @@ test.describe('Counter functionality', () => {
   })
 
   test.describe('Creating a counter', () => {
+    const getEmojiContent = async (page: Page) => {
+      const emojiIcon = page.locator(testId('EmojiIconInput'))
+      await expect(emojiIcon).toBeVisible()
+      return emojiIcon.textContent()
+    }
+
     test('should create a counter with auto-emoji suggestion', async ({
       page,
     }) => {
+      const targetName = 'books'
+      const targetInitialValue = '12'
+
       // Переходим на страницу создания счетчика
-      await page.locator('a[href="/create-counter"]').click()
-      // Ждем навигации
-      await page.waitForURL(/\/create-counter/, { timeout: 5000 })
       await gotoAndStabilize(page, '/create-counter')
 
+      // Получаем эмоджи до ввода названия счетчика
+      const emojiBefore = await getEmojiContent(page)
+
       // Вводим название счетчика
-      const nameInput = page.getByLabel('name')
-      await nameInput.fill('books')
+      const nameInput = page.locator(inputName('name'))
+      await nameInput.fill(targetName)
 
       // Ждем подбора эмоджи (может быть задержка)
-      await page.waitForTimeout(600) // Задержка для подбора эмоджи (delay = 500ms)
+      await page.waitForTimeout(600) // Задержка для подбора эмоджи
 
-      // Проверяем, что эмоджи был подобран автоматически
-      const emojiIcon = page.locator('button[aria-label="Edit icon"]')
-      await expect(emojiIcon).toBeVisible()
+      // Проверяем, что эмоджи был подобран автоматически и изменился
+      const emojiAfter = await getEmojiContent(page)
+      expect(emojiAfter).not.toBe(emojiBefore)
+      expect(emojiAfter).toBeTruthy()
 
       // Заполняем остальные поля
-      await page.getByLabel('Initial value').fill('0')
+      await page.locator(inputName('initial_value')).fill(targetInitialValue)
 
       // Ждем, пока кнопка станет активной (если она была disabled)
-      const createButton = page.getByRole('button', { name: 'create' })
+      const createButton = page.locator(testId('CreateCounterPage__submit'))
       await expect(createButton).toBeEnabled()
       await createButton.click()
 
       // Ждем перехода на страницу счетчика (может быть задержка из-за сохранения в БД)
       // ID может быть хешем
       await expect(page).toHaveURL(/\/counter\/[\da-f]+/, { timeout: 10000 })
-      await expect(page.getByRole('heading', { name: 'books' })).toBeVisible()
+      await expect(page.getByRole('heading', { name: targetName })).toBeVisible()
+
+      const counterValue = await page.locator(testId('EditableCounterPreview')).textContent()
+
+      expect(counterValue).toEqual(targetInitialValue)
     })
 
     test('should disable auto-emoji suggestion when user manually selects emoji', async ({
       page,
     }) => {
       // Переходим на страницу создания счетчика
-      await page.locator('a[href="/create-counter"]').click()
       await gotoAndStabilize(page, '/create-counter')
 
       // Сначала выбираем эмоджи вручную
-      const editIconButton = page.getByRole('button', { name: 'Edit icon' })
+      const editIconButton = page.locator(testId('EmojiIconInput'))
       await editIconButton.click()
 
       // Ждем появления диалога
-      const dialog = page.getByRole('dialog', { name: 'Create emoji icon' })
+      const dialog = page.getByRole('dialog', { name: t('createEmojiIcon') })
       await expect(dialog).toBeVisible()
 
       // Выбираем цвет - этого достаточно для проверки, что подбор отключается
       // при ручном выборе (не обязательно выбирать эмоджи)
-      const colorButtons = dialog.locator('button[style*="background"]')
+      const colorButtons = dialog.locator(`${testId('EmojiIconPicker_ColorButtonsContainer')} button`)
       const colorButtonCount = await colorButtons.count()
       if (colorButtonCount > 1) {
         await colorButtons.nth(1).click()
       }
 
       // Нажимаем Done - это зафиксирует ручной выбор и отключит авто-подбор
-      await page.getByRole('button', { name: 'Done' }).click()
+      await page.locator(testId('EmojiIconPicker__submit')).click()
+
+      const emojiBefore = await getEmojiContent(page)
 
       // Теперь вводим название
-      const nameInput = page.getByLabel('name')
+      const nameInput = page.locator(inputName('name'))
       await nameInput.fill('coffee')
 
       // Ждем достаточно времени для подбора эмоджи
@@ -78,17 +96,19 @@ test.describe('Counter functionality', () => {
 
       // Проверяем, что эмоджи НЕ изменился (подбор отключен)
       // Сохраняем текущий эмоджи и проверяем, что он не изменился
-      const emojiIconAfter = page.locator('button[aria-label="Edit icon"]')
-      await expect(emojiIconAfter).toBeVisible()
+      const emojiIconAfter = await getEmojiContent(page)
+      expect(emojiIconAfter).toEqual(emojiBefore)
 
       // Заполняем остальные поля и создаем счетчик
-      await page.getByLabel('Initial value').fill('0')
-      await page.getByRole('button', { name: 'create' }).click()
+
+      await page.locator(testId('CreateCounterPage__submit')).click()
 
       // Проверяем, что счетчик создан (ID может быть хешем)
       await expect(page).toHaveURL(/\/counter\/[\da-f]+/, { timeout: 10000 })
     })
   })
+
+  // TODO refactor AI-generated test below
 
   test.describe('Changing counter value from counters list', () => {
     test('should increment counter value from list page', async ({ page }) => {
@@ -241,7 +261,7 @@ test.describe('Counter functionality', () => {
       await valueInput.fill('25')
 
       // Подтверждаем изменение
-      await page.getByRole('button', { name: 'Confirm' }).click()
+      await page.locator(testId('EditableCounterPreview__submit')).click()
 
       // Проверяем, что значение изменилось
       await expect(page.locator('.panel').getByText('25')).toBeVisible({
@@ -311,7 +331,7 @@ test.describe('Counter functionality', () => {
       await page.getByRole('menuitem', { name: 'Edit' }).click()
 
       // Ждем появления диалога редактирования визуала
-      const dialog = page.getByRole('dialog', { name: 'edit visual' })
+      const dialog = page.locator(testId('EditCounterVisualDialog'))
       await expect(dialog).toBeVisible({ timeout: 2000 })
 
       // Изменяем название
@@ -359,11 +379,11 @@ test.describe('Counter functionality', () => {
       await page.getByRole('menuitem', { name: 'Edit' }).click()
 
       // Ждем появления диалога редактирования визуала
-      const dialog = page.getByRole('dialog', { name: 'edit visual' })
+      const dialog = page.locator(testId('EditCounterVisualDialog'))
       await expect(dialog).toBeVisible({ timeout: 2000 })
 
       // Открываем диалог выбора эмоджи
-      const editIconButton = dialog.getByRole('button', { name: 'Edit icon' })
+      const editIconButton = page.locator(testId('EmojiIconInput'))
       await editIconButton.click()
 
       const emojiPickerDialog = page.getByRole('dialog', { name: 'Create emoji icon' })
@@ -422,7 +442,7 @@ test.describe('Counter functionality', () => {
       await page.getByRole('menuitem', { name: 'Edit' }).click()
 
       // Ждем появления диалога редактирования визуала
-      const dialog = page.getByRole('dialog', { name: 'edit visual' })
+      const dialog = page.locator(testId('EditCounterVisualDialog'))
       await expect(dialog).toBeVisible({ timeout: 2000 })
 
       // Изменяем название
@@ -430,7 +450,7 @@ test.describe('Counter functionality', () => {
       await nameInput.fill('Updated Counter')
 
       // Открываем диалог выбора эмоджи
-      const editIconButton = dialog.getByRole('button', { name: 'Edit icon' })
+      const editIconButton = page.locator(testId('EmojiIconInput'))
       await editIconButton.click()
 
       const emojiPickerDialog = page.getByRole('dialog', { name: 'Create emoji icon' })
@@ -494,7 +514,7 @@ test.describe('Counter functionality', () => {
       await page.getByRole('menuitem', { name: 'Edit' }).click()
 
       // Ждем появления диалога редактирования визуала
-      const dialog = page.getByRole('dialog', { name: 'edit visual' })
+      const dialog = page.locator(testId('EditCounterVisualDialog'))
       await expect(dialog).toBeVisible({ timeout: 2000 })
 
       // Изменяем название

@@ -123,6 +123,7 @@ export default function CounterEditorPage() {
                 variant="solid"
                 type="submit"
                 disabled={isSubmitBtnDisabled}
+                data-test-id="CreateCounterPage__submit"
               >
                 {t('create')}
               </Button>

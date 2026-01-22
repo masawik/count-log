@@ -100,7 +100,7 @@ export const EmojiIconPicker = function EmojiIconPicker({
         srTitle={t('createEmojiIcon')}
         srDescription={t('emojiIconPickerDescription')}
         headerRightSide={
-          <Button size="3" color="green" variant="soft" onClick={handleDone}>
+          <Button size="3" color="green" variant="soft" onClick={handleDone} data-test-id="EmojiIconPicker__submit">
             {t('done')}
           </Button>
         }
@@ -122,7 +122,7 @@ export const EmojiIconPicker = function EmojiIconPicker({
 
             <div className="pt-4">
               <Tabs.Content value="color" asChild>
-                <div className="flex flex-wrap justify-center gap-2">
+                <div className="flex flex-wrap justify-center gap-2" data-test-id="EmojiIconPicker_ColorButtonsContainer">
                   {colorSquares}
                 </div>
               </Tabs.Content>

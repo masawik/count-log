@@ -1,6 +1,7 @@
 import { test, expect, type Page } from '@playwright/test'
 
 import routes from '@/routes'
+import { testId } from 'tests/utils/selectors'
 
 import { assertNoErrorBoundary } from '../utils/assertNoErrorBoundary'
 import { clearDatabase } from '../utils/clearDatabase'
@@ -49,7 +50,9 @@ test.describe('Edit page emoji picker dialog', () => {
   const openDialog = async (page: Page) => {
     await gotoAndStabilize(page, '/create-counter')
 
-    await page.getByRole('button', { name: 'Edit icon' }).click()
+    const editIconButton = page.locator(testId('EmojiIconInput'))
+
+    await editIconButton.click()
 
     return await page.getByRole('dialog', { name: 'Create emoji icon' })
   }
@@ -198,7 +201,7 @@ test.describe('Counter page', () => {
     await page.getByRole('menuitem', { name: 'Edit' }).click()
 
     // Ждем появления диалога редактирования визуала
-    const dialog = page.getByRole('dialog', { name: 'edit visual' })
+    const dialog = page.locator(testId('EditCounterVisualDialog'))
     await expect(dialog).toBeVisible({ timeout: 2000 })
 
     // Проверяем, что нет error-boundary перед скриншотом
