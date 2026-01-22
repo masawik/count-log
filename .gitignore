@@ -5,6 +5,7 @@
 /build/
 .cursor
 .vscode
+.vite
 /references
 public/assets/img/original/
 secrets
