@@ -1,5 +1,8 @@
-@import "tailwindcss";
+@layer theme, base, radix-themes, components, utilities;
 
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" layer(utilities);
 /* Remove tailwind colors. Use radix colors instead */
 @theme {
   --color-*: initial;
@@ -27,3 +30,5 @@
   padding-bottom: env(safe-area-inset-bottom, 0px);
   padding-left: env(safe-area-inset-left, 0px);
 }
+
+

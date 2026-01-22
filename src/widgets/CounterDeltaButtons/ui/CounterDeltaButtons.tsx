@@ -61,7 +61,7 @@ export const CounterDeltaButtons = ({
         <IconButton
           variant="ghost"
           color="gray"
-          className="m-0!"
+          className="m-0"
           onClick={openDialog}
         >
           <Settings className="size-6" />
@@ -77,7 +77,7 @@ export const CounterDeltaButtons = ({
             <Button
               key={value}
               variant="soft"
-              className="h-full!"
+              className="h-full"
               color={isPositive ? 'grass' : 'pink'}
               onClick={() => onBtnClick(value)}
             >
@@ -109,7 +109,7 @@ export const CounterDeltaButtons = ({
                     variant="outline"
                     color="pink"
                     size="2"
-                    className="grow!"
+                    className="grow"
                     onClick={() => onBtnClick(value)}
                   >
                     {value}
@@ -126,7 +126,7 @@ export const CounterDeltaButtons = ({
                     variant="outline"
                     color="grass"
                     size="2"
-                    className="grow!"
+                    className="grow"
                     onClick={() => onBtnClick(value)}
                   >
                     +{value}

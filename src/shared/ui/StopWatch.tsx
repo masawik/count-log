@@ -120,7 +120,7 @@ export const StopWatch = ({ className, ref }: StopWatchProps) => {
             radius="full"
             size="3"
             color="orange"
-            className="absolute! translate-x-[calc(100%+(var(--spacing)*4))]!"
+            className="absolute translate-x-[calc(100%+(var(--spacing)*4))]!"
             onClick={() => setStatus('initial')}
           >
             <RotateCcw />

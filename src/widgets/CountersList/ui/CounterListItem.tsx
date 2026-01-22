@@ -26,7 +26,7 @@ export const CounterListItem = ({ counter }: CounterListItemProps) => {
             key={step.value}
             variant="soft"
             color={isPositive ? 'grass' : 'pink'}
-            className="rounded-xl!"
+            className="rounded-xl"
             onClick={() =>
               handleDeltaClick({
                 counter_id: counter.id,

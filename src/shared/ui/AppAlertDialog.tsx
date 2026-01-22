@@ -37,7 +37,7 @@ const AppAlertDialogImpl = ({
         {DescriptionSlot ? (
           DescriptionSlot
         ) : props.description ? (
-          <AlertDialog.Description size="4" className="whitespace-pre-line!">
+          <AlertDialog.Description size="4" className="whitespace-pre-line">
             {props.description}
           </AlertDialog.Description>
         ) : null}

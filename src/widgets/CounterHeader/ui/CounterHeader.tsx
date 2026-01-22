@@ -21,7 +21,7 @@ export const CounterHeader = ({
     <header className="grid grid-cols-[2fr_5fr_2fr] items-start gap-2 p-3 px-2">
       {!!backLink && (
         <Link {...backLink}>
-          <IconButton variant="ghost" color="gray" size="3" className="m-0!">
+          <IconButton variant="ghost" color="gray" size="3" className="m-0">
             <ChevronLeft />
           </IconButton>
         </Link>

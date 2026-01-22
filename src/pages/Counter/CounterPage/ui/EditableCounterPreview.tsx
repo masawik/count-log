@@ -89,7 +89,7 @@ const EditableCounterPreview = ({
               variant="soft"
               radius="full"
               color="gray"
-              className="absolute! top-0! right-0! translate-x-full! -translate-y-[50%]!"
+              className="absolute top-0 right-0 translate-x-full -translate-y-[50%]!"
               onClick={handleEnableCorrectingMode}
             >
               <TextCursorInput />

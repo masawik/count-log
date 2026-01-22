@@ -21,7 +21,7 @@ const CounterMenu = ({ counter, onDelete, onEdit }: CounterMenuProps) => {
     <>
       <DropdownMenu.Root>
         <DropdownMenu.Trigger>
-          <IconButton variant="ghost" color="gray" size="3" className="m-0!">
+          <IconButton variant="ghost" color="gray" size="3" className="m-0">
             <Menu />
           </IconButton>
         </DropdownMenu.Trigger>
@@ -29,7 +29,7 @@ const CounterMenu = ({ counter, onDelete, onEdit }: CounterMenuProps) => {
         <DropdownMenu.Content size="2">
           <DropdownMenu.Item
             color="gray"
-            className="text-4!"
+            className="text-4"
             onClick={onEdit}
           >
             <SquarePen className="size-4" />
@@ -38,7 +38,7 @@ const CounterMenu = ({ counter, onDelete, onEdit }: CounterMenuProps) => {
 
           <DropdownMenu.Item
             color="red"
-            className="text-4!"
+            className="text-4"
             onClick={() => setShowDeleteDialog(true)}
           >
             <Trash2 className="size-4" />

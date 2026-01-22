@@ -111,7 +111,7 @@ export default function CounterEditorPage() {
                 size="4"
                 variant="ghost"
                 color="gray"
-                className="mx-0! py-3!"
+                className="mx-0 py-3"
                 type="button"
                 onClick={() => navigate('/')}
               >

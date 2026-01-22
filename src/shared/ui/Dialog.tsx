@@ -73,7 +73,7 @@ const DialogContent = ({
   return (
     <DialogOrig.Content
       onOpenAutoFocus={handleOpenAutofocus}
-      className={cn('px-0!', className)}
+      className={cn('px-0', className)}
       {...props}
     >
       {!noHeader && (
@@ -81,7 +81,7 @@ const DialogContent = ({
           {!noCloseBtn && (
             <DialogOrig.Close disabled={closeBtnDisabled}>
               <IconButton
-                className="w-fit self-start! justify-self-start!"
+                className="w-fit self-start justify-self-start"
                 size="3"
                 variant="ghost"
                 color="gray"
@@ -92,7 +92,7 @@ const DialogContent = ({
           )}
 
           {title && (
-            <DialogOrig.Title className="m-0!">{title}</DialogOrig.Title>
+            <DialogOrig.Title className="m-0">{title}</DialogOrig.Title>
           )}
           {srTitle && (
             <DialogOrig.Title className="sr-only">{srTitle}</DialogOrig.Title>
@@ -152,7 +152,7 @@ const DialogFormContent = <
                   size="4"
                   variant="ghost"
                   color="gray"
-                  className="m-0!"
+                  className="m-0"
                   disabled={isSubmitting}
                 >
                   {t('cancel')}
