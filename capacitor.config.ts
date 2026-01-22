@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli'
 
 const config: CapacitorConfig = {
-  appId: 'com.countlog.app',
-  appName: 'CountLog',
+  appId: 'com.zubocounter.app',
+  appName: 'Zubo Counter',
   webDir: 'build/client',
 
   server: {

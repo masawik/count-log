@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">CountLog</string>
-    <string name="title_activity_main">CountLog</string>
-    <string name="package_name">com.countlog.app</string>
-    <string name="custom_url_scheme">com.countlog.app</string>
+    <string name="app_name">Zubo Counter</string>
+    <string name="title_activity_main">Zubo Counter</string>
+    <string name="package_name">com.zubocounter.app</string>
+    <string name="custom_url_scheme">com.zubocounter.app</string>
 </resources>
