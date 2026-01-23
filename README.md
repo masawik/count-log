@@ -145,3 +145,21 @@ This project is built with a focus on **scalability**, **maintainability**, and 
 - **ESLint** - Code quality and consistency
 - **Stylelint** - CSS linting
 - **Prettier** - Code formatting
+
+## 🤝 Contributing
+
+Contributions are welcome! I'm happy to receive any help with the project.
+
+### Getting Started
+
+If you want to practice your skills or tackle a small task, check out the [**good first issues**](https://github.com/masawik/count-log/issues?q=state%3Aopen%20label%3A%22good%20first%20issue%22). These are beginner-friendly issues that are great for getting familiar with the codebase.
+
+If you're interested in making a significant contribution and developing a feature, take a look at the [**project backlog**](https://github.com/users/masawik/projects/1) to see what's planned and where you can make an impact.
+
+### Development Guidelines
+
+This project follows **Feature-Sliced Design** principles, so please ensure your changes align with the architecture.
+
+If you're new to open source contributions, check out this excellent guide: [Fork, Commit, Merge](https://github.com/fork-commit-merge/fork-commit-merge) - it walks you through the entire contribution workflow on GitHub.
+
+Before submitting a pull request, make sure to run `pnpm fullcheck` to ensure code quality.
