@@ -13,7 +13,7 @@ export const PlusBtn = ({ showArrow }: PlusBtnProps) => {
     <div className="fixed right-6 bottom-6">
       {showArrow && (
         <img
-          src="/assets/img/arrow.webp"
+          src="assets/img/arrow.webp"
           alt="A hand-drawn arrow points to the plus button"
           className={styles['ArrowImage']}
         />
