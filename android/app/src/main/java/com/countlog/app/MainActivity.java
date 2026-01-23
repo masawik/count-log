@@ -1,4 +1,4 @@
-package com.countlog.app;
+package com.zubocounter.app;
 
 import android.os.Bundle;
 
