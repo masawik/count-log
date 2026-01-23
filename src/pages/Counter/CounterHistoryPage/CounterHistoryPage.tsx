@@ -12,7 +12,7 @@ import { EventListItem } from './ui/EventListItem'
 
 import type { CounterOutletContext } from '../CounterRouteLayout'
 
-const CounterHistoryPage = () => {
+export const CounterHistoryPage = () => {
   const { t } = useTranslation()
   const { counter } = useOutletContext<CounterOutletContext>()
   useGate(ConuterHistoryPageGate, counter)
@@ -46,5 +46,3 @@ const CounterHistoryPage = () => {
     </main>
   )
 }
-
-export default CounterHistoryPage

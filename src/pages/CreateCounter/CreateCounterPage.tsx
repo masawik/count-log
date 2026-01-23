@@ -25,7 +25,7 @@ const getDefaultEmojiIcon = () => ({
   color: IS_TEST ? COLOR_PALETTE[0] : sample(COLOR_PALETTE),
 })
 
-export default function CounterEditorPage() {
+export function CreateCounterPage() {
   const { t } = useTranslation()
   const handleSubmit = useUnit(formSubmitted)
 

@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 
 export function meta() {return [ { title: '404' } ]}
 
-export default function NotFoundPage() {
+export function NotFoundPage() {
   const { t } = useTranslation()
 
   return (

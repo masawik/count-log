@@ -13,7 +13,7 @@ import { FullPageLoader } from '@/shared/ui'
 import { NoCountersPlaceholder } from './NoCountersPlaceholder'
 import { PlusBtn } from './PlusBtn/PlusBtn'
 
-export default function CountersListPage() {
+export function CountersListPage() {
   useAndroidBackButtonExitApp()
 
   useGate(CountersListGate)

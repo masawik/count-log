@@ -29,7 +29,7 @@ import EditableCounterPreview from './ui/EditableCounterPreview'
 
 import type { CounterOutletContext } from '../CounterRouteLayout'
 
-const CounterPage = () => {
+export const CounterPage = () => {
   const { t } = useTranslation()
   const { counter } = useOutletContext<CounterOutletContext>()
   const [ stopWatchVisible, setStopWatchVisible ] = useState<boolean>(false)
@@ -130,4 +130,4 @@ const CounterPage = () => {
   )
 }
 
-export default CounterPage
+

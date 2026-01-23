@@ -1,27 +1,25 @@
 import { test, expect, type Page } from '@playwright/test'
 
-import routes from '@/routes'
 import { testId } from 'tests/utils/selectors'
 
 import { assertNoErrorBoundary } from '../utils/assertNoErrorBoundary'
 import { clearDatabase } from '../utils/clearDatabase'
 import { createCounter } from '../utils/createCounter'
 import { gotoAndStabilize } from '../utils/gotoAndStabilize'
-import { resolvePathByRoute } from '../utils/resolvePathByRoute'
+
+
+const routesToTest = [
+  '/',
+  '/create-counter',
+  '/404',
+]
 
 test.describe('all routes screenshots', () => {
   test.beforeEach(async ({ page }) => {
     await clearDatabase(page)
   })
 
-  routes.forEach((route) => {
-    const path = resolvePathByRoute(route)
-
-    // Пропускаем маршруты с параметрами (они требуют валидных ID)
-    if (!path || path.includes(':')) {
-      return
-    }
-
+  routesToTest.forEach((path) => {
     test(`route path ${path}`, async ({ page }) => {
       // Для главной страницы создаем счетчик, чтобы не скриншотить пустое состояние
       if (path === '/') {
@@ -54,7 +52,7 @@ test.describe('Edit page emoji picker dialog', () => {
 
     await editIconButton.click()
 
-    return await page.getByRole('dialog', { name: 'Create emoji icon' })
+    return page.getByRole('dialog', { name: 'Create emoji icon' })
   }
 
   test('Colors tab', async ({ page }) => {
@@ -76,7 +74,7 @@ test.describe('Edit page emoji picker dialog', () => {
     await expect(dialog).toHaveScreenshot('whole-dialog.png')
 
     const searchInput = page.getByRole('searchbox', { name: 'Search' })
-    searchInput.focus()
+    await searchInput.focus()
 
     await assertNoErrorBoundary(page)
 

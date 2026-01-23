@@ -3,7 +3,7 @@ import type { CapacitorConfig } from '@capacitor/cli'
 const config: CapacitorConfig = {
   appId: 'com.zubocounter.app',
   appName: 'Zubo Counter',
-  webDir: 'build/client',
+  webDir: 'dist',
 
   server: {
     androidScheme: 'https',
