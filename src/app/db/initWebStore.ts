@@ -5,7 +5,11 @@ export async function initWebStore(connection: SQLiteConnection) {
   defineCustomElements(window)
 
   await customElements.whenDefined('jeep-sqlite')
-  document.body.appendChild(document.createElement('jeep-sqlite'))
+  const jeepEl = document.createElement('jeep-sqlite')
+
+  jeepEl.setAttribute('wasmPath', '/count-log/assets')
+
+  document.body.appendChild(jeepEl)
 
   await connection.initWebStore()
 }
