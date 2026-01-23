@@ -15,7 +15,7 @@ export default defineConfig(({ isSsrBuild }) => ({
       brotliSize: true,
     })),
   ],
-  base: '/<repo>/',
+  base: '/count-log/',
   root: 'src',
   publicDir: '../public',
   build: {
