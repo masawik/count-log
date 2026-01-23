@@ -5,7 +5,7 @@
   "scripts": {
     "build:front": "tsc -b && vite build",
     "sync:android": "npx cap sync android",
-    "build": "run-s build:front sync:android",
+    "build": "run-s build:front",
     "dev": "vite",
     "serve:preview": "vite preview",
     "preview": "run-s build:front serve:preview",
