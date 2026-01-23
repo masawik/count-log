@@ -13,7 +13,7 @@ const config: CapacitorConfig = {
     CapacitorSQLite: {
       iosDatabaseLocation: 'Library/CapacitorDatabase',
       iosIsEncryption: true,
-      iosKeychainPrefix: 'countlog-sqlite',
+      iosKeychainPrefix: 'zubocounter-sqlite',
       iosBiometric: {
         biometricAuth: false,
         biometricTitle : 'Biometric login for capacitor sqlite',
