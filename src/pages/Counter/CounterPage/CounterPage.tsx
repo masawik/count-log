@@ -35,28 +35,23 @@ export const CounterPage = () => {
   const [ stopWatchVisible, setStopWatchVisible ] = useState<boolean>(false)
   useAndroidBackButtonNavigate('/')
 
-  const {
-    handleDeleteCounterConfirmed,
-    handleResetCounterClicked,
-    handleCounterValueCorrected,
-    handleDeltaButtonClicked,
-  } = useUnit({
-    handleDeleteCounterConfirmed: deleteCounterConfirmed,
-    handleResetCounterClicked: resetCounterClicked,
-    handleCounterValueCorrected: counterValueCorrected,
-    handleDeltaButtonClicked: deltaButtonClicked,
+  const events = useUnit({
+    deleteCounterConfirmed,
+    resetCounterClicked,
+    counterValueCorrected,
+    deltaButtonClicked,
+    editCounterVisualDialogOpened,
   })
-  const openEditDialog = useUnit(editCounterVisualDialogOpened)
-  const handleEdit = () => openEditDialog(counter)
+  const handleEdit = () => events.editCounterVisualDialogOpened(counter)
 
   const onCorrectValue = useCallback(
     (targetValue: Counter['current_value']) => {
-      handleCounterValueCorrected({
+      events.counterValueCorrected({
         id: counter.id,
         targetValue,
       })
     },
-    [ handleCounterValueCorrected, counter.id ],
+    [ events, counter.id ],
   )
 
   return (
@@ -74,7 +69,7 @@ export const CounterPage = () => {
 
             <CounterMenu
               counter={counter}
-              onDelete={handleDeleteCounterConfirmed}
+              onDelete={events.deleteCounterConfirmed}
               onEdit={handleEdit}
             />
           </div>
@@ -92,7 +87,7 @@ export const CounterPage = () => {
 
         <CounterDeltaButtons
           counter={counter}
-          onBtnClick={handleDeltaButtonClicked}
+          onBtnClick={events.deltaButtonClicked}
           className="grow"
         />
 
@@ -110,7 +105,7 @@ export const CounterPage = () => {
           variant="outline"
           color="red"
           size="3"
-          onClick={handleResetCounterClicked}
+          onClick={events.resetCounterClicked}
         >
           <RotateCw className="size-4" />
           {t('reset')}
