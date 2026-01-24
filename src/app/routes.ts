@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router'
+import { type RouteObject } from 'react-router'
 
 import { NotFoundPage } from '@/pages/404'
 import { counterRoute } from '@/pages/Counter'
@@ -8,7 +8,7 @@ import { createCounterRoute } from '@/pages/CreateCounter'
 import { App } from './App'
 import { ErrorBoundary } from './ErrorBoundary'
 
-export const router = createBrowserRouter([
+export const routes = [
   {
     path: '/',
     ErrorBoundary,
@@ -21,4 +21,4 @@ export const router = createBrowserRouter([
       { path: '*', Component: NotFoundPage },
     ],
   },
-])
+] as const satisfies RouteObject[]
