@@ -46,9 +46,9 @@ export const ensureCounterEventsTableFx = attach({
         .addColumn('created_at', 'text', (col) =>
           col.defaultTo(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),
         )
-        .addColumn('delta', 'integer', (c) => c.notNull())
+        .addColumn('delta', 'real', (c) => c.notNull())
         .addColumn('note', 'text')
-        .addColumn('current_value', 'integer')
+        .addColumn('current_value', 'real')
         .execute()
 
       await sql`

@@ -6,7 +6,7 @@ import { ensureCountersTableFx } from '@/entities/counter'
 import { ensureCounterEventsTableFx } from '@/entities/counterEvent'
 
 import { IS_WEB } from '@/shared/config'
-import { $sqlite } from '@/shared/db'
+import { $sqlite, runMigrationsFx } from '@/shared/db'
 import { appErrorHappened } from '@/shared/errors'
 
 import { initWebStore } from './initWebStore'
@@ -29,7 +29,11 @@ const ensureAllTablesFx = createEffect(async () => {
 })
 
 sample({
-  clock: [ initWebStoreIfNeedFx.failData, ensureAllTablesFx.failData ],
+  clock: [
+    initWebStoreIfNeedFx.failData,
+    ensureAllTablesFx.failData,
+    runMigrationsFx.failData,
+  ],
   target: appErrorHappened,
 })
 
@@ -44,7 +48,15 @@ sample({
 })
 
 sample({
-  clock: ensureAllTablesFx.finally,
+  clock: ensureAllTablesFx.done,
+  target: runMigrationsFx,
+})
+
+sample({
+  clock: [
+    ensureAllTablesFx.fail,
+    runMigrationsFx.finally,
+  ],
   fn: () => false,
   target: $loading,
 })

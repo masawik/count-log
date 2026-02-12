@@ -38,12 +38,12 @@ export const ensureCountersTableFx = attach({
           col.primaryKey().notNull(),
         )
         .addColumn('name', 'text')
-        .addColumn('initial_value', 'integer')
+        .addColumn('initial_value', 'real')
         .addColumn('emojiIcon', 'text')
         .addColumn('steps', 'text', (col) =>
           col.defaultTo(sql`'[{"value":-1},{"value":1}]'`),
         )
-        .addColumn('current_value', 'integer')
+        .addColumn('current_value', 'real')
         .addColumn('created_at', 'text', (col) =>
           col.defaultTo(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),
         )
