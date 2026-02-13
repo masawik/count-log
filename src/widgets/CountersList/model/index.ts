@@ -22,6 +22,7 @@ import {
   updateCounterFx,
   type Counter,
   createCounterFx,
+  roundNumCounterValue,
 } from '@/entities/counter'
 import { createCounterEventFx } from '@/entities/counterEvent'
 
@@ -96,9 +97,11 @@ sample({
     counters.map((c) => {
       if (c.id !== counter_id) return c
 
+      const newValue = roundNumCounterValue(c.current_value + delta)
+
       return {
         ...c,
-        current_value: c.current_value + delta,
+        current_value: newValue,
       }
     }),
   target: $counters,

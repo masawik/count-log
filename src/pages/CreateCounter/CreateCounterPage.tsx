@@ -7,9 +7,9 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
 
-import type { NewCounter } from '@/entities/counter'
+import { type NewCounter } from '@/entities/counter'
 
-import { COLOR_PALETTE, IS_TEST } from '@/shared/config'
+import { COLOR_PALETTE, IS_TEST, numCounterInputStep } from '@/shared/config'
 import { useAndroidBackButtonNavigate } from '@/shared/nativePlatform'
 import { TextField } from '@/shared/ui'
 import { EmojiIconInput } from '@/shared/ui/EmojiIconInput'
@@ -95,6 +95,7 @@ export function CreateCounterPage() {
                   <TextField.Root
                     label={t('initialValue')}
                     type="number"
+                    step={numCounterInputStep}
                     {...register('initial_value', {
                       required: true,
                       valueAsNumber: true,

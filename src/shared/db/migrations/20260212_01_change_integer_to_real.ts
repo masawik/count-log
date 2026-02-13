@@ -169,6 +169,12 @@ export const migration: Migration = {
       'counter_events',
     )
 
+    // If tables don't exist, migration should do nothing
+    // Tables will be created with correct schema by ensureAllTablesFx
+    if (!countersTableExists && !counterEventsTableExists) {
+      return
+    }
+
     // Execute rollback in a single transaction
     await db.transaction().execute(async (trx) => {
       // Step 1: Drop triggers first

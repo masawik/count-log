@@ -5,8 +5,9 @@ import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
-import type { Counter } from '@/entities/counter'
+import { type Counter } from '@/entities/counter'
 
+import { numCounterInputStep } from '@/shared/config'
 import { useRafScheduler } from '@/shared/lib'
 import { Dialog, TextField } from '@/shared/ui'
 
@@ -87,6 +88,7 @@ export const DeltaButtonsConfiguratorDialog = ({
           <TextField.Root
             key={field.id}
             type="number"
+            step={numCounterInputStep}
             {...register(getInputNameByIndex(index), {
               required: true,
               valueAsNumber: true,
