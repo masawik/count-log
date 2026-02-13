@@ -1,0 +1,70 @@
+---
+globs: ["**/shared/db/migrations/*.ts"]
+alwaysApply: false
+---
+
+# Migrations Must Be Idempotent
+
+## Context
+
+The project uses the standard Kysely approach for migrations:
+1. First, `migrateToLatest()` is executed - it creates service tables and runs migrations
+2. Then `ensureAllTablesFx` is executed - it creates tables with the correct schema
+
+## Migration Rules
+
+### 1. Check Table Existence
+
+**All migrations must check if tables exist before modifying them.**
+
+Migrations run BEFORE tables are created via `ensureAllTablesFx`, so the database might be empty.
+
+Example of correct check:
+```typescript
+const countersTableExists = await db
+  .selectFrom('sqlite_master')
+  .select('name')
+  .where('type', '=', 'table')
+  .where('name', '=', 'counters')
+  .executeTakeFirst()
+```
+
+### 2. Early Return for Empty Database
+
+**If tables don't exist (database is empty), the migration must do an early return.**
+
+Tables will be created with the correct schema via `ensureAllTablesFx` after migrations complete.
+
+Example:
+```typescript
+if (!countersTableExists && !counterEventsTableExists) {
+  // Database is empty - migration should do nothing
+  // Tables will be created with correct schema by ensureAllTablesFx
+  return
+}
+```
+
+### 3. Idempotency
+
+**Migrations must be idempotent** - safe to run multiple times.
+
+Use existence checks before creating/modifying:
+- `IF NOT EXISTS` for creating tables
+- `DROP TRIGGER IF EXISTS` for dropping triggers
+- Check existence before modifying structure
+
+### 4. Match Original Schema
+
+When modifying table structure (e.g., changing column type by recreating the table), ensure the new table fully matches the original schema:
+- All columns with correct types
+- All constraints (primary key, foreign keys, not null)
+- All default values
+- All triggers
+
+## Execution Order in Application
+
+```
+initWebStoreIfNeedFx → runMigrationsFx → ensureAllTablesFx
+```
+
+Migrations run BEFORE table creation, so they must be ready for an empty database.

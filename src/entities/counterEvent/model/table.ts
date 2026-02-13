@@ -9,8 +9,8 @@ import {
 
 import type { Counter } from '@/entities/counter/@x/counterEvent'
 
+import { NUM_COUNTER_MAX_PRECISION } from '@/shared/config'
 import { $db } from '@/shared/db'
-
 
 export interface CounterEventsTable {
   id: ColumnType<string, string, never>,
@@ -46,9 +46,9 @@ export const ensureCounterEventsTableFx = attach({
         .addColumn('created_at', 'text', (col) =>
           col.defaultTo(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),
         )
-        .addColumn('delta', 'integer', (c) => c.notNull())
+        .addColumn('delta', 'real', (c) => c.notNull())
         .addColumn('note', 'text')
-        .addColumn('current_value', 'integer')
+        .addColumn('current_value', 'real')
         .execute()
 
       await sql`
@@ -57,7 +57,7 @@ export const ensureCounterEventsTableFx = attach({
         FOR EACH ROW
         BEGIN
           UPDATE counter_events
-          SET current_value =
+          SET current_value = ROUND(
             (
               COALESCE(
                 (
@@ -73,7 +73,9 @@ export const ensureCounterEventsTableFx = attach({
                 0
               )
               + NEW.delta
-            )
+            ),
+            ${sql.lit(NUM_COUNTER_MAX_PRECISION)}
+          )
           WHERE rowid = NEW.rowid;
 
           UPDATE counters

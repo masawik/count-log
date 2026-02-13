@@ -3,8 +3,9 @@ import { TextCursorInput } from 'lucide-react'
 import { useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import type { Counter } from '@/entities/counter'
+import { type Counter } from '@/entities/counter'
 
+import { numCounterInputStep } from '@/shared/config'
 import { useRafScheduler } from '@/shared/lib'
 
 export interface EditableCounterPreviewProps {
@@ -55,6 +56,7 @@ const EditableCounterPreview = ({
           <div className="flex flex-col gap-4">
             <input
               type="number"
+              step={numCounterInputStep}
               defaultValue={value}
               className="w-full text-center outline-0"
               ref={correctionInputRef}
