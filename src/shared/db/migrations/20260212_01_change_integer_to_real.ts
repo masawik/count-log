@@ -1,7 +1,10 @@
 import { sql } from 'kysely'
 
-import type { MigrationDbInstance } from './types'
+import { checkTableExists } from './utils'
+
+import type { DbInstance } from '../types'
 import type { Migration } from 'kysely'
+
 
 /**
  * Migration: Change integer columns to real for floating point support
@@ -13,23 +16,18 @@ import type { Migration } from 'kysely'
  * - counter_events.current_value: integer → real
  */
 export const migration: Migration = {
-  async up(db: MigrationDbInstance): Promise<void> {
+  async up(db: DbInstance): Promise<void> {
     // Check which tables exist
-    const countersTableExists = await db
-      .selectFrom('sqlite_master')
-      .select('name')
-      .where('type', '=', 'table')
-      .where('name', '=', 'counters')
-      .executeTakeFirst()
+    const countersTableExists = await checkTableExists(db, 'counters')
+    const counterEventsTableExists = await checkTableExists(
+      db,
+      'counter_events',
+    )
 
-    const counterEventsTableExists = await db
-      .selectFrom('sqlite_master')
-      .select('name')
-      .where('type', '=', 'table')
-      .where('name', '=', 'counter_events')
-      .executeTakeFirst()
+    if (!countersTableExists && !counterEventsTableExists) return
 
     // Execute migration in a single transaction to ensure consistency
+    // Each table is migrated separately if it exists
     await db.transaction().execute(async (trx) => {
       // Step 1: Drop triggers first to avoid dependency issues
       if (counterEventsTableExists) {
@@ -161,23 +159,15 @@ export const migration: Migration = {
     })
   },
 
-  async down(db: MigrationDbInstance): Promise<void> {
+  async down(db: DbInstance): Promise<void> {
     // Rollback migration: change real back to integer
     // Note: This will truncate decimal values
 
-    const countersTableExists = await db
-      .selectFrom('sqlite_master')
-      .select('name')
-      .where('type', '=', 'table')
-      .where('name', '=', 'counters')
-      .executeTakeFirst()
-
-    const counterEventsTableExists = await db
-      .selectFrom('sqlite_master')
-      .select('name')
-      .where('type', '=', 'table')
-      .where('name', '=', 'counter_events')
-      .executeTakeFirst()
+    const countersTableExists = await checkTableExists(db, 'counters')
+    const counterEventsTableExists = await checkTableExists(
+      db,
+      'counter_events',
+    )
 
     // Execute rollback in a single transaction
     await db.transaction().execute(async (trx) => {

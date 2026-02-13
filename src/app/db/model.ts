@@ -31,8 +31,8 @@ const ensureAllTablesFx = createEffect(async () => {
 sample({
   clock: [
     initWebStoreIfNeedFx.failData,
-    ensureAllTablesFx.failData,
     runMigrationsFx.failData,
+    ensureAllTablesFx.failData,
   ],
   target: appErrorHappened,
 })
@@ -44,19 +44,16 @@ sample({
 
 sample({
   clock: initWebStoreIfNeedFx.done,
-  target: ensureAllTablesFx,
-})
-
-sample({
-  clock: ensureAllTablesFx.done,
   target: runMigrationsFx,
 })
 
 sample({
-  clock: [
-    ensureAllTablesFx.fail,
-    runMigrationsFx.finally,
-  ],
+  clock: runMigrationsFx.done,
+  target: ensureAllTablesFx,
+})
+
+sample({
+  clock: [ ensureAllTablesFx.finally, runMigrationsFx.fail ],
   fn: () => false,
   target: $loading,
 })

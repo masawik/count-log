@@ -1,12 +1,16 @@
 import type { CountersTable } from '@/entities/counter'
 import type { CounterEventsTable } from '@/entities/counterEvent'
 
-import type { ColumnType } from 'kysely'
+import type { ColumnType, Kysely } from 'kysely'
 
 export interface Database {
   counters: CountersTable,
   counter_events: CounterEventsTable,
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type DbInstance = Kysely<any>
+export type AppDbInstance = Kysely<Database>
 
 /**
  * Since the SerializePlugin plugin is used (see `./instance.ts`),

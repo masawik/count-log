@@ -10,7 +10,12 @@ import { $db } from './model'
  * Runs all pending migrations using Kysely Migrator.
  *
  * Migrations are executed in alphabetical order based on their names.
- * The Migrator automatically tracks applied migrations in the 'migrations' table.
+ * The Migrator automatically creates the kysely_migration table and tracks
+ * applied migrations.
+ *
+ * Migrations should check if tables exist before modifying them, as the database
+ * might be empty when migrations run (tables will be created by ensureAllTablesFx
+ * after migrations complete).
  *
  * @returns MigrationResultSet with information about executed migrations and any errors
  */
