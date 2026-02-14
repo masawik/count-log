@@ -8,7 +8,6 @@ export default defineConfig([
       './src/pages/**',
     ],
     rules: {
-      'fsd/public-api': 'off',
       'fsd/no-segmentless-slices': 'off',
     },
   },

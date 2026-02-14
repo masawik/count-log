@@ -1,5 +1,5 @@
-import { CounterHistoryPage } from './CounterHistoryPage/CounterHistoryPage'
-import { CounterPage } from './CounterPage/CounterPage'
+import { CounterHistoryPage } from './CounterHistoryPage'
+import { CounterPage } from './CounterPage'
 import CounterRouteLayout from './CounterRouteLayout'
 
 import type { RouteObject } from 'react-router'
