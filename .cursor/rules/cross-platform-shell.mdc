@@ -1,0 +1,206 @@
+---
+description: Cross-platform shell commands and scripts guidelines
+globs: "**/*.{sh,bash,ps1,cmd,bat},**/package.json,**/Makefile,**/makefile"
+alwaysApply: false
+---
+
+# Cross-Platform Shell and Terminal Commands
+
+When working with shell scripts, package.json scripts, or Makefiles, always write cross-platform compatible code. The project must run on Windows, macOS, and Linux.
+
+## Core Principles
+
+1. **Never assume a specific shell** (bash, zsh, PowerShell, cmd)
+2. **Use cross-platform tools and syntax** when possible
+3. **Document platform-specific requirements** when unavoidable
+4. **Test on multiple platforms** or provide clear alternatives
+
+---
+
+## Package.json Scripts
+
+### Path Separators
+
+```json
+// ❌ BAD - Unix-only paths
+{
+  "scripts": {
+    "build": "rm -rf dist && mkdir dist"
+  }
+}
+
+// ✅ GOOD - Use cross-platform tools
+{
+  "scripts": {
+    "build": "rimraf dist && mkdirp dist"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.0",
+    "mkdirp": "^3.0.0"
+  }
+}
+```
+
+### Command Chaining
+
+```json
+// ❌ BAD - Unix-style operators
+{
+  "scripts": {
+    "dev": "npm run build && npm run start"
+  }
+}
+
+// ✅ GOOD - Use npm-run-all or cross-platform runners
+{
+  "scripts": {
+    "dev": "run-s build start"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}
+```
+
+### Environment Variables
+
+```json
+// ❌ BAD - Unix-style env vars
+{
+  "scripts": {
+    "start": "NODE_ENV=production node server.js"
+  }
+}
+
+// ✅ GOOD - Use cross-env
+{
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node server.js"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  }
+}
+```
+
+---
+
+## Shell Scripts
+
+### File Extensions
+
+- Use `.sh` for bash/sh scripts (Linux/macOS)
+- Use `.ps1` for PowerShell scripts (Windows)
+- Use `.cmd` or `.bat` for cmd scripts (Windows legacy)
+- Provide equivalent scripts for each platform when needed
+
+### Shebang
+
+```bash
+# ✅ GOOD - Portable shebang
+#!/usr/bin/env bash
+
+# Prefer bash over sh for better consistency
+```
+
+### Path Handling
+
+```bash
+# ❌ BAD - Hardcoded Unix paths
+cd /usr/local/bin
+./my-script
+
+# ✅ GOOD - Relative paths and environment variables
+cd "$(dirname "$0")"
+./my-script
+```
+
+---
+
+## Makefiles
+
+### Shell Declaration
+
+```makefile
+# ✅ GOOD - Specify shell explicitly
+SHELL := /bin/bash
+
+# Or detect OS
+ifeq ($(OS),Windows_NT)
+    SHELL := powershell.exe
+else
+    SHELL := /bin/bash
+endif
+```
+
+### Command Compatibility
+
+```makefile
+# ❌ BAD - Unix-only commands
+clean:
+	rm -rf dist
+
+# ✅ GOOD - Use cross-platform Node.js scripts
+clean:
+	node -e "require('fs').rmSync('dist', {recursive: true, force: true})"
+```
+
+---
+
+## Common Cross-Platform Alternatives
+
+| Task | Unix Command | Windows Command | Cross-Platform Solution |
+|------|--------------|-----------------|------------------------|
+| Remove directory | `rm -rf dir` | `rmdir /s /q dir` | `rimraf` npm package |
+| Create directory | `mkdir -p dir` | `mkdir dir` (no -p) | `mkdirp` npm package |
+| Set env var | `export VAR=val` | `$env:VAR="val"` | `cross-env` npm package |
+| Copy files | `cp -r src dest` | `xcopy src dest` | Node.js `fs` module |
+| Run multiple | `cmd1 && cmd2` | Same, but different in cmd.exe | `npm-run-all` package |
+
+---
+
+## Recommended Tools
+
+Install these cross-platform npm packages:
+
+```bash
+npm install -D cross-env rimraf mkdirp npm-run-all concurrently
+```
+
+- **cross-env**: Set environment variables
+- **rimraf**: Remove files/directories
+- **mkdirp**: Create directories recursively
+- **npm-run-all**: Run multiple npm scripts
+- **concurrently**: Run commands concurrently
+
+---
+
+## When Platform-Specific Code Is Unavoidable
+
+Provide clear documentation and separate scripts:
+
+```json
+{
+  "scripts": {
+    "install:linux": "./scripts/install-linux.sh",
+    "install:windows": "powershell ./scripts/install-windows.ps1",
+    "install:mac": "./scripts/install-mac.sh"
+  }
+}
+```
+
+Document in README:
+
+```markdown
+## Installation
+
+### Linux/macOS
+\`\`\`bash
+npm run install:linux
+\`\`\`
+
+### Windows
+\`\`\`powershell
+npm run install:windows
+\`\`\`
+```

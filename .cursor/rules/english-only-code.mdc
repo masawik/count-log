@@ -1,0 +1,16 @@
+---
+description: All code comments and text must be written in English
+alwaysApply: true
+---
+
+# English Language Requirement
+
+All comments, documentation, and text strings stored in the repository must be written in English.
+
+**Exception**: Internationalization (i18n) files and translation resources.
+
+## Allowed Exceptions
+
+- Files in `i18n/`, `locales/`, `translations/` directories
+- User-facing text in translation files (`.json`, `.yml` for i18n)
+- Test fixtures with localized content
