@@ -1,11 +1,17 @@
 {
   "name": "count-log",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "build:front": "tsc -b && vite build",
-    "sync:android": "npx cap sync android",
+    "version:sync": "node scripts/sync-version.js",
+    "sync:android:cap": "npx cap sync android",
+    "sync:android": "run-s version:sync sync:android:cap",
     "build": "run-s build:front sync:android",
+    "version:patch": "node scripts/bump-version.js patch",
+    "version:minor": "node scripts/bump-version.js minor",
+    "version:major": "node scripts/bump-version.js major",
     "dev": "vite",
     "serve:preview": "vite preview",
     "preview": "run-s build:front serve:preview",
