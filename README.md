@@ -1,5 +1,7 @@
 # Zubo Counter
 
+<a href="https://play.google.com/store/apps/details?id=com.zubocounter.app&pcampaignid=web_share"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" width="200"></a>
+
 > A mobile-only application for tracking real-world data, logging facts, and discovering insights through analytics. Currently a simple counter app, but designed to evolve into a comprehensive tracking and analytics platform.
 
 [![React](https://img.shields.io/badge/React-19.2.3-61DAFB?logo=react)](https://react.dev/)
